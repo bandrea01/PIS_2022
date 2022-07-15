@@ -1,20 +1,14 @@
 package Model;
 
-public class CategoriaServizio implements ICategoria{
-    private String nome;
+import java.util.ArrayList;
+import java.util.List;
 
-    public CategoriaServizio(String nome) {
-        this.nome = nome;
+public class CategoriaServizio extends Categoria implements ICategoria{
+
+    public CategoriaServizio(int id, String nome, ICategoria categoriaPadre) {
+        super(id, nome, categoriaPadre);
     }
 
-    public CategoriaServizio(){
-        this.nome = "";
-    }
-
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
+    public CategoriaServizio() {
     }
 }

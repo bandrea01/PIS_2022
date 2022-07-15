@@ -17,11 +17,11 @@ public class TestConnection {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbUser.getSchemaName() + "?serverTimezone=UTC", dbUser.getUserName(), dbUser.getPwd());
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT nome, cognome, username, email FROM utente");
+            rs = stmt.executeQuery("SELECT nome, cognome, residenza, email FROM utente");
             while (rs.next()) {
                 System.out.print(rs.getString("nome") + " ");
                 System.out.print(rs.getString("cognome") + " ");
-                System.out.print(rs.getString("username") + " ");
+                System.out.print(rs.getString("residenza") + " ");
                 System.out.println(rs.getString("email") + " ");
             }
         } catch (SQLException e) {

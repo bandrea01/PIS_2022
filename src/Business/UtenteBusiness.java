@@ -1,7 +1,8 @@
 package Business;
 
+import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
-import Model.Cliente;
+import Model.*;
 
 public class UtenteBusiness {
     private static UtenteBusiness instance;
@@ -20,6 +21,7 @@ public class UtenteBusiness {
 
     public LoginResult login(String username, String password) {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         LoginResult result = new LoginResult();
 
         //TODO
@@ -44,17 +46,19 @@ public class UtenteBusiness {
 
         //4. Caricare oggetto Utente (a seconda della tipologia)
         if (isCliente) {
-            Cliente c = utenteDAO.getCliente(username);
-
-            //Usiamo sessione manager, inseriamo informazione LOGGATO-CLIENTE
-            SessionManager.getSession().put(SessionManager.LOGGED_USER, c);
-            result.setMessage("Welcome " + c.getName() + "!");
-
+            Utente utente = utenteDAO.findByUsername(username);
+            //Usiamo sessione manager, inseriamo informazione LOGGATO-UTENTE
+            SessionManager.getSession().put(SessionManager.LOGGED_USER, utente);
+            result.setMessage("Welcome " + utente.getName() + "!");
         } else if (isManager) {
-            //TODO
+            Manager manager = utenteDAO.getManagerByUsername(username);
+            SessionManager.getSession().put(SessionManager.LOGGED_USER, manager);
+            result.setMessage("Welcome " + manager.getName() + "!");
             return null;
         } else if (isAdmin) {
-            //TODO
+            Amministratore admin = utenteDAO.getAdminByUsername(username);
+            SessionManager.getSession().put(SessionManager.LOGGED_USER, admin);
+            result.setMessage("Welcome " + admin.getName() + "!");
             return null;
         }
 

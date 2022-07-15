@@ -1,17 +1,22 @@
 package Model;
 
 public class Manager extends Utente{
-    private Float salary;
+    private PuntoVendita puntoVendita;
 
-    public Manager(String name, String surname, String username, String email, String pwd, Float salary) {
-        super(name, surname, username, email, pwd);
-        this.salary = salary;
+    public Manager() {
+        super();
+        this.puntoVendita = null;
     }
 
-    public Float getSalary() {
-        return salary;
+    public Manager(int id, String name, String surname, String email, String username, String password, String phone, int age, String city, String job, PuntoVendita puntoVendita) {
+        super(id, name, surname, email, username, password, phone, age, city, job);
+        this.puntoVendita = puntoVendita;
     }
-    public void setSalary(Float salary) {
-        this.salary = salary;
+
+    public PuntoVendita getPuntoVendita() {
+        return puntoVendita;
+    }
+    public void setPuntoVendita(PuntoVendita puntoVendita) {
+        this.puntoVendita = puntoVendita;
     }
 }

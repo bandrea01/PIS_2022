@@ -14,9 +14,13 @@ public class WriteOperation implements IDbOperation{
     public DbOperationResult execute() {
         //operazioni di write
         DbOperationResult result = new DbOperationResult();
-
         result.setRowsAffected(conn.executeUpdate(sql));
         //sempre
         return result;
+    }
+
+    @Override
+    public void close() {
+        conn.close();
     }
 }

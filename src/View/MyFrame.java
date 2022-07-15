@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class MyFrame extends JFrame {
     public MyFrame(int width, int height, boolean visible){

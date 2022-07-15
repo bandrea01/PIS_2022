@@ -24,21 +24,18 @@ public class OrdinamentoFeedbackTest {
         feedbacks = new ArrayList<Feedback>();
 
         Feedback f1 = new Feedback();
-        f1.setId(1);
+        f1.setIdFeedback(1);
         f1.setGradimento(Feedback.Gradimento.PESSIMO);
         Date data1 = new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-20");
-        f1.setData(data1);
 
         Feedback f2 = new Feedback();
-        f2.setId(2);
+        f2.setIdFeedback(2);
         Date data2 = new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-27");
-        f2.setData(data2);
         f2.setGradimento(Feedback.Gradimento.SCARSO);
 
         Feedback f3 = new Feedback();
-        f3.setId(3);
+        f3.setIdFeedback(3);
         Date data3 = new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-22");
-        f3.setData(data3);
         f3.setGradimento(Feedback.Gradimento.ECCELLENTE);
 
         feedbacks.add(f1);
@@ -54,13 +51,13 @@ public class OrdinamentoFeedbackTest {
     public void ordinaRecentiTest () {
         //Most recent feedbacks
         OrdinamentoFeedback ordinamentoFeedback = new OrdinamentoFeedback(feedbacks);
-        IOrdinamentoFeedbackStrategy strategy = new FeedbackRecentiStrategy();
-        ordinamentoFeedback.setOrdinamentoFeedbackStrategy(strategy);
+        //IOrdinamentoFeedbackStrategy strategy = new FeedbackRecentiStrategy();
+        //ordinamentoFeedback.setOrdinamentoFeedbackStrategy(strategy);
         ordinamentoFeedback.ordina();
 
-        Assert.assertEquals(feedbacks.get(0).getId(), 2);
-        Assert.assertEquals(feedbacks.get(1).getId(), 3);
-        Assert.assertEquals(feedbacks.get(2).getId(), 1);
+        Assert.assertEquals(feedbacks.get(0).getIdFeedback(), 2);
+        Assert.assertEquals(feedbacks.get(1).getIdFeedback(), 3);
+        Assert.assertEquals(feedbacks.get(2).getIdFeedback(), 1);
     }
 
     @Test
@@ -70,9 +67,9 @@ public class OrdinamentoFeedbackTest {
         ordinamentoFeedback.setOrdinamentoFeedbackStrategy(strategy);
         ordinamentoFeedback.ordina();
 
-        Assert.assertEquals(feedbacks.get(0).getId(), 3);
-        Assert.assertEquals(feedbacks.get(1).getId(), 2);
-        Assert.assertEquals(feedbacks.get(2).getId(), 1);
+        Assert.assertEquals(feedbacks.get(0).getIdFeedback(), 3);
+        Assert.assertEquals(feedbacks.get(1).getIdFeedback(), 2);
+        Assert.assertEquals(feedbacks.get(2).getIdFeedback(), 1);
     }
 
 }

@@ -10,4 +10,8 @@ public class DbOperationExecutor {
         dbOperationList.add(dbOperation);
         return dbOperation.execute();
     }
+
+    public void close(IDbOperation dbOperation){
+        dbOperation.close();
+    }
 }

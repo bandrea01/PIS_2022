@@ -18,4 +18,8 @@ public class ReadOperation implements IDbOperation{
 
         return result;
     }
+    @Override
+    public void close() {
+        conn.close();
+    }
 }

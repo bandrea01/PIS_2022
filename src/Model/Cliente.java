@@ -4,11 +4,30 @@ import Business.FactoryMethod.NotificationFactory;
 
 import java.util.List;
 
-public class Cliente extends Acquirente{
+public class Cliente extends Utente{
     private List<ListaAcquisto> listeacquisto;
     private List<Prenotazione> prenotazioni;
     private PuntoVendita puntoVenditaRegistrato;
     private NotificationFactory.TipoNotifica canalePreferito;
+    private boolean banned;
+
+    public Cliente() {
+        super();
+        listeacquisto = null;
+        prenotazioni = null;
+        puntoVenditaRegistrato = null;
+        canalePreferito = null;
+        banned = false;
+    }
+
+    public Cliente(int id, String name, String surname, String email, String username, String password, String phone, int age, String city, String job, List<ListaAcquisto> listeacquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned) {
+        super(id, name, surname, email, username, password, phone, age, city, job);
+        this.listeacquisto = listeacquisto;
+        this.prenotazioni = prenotazioni;
+        this.puntoVenditaRegistrato = puntoVenditaRegistrato;
+        this.canalePreferito = canalePreferito;
+        this.banned = banned;
+    }
 
     public List<ListaAcquisto> getListeacquisto() {
         return listeacquisto;
@@ -33,5 +52,11 @@ public class Cliente extends Acquirente{
     }
     public void setCanalePreferito(NotificationFactory.TipoNotifica canalePreferito) {
         this.canalePreferito = canalePreferito;
+    }
+    public boolean isBanned() {
+        return banned;
+    }
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 }

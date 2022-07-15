@@ -12,6 +12,7 @@ import View.Listener.LoginListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class MyHierarchyLayout extends JFrame {
     private JPanel panel = new JPanel();
@@ -27,6 +28,7 @@ public class MyHierarchyLayout extends JFrame {
 
     public MyHierarchyLayout(){
         super ("MyShop");
+        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("unisalento_logo.jpeg"))).getImage());
         this.setSize(500, 500);
         this.setFont(new Font("Sans",Font.BOLD,15));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +58,6 @@ public class MyHierarchyLayout extends JFrame {
 
         //Elementi barra ovest
         MyMenu guestMenu = new GuestMenu(this);
-
         for(JButton b : guestMenu.getButtons()) {
             west.add(b);
         }

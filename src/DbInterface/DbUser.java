@@ -7,7 +7,7 @@ public class DbUser {
     private String pwd;
 
     private DbUser() {
-        schemaName = "myshop";
+        schemaName = "mydb";
         userName = "root"; //My username for Local instance 3306
         pwd = "140701"; //My password for Local instance 3306
     }
