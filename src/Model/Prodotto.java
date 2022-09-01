@@ -2,7 +2,6 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Prodotto extends Articolo implements IArticolo {
 

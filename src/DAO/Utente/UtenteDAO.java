@@ -107,7 +107,7 @@ public class UtenteDAO implements IUtenteDAO {
     }
 
     public ArrayList<Utente> findAll() {
-        String sql = "SELECT * FROM Utente";
+        String sql = "SELECT * FROM utente";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
