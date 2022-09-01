@@ -20,19 +20,14 @@ import java.util.Optional;
 
 public class ArticoloDAOTest {
     static Categoria cucina = new Categoria(1, "Cucina", null);
-
     static Fornitore amazon = new Fornitore(1,"Amazon", "www.amazon.com", "Seattle", "USA");
     static Produttore gazprom = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-
     static Prodotto prodotto = new Prodotto(1, "Frigorifero", 150F, "un frigorifero", cucina, gazprom);
-
     static Prodotto sottoProdotto1 = new Prodotto(4, "Fornelli", 75F, "dei fornelli", cucina, gazprom);
     static Prodotto sottoProdotto2 = new Prodotto(5, "Griglia", 10F, "una griglia", cucina, gazprom);
     public ArrayList<Prodotto> array = new ArrayList<>(2);
     static Prodotto prodotto2;
-
     static Servizio servizio = new Servizio(2,"Montaggio", 300F, "montaggio cucina", cucina, amazon);
-
     static File immagine = new File("frigorifero.jpeg");
 
 
