@@ -44,9 +44,9 @@ public class ArticoliPuntoDAOTest {
     public void tearDown(){
         articoloPuntoVenditaDAO.remove(prodotto, punto);
         articoloDAO.removeById(prodotto.getId());
-        produttoreDAO.remove(produttore.getId());
-        categoriaDAO.remove(categoria.getId());
-        puntoVenditaDAO.removeById(punto.getId());
+        produttoreDAO.remove(produttore);
+        categoriaDAO.remove(categoria);
+        puntoVenditaDAO.remove(punto);
         utenteDAO.removeById(manager.getId());
     }
 }

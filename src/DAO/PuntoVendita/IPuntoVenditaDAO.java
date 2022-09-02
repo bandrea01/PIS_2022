@@ -1,5 +1,6 @@
 package DAO.PuntoVendita;
 
+import Model.Categoria;
 import Model.Manager;
 import Model.PuntoVendita;
 
@@ -11,7 +12,6 @@ public interface IPuntoVenditaDAO {
     PuntoVendita findByIdManager (int id);
     ArrayList<PuntoVendita> findAll();
     int add(PuntoVendita puntoVendita);
-    int removeById(int id);
-    int removeByName(String name);
+    int remove(PuntoVendita puntoVendita);
     int update(PuntoVendita puntoVendita);
 }

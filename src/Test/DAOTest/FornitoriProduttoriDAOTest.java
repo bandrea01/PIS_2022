@@ -9,14 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FornitoriProduttoriDAOTest {
+    static Fornitore fornitore = new Fornitore(1,"Amazon","www.amazon.com","Seattle", "USA");
+    static Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
     @Before
     public void setUp (){
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-
-        Fornitore fornitore = new Fornitore(1,"Amazon","www.amazon.com","Seattle", "USA");
-        Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-
         fornitoreDAO.add(fornitore);
         produttoreDAO.add(produttore);
     }
@@ -66,7 +64,7 @@ public class FornitoriProduttoriDAOTest {
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
-        fornitoreDAO.remove(1);
-        produttoreDAO.remove(1);
+        fornitoreDAO.remove(fornitore);
+        produttoreDAO.remove(produttore);
     }
 }

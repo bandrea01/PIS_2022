@@ -7,5 +7,5 @@ public interface IFornitoreDAO {
     Fornitore findByName (String name);
     int add (Fornitore fornitore);
     int update (Fornitore fornitore);
-    int remove (int id);
+    int remove (Fornitore fornitore);
 }

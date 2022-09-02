@@ -161,19 +161,9 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     }
 
     @Override
-    public int removeByName(String name) {
+    public int remove(PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM puntovendita WHERE nome = '" + name + "';";
-        dbOperation = new WriteOperation(sql);
-        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
-        executor.close(dbOperation);
-        return rowCount;
-    }
-
-    @Override
-    public int removeById(int id) {
-        executor = new DbOperationExecutor();
-        sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + id + "';";
+        sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + puntoVendita.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

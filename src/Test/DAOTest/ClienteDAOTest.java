@@ -38,7 +38,7 @@ public class ClienteDAOTest {
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
 
         clientePuntoVenditaDAO.remove(cliente);
-        puntoVenditaDAO.removeById(myShopLecce.getId());
+        puntoVenditaDAO.remove(myShopLecce);
         utenteDAO.removeById(manager.getId());
     }
 

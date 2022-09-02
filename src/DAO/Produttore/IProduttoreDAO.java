@@ -7,5 +7,5 @@ public interface IProduttoreDAO {
     Produttore findByName (String name);
     int add (Produttore produttore);
     int update (Produttore produttore);
-    int remove (int id);
+    int remove (Produttore produttore);
 }

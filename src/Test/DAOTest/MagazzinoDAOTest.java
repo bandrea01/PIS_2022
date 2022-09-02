@@ -44,7 +44,7 @@ public class MagazzinoDAOTest {
     public void tearDown(){
         magazzinoDAO.remove(magazzino);
         magazzinoDAO.remove(magazzino2);
-        puntoVenditaDAO.removeById(punto.getId());
+        puntoVenditaDAO.remove(punto);
         utenteDAO.removeById(manager.getId());
     }
 }

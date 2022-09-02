@@ -183,9 +183,9 @@ public class CategoriaDAO implements ICategoriaDAO {
     }
 
     @Override
-    public int remove (int idCategoria) {
+    public int remove (ICategoria categoria) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM categoria WHERE idCategoria = '" + idCategoria + "';";
+        sql = "DELETE FROM categoria WHERE idCategoria = '" + categoria.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

@@ -113,9 +113,9 @@ public class ProduttoreDAO implements IProduttoreDAO{
     }
 
     @Override
-    public int remove(int id) {
+    public int remove(Produttore produttore) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM produttore WHERE idProduttore = '" + id + "';";
+        sql = "DELETE FROM produttore WHERE idProduttore = '" + produttore.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

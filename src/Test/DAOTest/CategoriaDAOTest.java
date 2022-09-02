@@ -24,8 +24,8 @@ public class CategoriaDAOTest {
     @After
     public void tearDown() {
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        categoriaDAO.remove(giardino.getId());
-        categoriaDAO.remove(attrezzi.getId());
+        categoriaDAO.remove(giardino);
+        categoriaDAO.remove(attrezzi);
     }
     @Test
     public void findById(){

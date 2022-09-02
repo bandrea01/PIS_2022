@@ -15,15 +15,19 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class UtenteDAOTest {
+    static PuntoVendita myShopLecce = new PuntoVendita(1, "MyShopLecce", 3);
+    static Utente utente = new Utente(1,"Cristian","Scarciglia","cristian.scarciglia@gmail.com","cristians","111","11111111", 21, "Nociglia", "Studente");
+    static Manager manager = new Manager(3,"Luca","Mainetti","luca.mainetti@gmail.com","lmainetti","352", "22222222", 40, "Lecce", "Docente", myShopLecce);
+    static Amministratore amministratore = new Amministratore(2,"Andrea","Barone","andrea.barone@gmail.com","bandrea","123","3202944654", 21, "Poggiardo", "Studente");
+
     @Before
     public void setUp() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        PuntoVendita myShopLecce = new PuntoVendita(1, "MyShopLecce", 3);
 
-        utenteDAO.addUtente(new Utente(1,"Cristian","Scarciglia","cristian.scarciglia@gmail.com","cristians","111","11111111", 21, "Nociglia", "Studente"));
-        utenteDAO.addAdmin(new Amministratore(2,"Andrea","Barone","andrea.barone@gmail.com","bandrea","123","3202944654", 21, "Poggiardo", "Studente"));
-        utenteDAO.addManager(new Manager(3,"Luca","Mainetti","luca.mainetti@gmail.com","lmainetti","352", "22222222", 40, "Lecce", "Docente", myShopLecce));
+        utenteDAO.addUtente(utente);
+        utenteDAO.addManager(manager);
+        utenteDAO.addAdmin(amministratore);
         puntoVenditaDAO.add(myShopLecce);
     }
     @After
@@ -31,7 +35,7 @@ public class UtenteDAOTest {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
 
-        puntoVenditaDAO.removeByName("MyShopLecce");
+        puntoVenditaDAO.remove(myShopLecce);
         utenteDAO.removeById(2);
         utenteDAO.removeById(3);
         utenteDAO.removeByUsername("cristians");

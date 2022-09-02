@@ -11,5 +11,5 @@ public interface ICategoriaDAO {
     ArrayList<ICategoria> findAllSottoCategorie(int id);
     int add(ICategoria categoria);
     int update(ICategoria categoria);
-    int remove(int id);
+    int remove(ICategoria categoria);
 }

@@ -31,7 +31,7 @@ public class PuntoVenditaDAOTest {
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
 
-        puntoVenditaDAO.removeById(1);
+        puntoVenditaDAO.remove(myShopLecce);
         utenteDAO.removeById(1);
     }
     @Test
@@ -47,15 +47,9 @@ public class PuntoVenditaDAOTest {
         Assert.assertEquals(1, punti.size());
     }
     @Test
-    public void removeByNameTest() {
+    public void remove() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        int rowCount = puntoVenditaDAO.removeByName("MyShopLecce");
-        Assert.assertEquals(1, rowCount);
-    }
-    @Test
-    public void removeByIdTest() {
-        IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        int rowCount = puntoVenditaDAO.removeById(1);
+        int rowCount = puntoVenditaDAO.remove(myShopLecce);
         Assert.assertEquals(1, rowCount);
     }
     @Test

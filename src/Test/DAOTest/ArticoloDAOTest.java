@@ -148,8 +148,8 @@ public class ArticoloDAOTest {
         articoloDAO.removeById(sottoProdotto2.getId());
         articoloDAO.removeById(prodotto2.getId());
         articoloDAO.removeById(servizio.getId());
-        produttoreDAO.remove(gazprom.getId());
-        fornitoreDAO.remove(amazon.getId());
-        categoriaDAO.remove(cucina.getId());
+        produttoreDAO.remove(gazprom);
+        fornitoreDAO.remove(amazon);
+        categoriaDAO.remove(cucina);
     }
 }

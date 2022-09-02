@@ -113,9 +113,9 @@ public class FornitoreDAO implements IFornitoreDAO{
     }
 
     @Override
-    public int remove(int id) {
+    public int remove(Fornitore fornitore) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM fornitore WHERE idFornitore = '" + id + "';";
+        sql = "DELETE FROM fornitore WHERE idFornitore = '" + fornitore.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
