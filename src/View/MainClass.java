@@ -1,7 +1,7 @@
 package View;
 
 import Model.IArticolo;
-import Model.ListaAcquisto;
+import Model.Ordine;
 import Model.Prodotto;
 
 public class MainClass {
@@ -10,13 +10,13 @@ public class MainClass {
 
 
         //Get email from session manager
-        ListaAcquisto lista = new ListaAcquisto();
+        /*Ordine lista = new Ordine();
         IArticolo p1 = new Prodotto();
         IArticolo p2 = new Prodotto();
         p1.setName("p1");
         p2.setName("p2");
         lista.getProdotti().add(p1);
-        lista.getProdotti().add(p2);
+        lista.getProdotti().add(p2);*/
 
         //Document listaAcquisto = new ListDocument(lista, new PdfBoxAPI());
         //listaAcquisto.invia("email");

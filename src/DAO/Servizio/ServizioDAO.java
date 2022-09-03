@@ -36,7 +36,7 @@ public class ServizioDAO implements IServizioDAO {
     @Override
     public Servizio findById(int id) {
         executor = new DbOperationExecutor();
-        sql = "SELECT * FROM servizio WHERE idArticolo = '" + id + "';";
+        sql = "SELECT * FROM servizio WHERE idServizio = '" + id + "';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();

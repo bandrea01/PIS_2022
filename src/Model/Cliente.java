@@ -2,10 +2,11 @@ package Model;
 
 import Business.FactoryMethod.NotificationFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente extends Utente{
-    private List<ListaAcquisto> listeacquisto;
+    private List<Ordine> ordini;
     private List<Prenotazione> prenotazioni;
     private PuntoVendita puntoVenditaRegistrato;
     private NotificationFactory.TipoNotifica canalePreferito;
@@ -13,32 +14,32 @@ public class Cliente extends Utente{
 
     public Cliente() {
         super();
-        listeacquisto = null;
+        ordini = null;
         prenotazioni = null;
         puntoVenditaRegistrato = null;
         canalePreferito = null;
         banned = false;
     }
 
-    public Cliente(int id, String name, String surname, String email, String username, String password, String phone, int age, String city, String job, List<ListaAcquisto> listeacquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned) {
+    public Cliente(int id, String name, String surname, String email, String username, String password, String phone, int age, String city, String job, ArrayList<Ordine> ordini, ArrayList<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned) {
         super(id, name, surname, email, username, password, phone, age, city, job);
-        this.listeacquisto = listeacquisto;
+        this.ordini = ordini;
         this.prenotazioni = prenotazioni;
         this.puntoVenditaRegistrato = puntoVenditaRegistrato;
         this.canalePreferito = canalePreferito;
         this.banned = banned;
     }
 
-    public List<ListaAcquisto> getListeacquisto() {
-        return listeacquisto;
+    public List<Ordine> getOrdini() {
+        return ordini;
     }
-    public void setListeacquisto(List<ListaAcquisto> listeacquisto) {
-        this.listeacquisto = listeacquisto;
+    public void setOrdini(ArrayList<Ordine> ordini) {
+        this.ordini = ordini;
     }
     public List<Prenotazione> getPrenotazioni() {
         return prenotazioni;
     }
-    public void setPrenotazioni(List<Prenotazione> prenotazioni) {
+    public void setPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
         this.prenotazioni = prenotazioni;
     }
     public PuntoVendita getPuntoVenditaRegistrato() {

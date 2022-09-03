@@ -38,7 +38,7 @@ public class FeedbackDAO implements IFeedbackDAO{
     }
 
     @Override
-    public List<Feedback> findAllOfArticolo (Articolo articolo) {
+    public ArrayList<Feedback> findAllOfArticolo (Articolo articolo) {
         String sql = "SELECT * FROM feedback WHERE idArticolo = '" + articolo.getId() + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -70,7 +70,7 @@ public class FeedbackDAO implements IFeedbackDAO{
     }
 
     @Override
-    public List<Feedback> findAllOfUtente(Utente utente) {
+    public ArrayList<Feedback> findAllOfUtente(Utente utente) {
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         String sql = "SELECT * FROM feedback WHERE idUtente = '" + utente.getId() + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -106,7 +106,7 @@ public class FeedbackDAO implements IFeedbackDAO{
     public int add(Feedback feedback) {
         executor = new DbOperationExecutor();
         int rowCount;
-        sql = "INSERT INTO feedback (idFeedback, idUtente, idArticolo, commento, gradimento, risposta, idManager) VALUES ('" + feedback.getIdFeedback() + "', '" + feedback.getUtente().getId() + "','" + feedback.getArticolo().getId() + "','" + "','" + feedback.getCommento() + "," + feedback.getGradimento() + "','" + feedback.getRisposta() + "','" + feedback.getManager().getId() + "';";
+        sql = "INSERT INTO feedback (idFeedback, idUtente, idArticolo, commento, gradimento, risposta, idManager) VALUES ('" + feedback.getIdFeedback() + "','" + feedback.getUtente().getId() + "','" + feedback.getArticolo().getId() + "','" + feedback.getCommento() + "','" + feedback.getGradimento() + "','" + feedback.getRisposta() + "','" + feedback.getManager().getId() + "');";
         dbOperation = new WriteOperation(sql);
         rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -120,6 +120,16 @@ public class FeedbackDAO implements IFeedbackDAO{
                 "', idUtente = '" + feedback.getUtente().getId() + "'," + " commento = '" + feedback.getCommento() +
                 "', gradimento = '" + feedback.getGradimento() + "'," + " risposta = '" + feedback.getRisposta() +
                 "', idManager = '" + feedback.getManager().getId() + "';";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+    @Override
+    public int remove(Feedback feedback) {
+        executor = new DbOperationExecutor();
+        sql = "DELETE FROM feedback WHERE idFeedback = '" + feedback.getIdFeedback() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

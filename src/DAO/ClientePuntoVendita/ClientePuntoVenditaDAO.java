@@ -8,17 +8,14 @@ import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.Categoria;
-import Model.Cliente;
-import Model.ICategoria;
-import Model.PuntoVendita;
+import Model.*;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
-
     private final static ClientePuntoVenditaDAO instance = new ClientePuntoVenditaDAO();
 
     private ResultSet rs;
@@ -36,32 +33,6 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     public static ClientePuntoVenditaDAO getInstance(){
         return instance;
     }
-
-    //TODO
-    //Prima creare DAO Cliente
-    /*@Override
-    public Cliente getClientebyPunto (PuntoVendita puntoVendita) {
-        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        executor = new DbOperationExecutor();
-        sql = "SELECT * FROM puntovendita_has_cliente WHERE idPuntoVendita = '" + puntoVendita.getId() + "';";
-        dbOperation = new ReadOperation(sql);
-        rs = executor.executeOperation(dbOperation).getResultSet();
-        try {
-            rs.next();
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-
-            System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            executor.close(dbOperation);
-        }
-        return null;
-    }*/
-
     @Override
     public boolean isClienteBanned(Cliente cliente, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();

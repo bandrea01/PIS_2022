@@ -1,29 +1,27 @@
 package Business.Bridge;
 
 import Model.IArticolo;
-import Model.ListaAcquisto;
+import Model.Ordine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-public class ListDocument extends Document{
+public class DocumentoOrdine extends Document{
 
-    private ListaAcquisto lista;
-    public ListDocument(ListaAcquisto lista, PdfAPI pdfAPI) {
+    private Ordine ordine;
+    public DocumentoOrdine(Ordine ordine, PdfAPI pdfAPI) {
         super(pdfAPI);
-        this.lista = lista;
+        this.ordine = ordine;
     }
 
     @Override
     public void invia(String email) {
-        List<IArticolo> prodotti = this.lista.getProdotti();
+       /* ArrayList<IArticolo> articoli = this.ordine.getArticoli();
         String text = "";
-        Iterator<IArticolo> iterator = prodotti.iterator();
-        while (iterator.hasNext()) {
-            IArticolo p = iterator.next();
-            text += p.getName() + ", ";
+        for (IArticolo a : articoli) {
+            text += a.getName() + ", ";
         }
 
         try {
@@ -33,6 +31,6 @@ public class ListDocument extends Document{
 
         } catch (IOException e) {
             throw new RuntimeException();
-        }
+        }*/
     }
 }
