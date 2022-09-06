@@ -78,6 +78,16 @@ public class UtenteDAOTest {
         Assert.assertTrue(utenteDAO.userExist("lmainetti"));
     }
     @Test
+    public void emailExist(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        Assert.assertTrue(utenteDAO.emailExist("andrea.barone@gmail.com"));
+    }
+    @Test
+    public void phoneExist(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        Assert.assertTrue(utenteDAO.phoneExist("11111111"));
+    }
+    @Test
     public void checkCredentials(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         Assert.assertTrue(utenteDAO.checkCredentials("bandrea", "123"));

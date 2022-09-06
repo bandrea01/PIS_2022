@@ -266,6 +266,44 @@ public class UtenteDAO implements IUtenteDAO {
     }
 
     @Override
+    public boolean emailExist(String email) {
+        String sql = "SELECT count(*) AS count FROM mydb.utente AS U WHERE U.email='" + email + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean phoneExist(String phone) {
+        String sql = "SELECT count(*) AS count FROM mydb.utente AS U WHERE U.telefono='" + phone + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean checkCredentials (String username, String password) {
         String sql = "SELECT count(*) AS count FROM mydb.utente AS U WHERE U.password ='" + password + "' AND U.username='" + username + "';";
         IDbOperation readOp = new ReadOperation(sql);
@@ -287,11 +325,10 @@ public class UtenteDAO implements IUtenteDAO {
 
     @Override
     public boolean isCliente(String username) {
-        String sql = "SELECT count(*) AS count FROM utente AS U INNER JOIN maanger AS C ON U.idCliente = C.idUtente WHERE U.username='" + username + "';";
+        String sql = "SELECT count(*) AS count FROM utente INNER JOIN cliente ON utente.idUtente = cliente.idUtente WHERE utente.username='" + username + "';";
         IDbOperation readOp = new ReadOperation(sql);
         DbOperationExecutor executor = new DbOperationExecutor();
         rs = executor.executeOperation(readOp).getResultSet();
-
         try {
             rs.next();
             if (rs.getRow() == 1){

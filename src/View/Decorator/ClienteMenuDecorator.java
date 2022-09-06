@@ -1,11 +1,19 @@
+/*
 package View.Decorator;
 
 import javax.swing.*;
 import java.util.List;
 
+*/
+/**
+ * Classe che implementa concretamente il proprio Decorator
+ * CLIENTE
+ *//*
+
+
 public class ClienteMenuDecorator extends CustomMenuDecorator{
 
-    public ClienteMenuDecorator(MyMenu menu) {
+    public ClienteMenuDecorator(GuestMenuDecorator menu) {
         this.menu = menu;
     }
 
@@ -23,3 +31,4 @@ public class ClienteMenuDecorator extends CustomMenuDecorator{
         return buttons;
     }
 }
+*/

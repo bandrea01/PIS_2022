@@ -3,7 +3,7 @@ package View.Listener;
 import Business.LoginResult;
 import Business.SessionManager;
 import Business.UtenteBusiness;
-import View.MyHierarchyLayout;
+import View.MainLayout;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,18 +13,17 @@ public class LoginListener implements ActionListener {
     //Costanti
     public final static String LOGIN_BTN = "login-btn";
     public final static String LOGOUT_BTN = "logout-btn";
-    public final static String APRIFILE_MENU = "aprifile-menu";
 
     private JTextField username;
     private JPasswordField password;
-    private MyHierarchyLayout frame; //passo tutto il frame
+    private MainLayout frame; //passo tutto il frame
 
     public LoginListener(JTextField username, JPasswordField password) {
         this.username = username;
         this.password = password;
     }
 
-    public LoginListener(MyHierarchyLayout frame) {
+    public LoginListener(MainLayout frame) {
         this.frame = frame;
     }
 
@@ -56,13 +55,10 @@ public class LoginListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, result.getMessage());
             }
         }
-        else if (APRIFILE_MENU.equalsIgnoreCase(action)){
-            JOptionPane.showMessageDialog(null, "Select File");
-        }
         else if (LOGOUT_BTN.equalsIgnoreCase(action)) {
+            frame.updateButtonsMenu();
             frame.showInitialPanel();
             SessionManager.refresh();
-            frame.updateButtonsMenu();
         }
 
         /*Object source = e.getSource(); //Ritorna istanza dell'oggetto che ha lanciato l'evento
@@ -82,7 +78,7 @@ public class LoginListener implements ActionListener {
 
     }
 
-    public void setFrame(MyHierarchyLayout frame) {
+    public void setFrame(MainLayout frame) {
         this.frame = frame;
     }
 }

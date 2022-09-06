@@ -18,6 +18,8 @@ public interface IUtenteDAO {
     int removeByUsername(String username);
     int update(Utente utente);
     boolean userExist(String username);
+    boolean emailExist(String email);
+    boolean phoneExist(String phone);
     boolean checkCredentials(String username, String password);
     boolean isCliente(String username);
     boolean isManager(String username);

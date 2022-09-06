@@ -5,28 +5,28 @@ import Model.Amministratore;
 import Model.Cliente;
 import Model.Manager;
 import Model.Utente;
-import View.Decorator.ClienteMenuDecorator;
 import View.Decorator.GuestMenu;
-import View.Decorator.MyMenu;
+import View.Decorator.GuestMenuDecorator;
 import View.Listener.LoginListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class MyHierarchyLayout extends JFrame {
+public class MainLayout extends JFrame {
     private JPanel panel = new JPanel();
-    private Container c;
-    private JPanel nord;
+    private Container container;
+    private JPanel up;
     private JPanel centre;
-    private JPanel west;
-    private JPanel sud;
+    private JPanel left;
+    private JPanel right;
+
+    private JPanel down;
     private JMenuBar menuBar;
-    private JMenu menuFile;
-    private JMenu menuApri;
 
 
-    public MyHierarchyLayout(){
+    public MainLayout(){
+        //Settaggio finestra principale applicazione
         super ("MyShop");
         this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("unisalento_logo.jpeg"))).getImage());
         this.setSize(500, 500);
@@ -35,90 +35,88 @@ public class MyHierarchyLayout extends JFrame {
         this.setLocationRelativeTo(null);
 
         //Istanzio attributi iniziali
-        c = this.getContentPane();
-        nord = new JPanel();
+        container = this.getContentPane();
+        up = new JPanel();
         centre = new JPanel();
-        west = new JPanel();
-        sud = new JPanel();
+        right = new JPanel();
+        left = new JPanel();
+        down = new JPanel();
 
-        //Layout
-        c.setLayout(new BorderLayout());
-        nord.setLayout(new FlowLayout());
-        centre.setLayout(new GridLayout(2,1));
-        west.setLayout(new GridLayout(10, 1));
-        sud.setLayout(new FlowLayout());
+        //Settaggio layout diverse zone
+        container.setLayout(new BorderLayout());
+        up.setLayout(new FlowLayout());
+        centre.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
 
-        //Elementi barra nord
+        //Elementi barra superiore
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        menuFile = new JMenu("File");
-        menuApri = new JMenu("Apri");
-        menuBar.add(menuFile);
-        menuFile.add(menuApri);
 
-        //Elementi barra ovest
-        MyMenu guestMenu = new GuestMenu(this);
-        for(JButton b : guestMenu.getButtons()) {
-            west.add(b);
-        }
-
-        c.add(west, BorderLayout.WEST);
-
-
-
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
         showInitialPanel();
         this.setVisible(true);
     }
 
     public void showInitialPanel() {
         centre.removeAll();
-        nord.removeAll();
+        up.removeAll();
+        left.removeAll();
+        right.removeAll();
+        down.removeAll();
         panel.removeAll();
 
-        //Username, password e login button
-        JTextField username = new JTextField(15);
-        JPasswordField password = new JPasswordField(15);
-        JButton login = new JButton("Login");
+        //Zona username
+        JTextField usernameField = new JTextField(10);
+        JLabel usernameLabel = new JLabel("Username:");
+
+        //Zona password
+        JPasswordField passwordField = new JPasswordField(10);
+        JLabel passwordLabel = new JLabel("Password:");
+
+        //Bottone login
+        JButton login = new JButton("Login"); //Bottone login
         login.setActionCommand(LoginListener.LOGIN_BTN);
-        nord.add(username);
-        nord.add(password);
-        nord.add(login);
-        LoginListener loginListener = new LoginListener(username, password);
-//      LoginListener loginListener2 = new LoginListener(this);
+
+        up.add(usernameLabel);
+        up.add(usernameField);
+        up.add(passwordLabel);
+        up.add(passwordField);
+        up.add(login);
+
+        //Login Listener
+        LoginListener loginListener = new LoginListener(usernameField, passwordField);
         loginListener.setFrame(this);
         login.addActionListener(loginListener);
 
-        //Messaggio saluti
+        //Zona centrale
         centre.add(new JLabel("Welcome! Please login to buy in this store"));
-        sud.add(new JLabel("PIS Project - 2022"));
-        sud.setBackground(Color.GRAY);
+        GuestMenu guestMenu = new GuestMenu(this);
+        centre.add(guestMenu.getBrowse());
+        centre.add(new JLabel("If you don't have an account "));
+        centre.add(guestMenu.getSignIn());
+
+        //Zona in basso
+        down.add(new JLabel("PIS Project - 2022"));
+        down.setBackground(Color.GRAY);
 
         //Setto pannelli
-        c.add(nord, BorderLayout.NORTH);
-        c.add(centre, BorderLayout.CENTER);
-        c.add(sud, BorderLayout.SOUTH);
+        container.add(up, BorderLayout.NORTH);
+        container.add(centre, BorderLayout.CENTER);
+        container.add(down, BorderLayout.SOUTH);
+        container.add(left, BorderLayout.WEST);
+        container.add(right, BorderLayout.EAST);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
 
-        //Istanzio voce della tendina per la voce FILE e l'aggiungo
-        JMenuItem apri = new JMenuItem("Apri...");
-        apri.addActionListener(loginListener);
-        apri.setActionCommand(loginListener.APRIFILE_MENU);
-        menuFile.add(apri);
-        JMenu menuRecenti = new JMenu("Recenti");
-        menuFile.add(menuRecenti);
-        menuRecenti.add(new JMenuItem("/file1"));
-        menuRecenti.add(new JMenuItem("/file2"));
-        menuRecenti.add(new JMenuItem("/file3"));
-        panel.setLayout(new FlowLayout());
 
         //Page Refreshing
-        updateButtonsMenu();
+        //updateButtonsMenu();
         repaint();
         validate();
     }
 
     public void showUserLoggedPanel(String message){
         //togliere pannello utente non loggato
-        remove(nord);
+        remove(up);
         remove(centre);
         //inserire pannello utente loggato
         JButton logout = new JButton("Logout");
@@ -141,18 +139,24 @@ public class MyHierarchyLayout extends JFrame {
         repaint();
         validate();
     }
+    public void showSignInPanel(){
+        centre.removeAll();
+        centre.add(new SignInPanel(this));
+        repaint();
+        validate();
+    }
     public void updateButtonsMenu() {
-        west.removeAll();
+        /*left.removeAll();
 
         //...
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
         if (u instanceof Cliente) {
             // Decoriamo con ClienteMenuDecorator
-            MyMenu guestMenu = new GuestMenu(this);
-            MyMenu clienteMenu = new ClienteMenuDecorator(guestMenu);
+            GuestMenuDecorator guestMenu = new GuestMenu(this);
+            GuestMenuDecorator clienteMenu = new ClienteMenuDecorator(guestMenu);
             for (JButton b : clienteMenu.getButtons()) {
-                west.add(b);
+                left.add(b);
             }
 
         } else if (u instanceof Manager) {
@@ -161,11 +165,11 @@ public class MyHierarchyLayout extends JFrame {
         } else if (u instanceof Amministratore) {
             // TODO Decoriamo con AdminMenuDecorator
         } else {
-            MyMenu menu = new GuestMenu(this);
+            GuestMenuDecorator menu = new GuestMenu(this);
             for (JButton b : menu.getButtons()) {
-                west.add(b);
+                left.add(b);
             }
-        }
+        }*/
         //Page refreshing
         repaint();
         validate();
