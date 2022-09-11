@@ -11,6 +11,7 @@ public interface IPuntoVenditaDAO {
     PuntoVendita findByName(String name);
     PuntoVendita findByIdManager (int id);
     ArrayList<PuntoVendita> findAll();
+    boolean puntoVenditaExist(String name);
     int add(PuntoVendita puntoVendita);
     int remove(PuntoVendita puntoVendita);
     int update(PuntoVendita puntoVendita);

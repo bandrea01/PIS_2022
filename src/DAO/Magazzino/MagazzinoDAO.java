@@ -1,9 +1,6 @@
 package DAO.Magazzino;
 
-import DAO.Articolo.ArticoloDAO;
-import DAO.Produttore.ProduttoreDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
@@ -93,7 +90,7 @@ public class MagazzinoDAO implements IMagazzinoDAO{
     @Override
     public Magazzino findMagazzinoByPunto(PuntoVendita punto) {
         executor = new DbOperationExecutor();
-        sql = "SELECT * FROM magazzino WHERE idPuntoVendita = '" + punto.getId() + "';";
+        sql = "SELECT * FROM magazzino WHERE idPuntoVendita = '" + punto.getIdPuntoVendita() + "';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         Magazzino magazzino = new Magazzino();
@@ -121,7 +118,7 @@ public class MagazzinoDAO implements IMagazzinoDAO{
     public int add (Magazzino magazzino) {
         executor = new DbOperationExecutor();
         int rowCount;
-        sql = "INSERT INTO magazzino (idMagazzino, idPuntoVendita) VALUES ('" + magazzino.getId() + "','" + magazzino.getPunto().getId() + "');";
+        sql = "INSERT INTO magazzino (idMagazzino, idPuntoVendita) VALUES ('" + magazzino.getId() + "','" + magazzino.getPunto().getIdPuntoVendita() + "');";
         dbOperation = new WriteOperation(sql);
         rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -141,7 +138,7 @@ public class MagazzinoDAO implements IMagazzinoDAO{
     @Override
     public int update (Magazzino magazzino){
         executor = new DbOperationExecutor();
-        sql = "UPDATE magazzino SET idPuntoVendita = '" + magazzino.getPunto().getId() + "' WHERE idMagazzino = '" + magazzino.getId() + "';";
+        sql = "UPDATE magazzino SET idPuntoVendita = '" + magazzino.getPunto().getIdPuntoVendita() + "' WHERE idMagazzino = '" + magazzino.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

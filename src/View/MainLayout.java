@@ -1,13 +1,16 @@
 package View;
 
 import Business.SessionManager;
+import Business.UtenteBusiness;
 import Model.Amministratore;
-import Model.Cliente;
 import Model.Manager;
+import Model.PuntoVendita;
 import Model.Utente;
-import View.Decorator.GuestMenu;
-import View.Decorator.GuestMenuDecorator;
+import View.Decorator.*;
 import View.Listener.LoginListener;
+import View.Panel.*;
+import View.ViewModel.ButtonCreator;
+import View.ViewModel.MyFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,34 +39,33 @@ public class MainLayout extends JFrame {
 
         //Istanzio attributi iniziali
         container = this.getContentPane();
+        container.setLayout(new BorderLayout());
         up = new JPanel();
         centre = new JPanel();
         right = new JPanel();
         left = new JPanel();
         down = new JPanel();
 
-        //Settaggio layout diverse zone
-        container.setLayout(new BorderLayout());
-        up.setLayout(new FlowLayout());
-        centre.setLayout(new FlowLayout());
-        down.setLayout(new FlowLayout());
-
         //Elementi barra superiore
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
         showInitialPanel();
         this.setVisible(true);
     }
 
     public void showInitialPanel() {
-        centre.removeAll();
         up.removeAll();
+        centre.removeAll();
+        down.removeAll();
         left.removeAll();
         right.removeAll();
-        down.removeAll();
-        panel.removeAll();
+
+        //Settaggio layout diverse zone
+        up.setLayout(new FlowLayout());
+        left.setLayout(new GridLayout(10,1));
+        right.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
 
         //Zona username
         JTextField usernameField = new JTextField(10);
@@ -73,27 +75,26 @@ public class MainLayout extends JFrame {
         JPasswordField passwordField = new JPasswordField(10);
         JLabel passwordLabel = new JLabel("Password:");
 
-        //Bottone login
-        JButton login = new JButton("Login"); //Bottone login
-        login.setActionCommand(LoginListener.LOGIN_BTN);
-
         up.add(usernameLabel);
         up.add(usernameField);
         up.add(passwordLabel);
         up.add(passwordField);
-        up.add(login);
 
-        //Login Listener
         LoginListener loginListener = new LoginListener(usernameField, passwordField);
         loginListener.setFrame(this);
-        login.addActionListener(loginListener);
+        up.add(ButtonCreator.createButton("Login", true, ButtonCreator.LIGHT_BLUE, loginListener, LoginListener.LOGIN_BTN));
 
         //Zona centrale
-        centre.add(new JLabel("Welcome! Please login to buy in this store"));
-        GuestMenu guestMenu = new GuestMenu(this);
-        centre.add(guestMenu.getBrowse());
-        centre.add(new JLabel("If you don't have an account "));
-        centre.add(guestMenu.getSignIn());
+        JLabel welcome1 = new JLabel("Welcome! Please login to buy in this store");
+        welcome1.setFont(new MyFont(14));
+        JLabel welcome2 = new JLabel("If you don't have an account please sign in");
+        welcome2.setFont(new MyFont(14));
+        welcome1.setHorizontalAlignment(SwingConstants.CENTER);
+        welcome2.setHorizontalAlignment(SwingConstants.CENTER);
+        centre.add(welcome1);
+        centre.add(welcome2);
+        centre.add(ButtonCreator.createButton("Sign in", true, ButtonCreator.LILLE, e -> this.showSignInPanel(), null));
+        centre.add(ButtonCreator.createButton("Forgot credentials", true, ButtonCreator.LILLE, e -> UtenteBusiness.regainCredentials(), null));
 
         //Zona in basso
         down.add(new JLabel("PIS Project - 2022"));
@@ -105,29 +106,31 @@ public class MainLayout extends JFrame {
         container.add(down, BorderLayout.SOUTH);
         container.add(left, BorderLayout.WEST);
         container.add(right, BorderLayout.EAST);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
-
 
         //Page Refreshing
-        //updateButtonsMenu();
+        updateButtonsMenu();
         repaint();
         validate();
     }
 
     public void showUserLoggedPanel(String message){
         //togliere pannello utente non loggato
-        remove(up);
-        remove(centre);
+        up.removeAll();
+        centre.removeAll();
+        up.setLayout(new BorderLayout());
         //inserire pannello utente loggato
-        JButton logout = new JButton("Logout");
+        JButton logout = ButtonCreator.createButton("Logout", true, ButtonCreator.SALMON, e -> showInitialPanel(), null);
         LoginListener logoutListener = new LoginListener(this);
+        JLabel welcome = new JLabel(message);
+        welcome.setFont(new MyFont(14));
 
         logout.addActionListener(logoutListener);
         logout.setActionCommand(LoginListener.LOGOUT_BTN);
-        panel.removeAll();
-        panel.add(new JLabel(message));
-        panel.add(logout);
-        add(panel, BorderLayout.NORTH);
+
+        up.add(welcome, BorderLayout.WEST);
+        up.add(logout, BorderLayout.EAST);
+
+        centre.add(new PuntoVenditaPanel(this));
 
         //Page Refreshing
         repaint();
@@ -146,32 +149,76 @@ public class MainLayout extends JFrame {
         validate();
     }
     public void updateButtonsMenu() {
-        /*left.removeAll();
+        left.removeAll();
 
-        //...
-        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-
-        if (u instanceof Cliente) {
-            // Decoriamo con ClienteMenuDecorator
-            GuestMenuDecorator guestMenu = new GuestMenu(this);
-            GuestMenuDecorator clienteMenu = new ClienteMenuDecorator(guestMenu);
+        //Sessione manager
+        if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Manager) {
+            // TODO Decoriamo con ManagerMenuDecorator
+            //Catena di decorator
+        }
+        //Sessione admin
+        else if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Amministratore) {
+            View.Decorator.Menu guestMenu = new GuestMenu(this);
+            AdminMenuDecorator adminMenu = new AdminMenu(guestMenu, this);
+            for (JButton b : adminMenu.getButtons()) {
+                left.add(b);
+            }
+        }
+        //Sessione cliente
+        else if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Utente) {
+            View.Decorator.Menu guestMenu = new GuestMenu(this);
+            ClienteMenuDecorator clienteMenu = new ClienteMenu(guestMenu, this);
             for (JButton b : clienteMenu.getButtons()) {
                 left.add(b);
             }
-
-        } else if (u instanceof Manager) {
-            // TODO Decoriamo con ManagerMenuDecorator
-            //Catena di decorator
-        } else if (u instanceof Amministratore) {
-            // TODO Decoriamo con AdminMenuDecorator
-        } else {
-            GuestMenuDecorator menu = new GuestMenu(this);
+        }
+        //Sessione guest
+        else {
+            View.Decorator.Menu menu = new GuestMenu(this);
             for (JButton b : menu.getButtons()) {
                 left.add(b);
             }
-        }*/
+        }
         //Page refreshing
         repaint();
         validate();
+    }
+    public void showOrders() {
+    }
+    public void showProfile() {
+    }
+    public void managePoints() {
+        centre.removeAll();
+        centre.add(new ManagePointsPanel(this));
+        repaint();
+        validate();
+    }
+    public void showCreatePointPanel(){
+        centre.removeAll();
+        centre.add(new CreatePointPanel(this));
+        repaint();
+        validate();
+    }
+    public void modifyPointPanel(PuntoVendita puntoVendita){
+        centre.removeAll();
+        centre.add(new ModifyPointPanel(this, puntoVendita));
+        repaint();
+        validate();
+    }
+
+    public void manageCustoms() {
+        //TODO
+    }
+
+    public void manageStore() {
+        //TODO
+    }
+
+    public void manageCatalog() {
+        //TODO
+    }
+
+    public void showPoint() {
+        System.out.println("done");
     }
 }

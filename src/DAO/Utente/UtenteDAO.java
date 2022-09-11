@@ -9,6 +9,7 @@ import DbInterface.Command.WriteOperation;
 import DbInterface.DbConnection;
 import DbInterface.IDbConnection;
 import Model.*;
+import com.sun.mail.imap.protocol.INTERNALDATE;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,7 +102,44 @@ public class UtenteDAO implements IUtenteDAO {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            executor.close(dbOperation);
+            executor.close(readOp);
+        }
+        return null;
+    }
+
+    @Override
+    public Utente findByEmail(String email) {
+        String sql = "SELECT * FROM utente WHERE email = '" + email + "';";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+        Utente utente = new Utente();
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                utente = new Utente();
+                utente.setId(rs.getInt("idUtente"));
+                utente.setName(rs.getString("nome"));
+                utente.setSurname(rs.getString("cognome"));
+                utente.setEmail(email);
+                utente.setUsername(rs.getString("username"));
+                utente.setPassword(rs.getString("password"));
+                utente.setAge(rs.getInt("eta"));
+                utente.setCity(rs.getString("residenza"));
+                utente.setJob(rs.getString("professione"));
+                utente.setPhone(rs.getString("telefono"));
+            }
+            return utente;
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
         }
         return null;
     }
@@ -137,7 +175,33 @@ public class UtenteDAO implements IUtenteDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            executor.close(dbOperation);
+            executor.close(readOp);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Manager> findAllManagers() {
+        String sql = "SELECT * FROM manager";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+        ArrayList<Manager> managers = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                managers.add(getManagerById(rs.getInt("idManager")));
+            }
+            return managers;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
         }
         return null;
     }
@@ -153,18 +217,13 @@ public class UtenteDAO implements IUtenteDAO {
         return rowCount;
     }
     @Override
-    public int addManager(Manager manager) {
+    public int addManager(Utente utente) {
         executor = new DbOperationExecutor();
         int rowCount;
-        String sql1 = "INSERT INTO utente (idUtente, nome, cognome, email, username, password, telefono, eta, residenza, professione) VALUES ('" + manager.getId() + "','" + manager.getName() + "','" + manager.getSurname() + "','" + manager.getEmail() + "','" + manager.getUsername() + "','" + manager.getPassword() + "','" + manager.getPhone() + "','" + manager.getAge() + "','" + manager.getCity() + "','" + manager.getJob() + "');";
-        String sql2 = "INSERT INTO manager (idManager) VALUES ('" + manager.getId() + "');";
-        IDbOperation readOp1 = new WriteOperation(sql1);
-        rowCount = executor.executeOperation(readOp1).getRowsAffected();
-        executor.close(readOp1);
-        IDbOperation readOp2 = new WriteOperation(sql2);
-        rowCount += executor.executeOperation(readOp2).getRowsAffected();
-        executor.close(readOp1);
-
+        String sql = "INSERT INTO manager (idManager) VALUES ('" + utente.getId() + "');";
+        IDbOperation writeOp = new WriteOperation(sql);
+        rowCount = executor.executeOperation(writeOp).getRowsAffected();
+        executor.close(writeOp);
         return rowCount;
     }
     @Override
@@ -230,7 +289,6 @@ public class UtenteDAO implements IUtenteDAO {
         executor.close(writeOp2);
         return rowCount;
     }
-
     @Override
     public int update(Utente utente) {
         executor = new DbOperationExecutor();

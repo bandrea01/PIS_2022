@@ -1,7 +1,5 @@
 package DAO.ClientePuntoVendita;
 
-import DAO.Categoria.CategoriaDAO;
-import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.IUtenteDAO;
 import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
@@ -10,10 +8,8 @@ import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
 import Model.*;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     private final static ClientePuntoVenditaDAO instance = new ClientePuntoVenditaDAO();
@@ -36,7 +32,7 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     @Override
     public boolean isClienteBanned(Cliente cliente, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "SELECT * FROM puntovendita_has_cliente WHERE idUtente = '" + cliente.getId() + "' AND idPuntoVendita = '" + puntoVendita.getId() + "';";
+        sql = "SELECT * FROM puntovendita_has_cliente WHERE idUtente = '" + cliente.getId() + "' AND idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         try {
@@ -58,7 +54,7 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     @Override
     public boolean isClienteRegistred(Cliente cliente, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "SELECT count(*) AS count FROM puntovendita_has_cliente WHERE idUtente = '" + cliente.getId() + "' AND idPuntoVendita = '" + puntoVendita.getId() + "';";
+        sql = "SELECT count(*) AS count FROM puntovendita_has_cliente WHERE idUtente = '" + cliente.getId() + "' AND idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         try {
@@ -88,7 +84,7 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
         executor = new DbOperationExecutor();
         int rowCount;
         String sql1 = "INSERT INTO cliente (idUtente) VALUES ('" + cliente.getId() + "');";
-        String sql2 = "INSERT INTO puntovendita_has_cliente (idPuntoVendita, idUtente, canalePreferito, bannato) VALUES ('" + cliente.getPuntoVenditaRegistrato().getId() + "','" + cliente.getId() + "','" + cliente.getCanalePreferito() + "','0');";
+        String sql2 = "INSERT INTO puntovendita_has_cliente (idPuntoVendita, idUtente, canalePreferito, bannato) VALUES ('" + cliente.getPuntoVenditaRegistrato().getIdPuntoVendita() + "','" + cliente.getId() + "','" + cliente.getCanalePreferito() + "','0');";
         IDbOperation writeOp1 = new WriteOperation(sql1);
         IDbOperation writeOp2 = new WriteOperation(sql2);
 
@@ -103,7 +99,7 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     @Override
     public int update(Cliente cliente) {
         executor = new DbOperationExecutor();
-        sql = "UPDATE puntovendita_has_cliente SET idPuntoVendita = '" + cliente.getPuntoVenditaRegistrato().getId() + "', idCliente = '" + cliente.getId() + "', canalePreferito = '" + cliente.getCanalePreferito() + "', bannato = " + cliente.isBanned() + "' WHERE idCliente = '" + cliente.getId() + "';";
+        sql = "UPDATE puntovendita_has_cliente SET idPuntoVendita = '" + cliente.getPuntoVenditaRegistrato().getIdPuntoVendita() + "', idCliente = '" + cliente.getId() + "', canalePreferito = '" + cliente.getCanalePreferito() + "', bannato = " + cliente.isBanned() + "' WHERE idCliente = '" + cliente.getId() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

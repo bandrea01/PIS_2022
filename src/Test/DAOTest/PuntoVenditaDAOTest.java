@@ -58,8 +58,8 @@ public class PuntoVenditaDAOTest {
         PuntoVendita puntoVendita = new PuntoVendita(1, "MyShopBari", 1);
         int rowCount = puntoVenditaDAO.update(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("MyShopBari");
-        Assert.assertEquals(1, puntoVendita.getId());
+        Assert.assertEquals(1, puntoVendita.getIdPuntoVendita());
         Assert.assertEquals("MyShopBari", puntoVendita.getName());
-        Assert.assertEquals(1, puntoVendita.getIdMan());
+        Assert.assertEquals(1, puntoVendita.getIdManager());
     }
 }

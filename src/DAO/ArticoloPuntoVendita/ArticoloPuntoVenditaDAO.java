@@ -1,14 +1,12 @@
 package DAO.ArticoloPuntoVendita;
 
 import DAO.Articolo.ArticoloDAO;
-import DAO.Magazzino.MagazzinoDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
 import Model.Articolo;
-import Model.Magazzino;
 import Model.PuntoVendita;
 
 import java.sql.ResultSet;
@@ -37,7 +35,7 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
 
     @Override
     public ArrayList<Articolo> findByPunto(PuntoVendita puntoVendita) {
-        String sql = "SELECT * FROM puntovendita_has_articolo WHERE idPuntoVendita = '" + puntoVendita.getId() + "';";
+        String sql = "SELECT * FROM puntovendita_has_articolo WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -58,7 +56,7 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            executor.close(dbOperation);
+            executor.close(readOp);
         }
         return null;
     }
@@ -67,7 +65,7 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
     public int add(Articolo articolo, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
         int rowCount;
-        sql = "INSERT INTO puntovendita_has_articolo (idArticolo, idPuntoVendita) VALUES ('" + articolo.getId() + "','" + puntoVendita.getId() + "');";
+        sql = "INSERT INTO puntovendita_has_articolo (idArticolo, idPuntoVendita) VALUES ('" + articolo.getId() + "','" + puntoVendita.getIdPuntoVendita() + "');";
         dbOperation = new WriteOperation(sql);
         rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -77,7 +75,17 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
     @Override
     public int remove (Articolo articolo, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM puntovendita_has_articolo WHERE idArticolo = '" + articolo.getId() + "' AND idPuntoVendita = '" + puntoVendita.getId() + "';";
+        sql = "DELETE FROM puntovendita_has_articolo WHERE idArticolo = '" + articolo.getId() + "' AND idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+    @Override
+    public int removeByPunto(PuntoVendita puntoVendita){
+        executor = new DbOperationExecutor();
+        sql = "DELETE FROM puntovendita_has_articolo WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

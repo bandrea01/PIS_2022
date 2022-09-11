@@ -5,18 +5,12 @@ import DAO.Utente.UtenteDAO;
 import Model.*;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtenteBusiness {
     private static UtenteBusiness instance;
 
-    /**
-     * SINGLETON
-     * Synchronized per evitare che più classi accedano alla stessa istanza
-     * @return instance
-     */
     public static synchronized UtenteBusiness getInstance() {
         if (instance == null) {
             instance = new UtenteBusiness();
@@ -24,12 +18,23 @@ public class UtenteBusiness {
         return instance;
     }
 
+    public static void regainCredentials() {
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        String email = JOptionPane.showInputDialog(null, "Insert your email, we send you your credentials:");
+        if (!utenteDAO.emailExist(email)){
+            JOptionPane.showMessageDialog(null,"Unknown email! Please insert a valid email");
+        }
+        else {
+            //TODO
+            //Mail helper
+        }
+    }
+
     public LoginResult login(String username, String password) {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         LoginResult result = new LoginResult();
 
-        //TODO
         //1. Controllare se esiste l'utente
         boolean userExist = utenteDAO.userExist(username);
         if (!userExist) {
@@ -45,26 +50,22 @@ public class UtenteBusiness {
             return result;
         }
         //3. Controllare tipo Utente
-        boolean isCliente = utenteDAO.isCliente(username);
         boolean isManager = utenteDAO.isManager(username);
         boolean isAdmin = utenteDAO.isAdmin(username);
 
         //4. Caricare oggetto Utente (a seconda della tipologia)
-        if (isCliente) {
-            Utente utente = utenteDAO.findByUsername(username);
-            //Usiamo sessione manager, inseriamo informazione LOGGATO-UTENTE
-            SessionManager.getSession().put(SessionManager.LOGGED_USER, utente);
-            result.setMessage("Welcome " + utente.getName() + "!");
-        } else if (isManager) {
+        if (isManager) {
             Manager manager = utenteDAO.getManagerByUsername(username);
             SessionManager.getSession().put(SessionManager.LOGGED_USER, manager);
             result.setMessage("Welcome " + manager.getName() + "!");
-            return null;
         } else if (isAdmin) {
             Amministratore admin = utenteDAO.getAdminByUsername(username);
             SessionManager.getSession().put(SessionManager.LOGGED_USER, admin);
             result.setMessage("Welcome " + admin.getName() + "!");
-            return null;
+        } else {
+            Utente utente = utenteDAO.findByUsername(username);
+            SessionManager.getSession().put(SessionManager.LOGGED_USER, utente);
+            result.setMessage("Welcome " + utente.getName() + "!");
         }
 
         result.setResult(LoginResult.Result.LOGIN_OK);
@@ -83,8 +84,8 @@ public class UtenteBusiness {
             return false;
         }
         //Controllo password
-        if (password.length() != 8){
-            JOptionPane.showMessageDialog(null, "Password length must be of 8 alphanumeric characters");
+        if (password.length() < 8){
+            JOptionPane.showMessageDialog(null, "Password length must be at least 8 alphanumeric characters");
             return false;
         }
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
@@ -142,8 +143,19 @@ public class UtenteBusiness {
     }
 
 
-
-
-
-
+    public void createManager() {
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        String input = JOptionPane.showInputDialog(null, "Insert user's email to be made manager");
+        if(!utenteDAO.emailExist(input)){
+            JOptionPane.showMessageDialog(null, "Email not valid");
+            return;
+        }
+        if (utenteDAO.isManager(utenteDAO.findByEmail(input).getUsername())){
+            JOptionPane.showMessageDialog(null, "The user is alredy a manager");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Manager successfully created!");
+        Utente utente = utenteDAO.findByEmail(input);
+        utenteDAO.addManager(utente);
+    }
 }

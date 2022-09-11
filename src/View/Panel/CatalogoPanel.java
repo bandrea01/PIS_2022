@@ -1,5 +1,6 @@
-package View;
+package View.Panel;
 
+import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.RowCatalog;
 
 import javax.swing.*;

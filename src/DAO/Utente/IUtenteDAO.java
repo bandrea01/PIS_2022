@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public interface IUtenteDAO {
     Utente findById(int id);
     Utente findByUsername(String username);
+    Utente findByEmail(String email);
     ArrayList<Utente> findAll();
+    ArrayList<Manager> findAllManagers();
     int addUtente(Utente utente);
-    int addManager(Manager manager);
+    int addManager(Utente utente);
     int addAdmin(Amministratore amministratore);
     int removeById(int id);
     int removeByUsername(String username);
@@ -27,6 +29,6 @@ public interface IUtenteDAO {
     Manager getManagerByUsername(String username);
     Manager getManagerById(int id);
     Amministratore getAdminByUsername(String name);
-    Amministratore getAdminById(int id);
 
+    Amministratore getAdminById(int id);
 }

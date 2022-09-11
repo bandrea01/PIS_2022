@@ -250,4 +250,41 @@ public class ProdottoDAO implements IProdottoDAO {
         rowCount += this.addSottoProdotti(prodotto);
         return rowCount;
     }
+
+    public ArrayList<Prodotto> findAll() {
+        executor = new DbOperationExecutor();
+        sql = "SELECT * FROM prodotto";
+        dbOperation = new ReadOperation(sql);
+        ResultSet rs2 = executor.executeOperation(dbOperation).getResultSet();
+        ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        Prodotto prodotto = new Prodotto();
+        try {
+            while (rs2.next()) {
+                if (rs2.getRow() == 0){
+                    return null;
+                }
+                Articolo articolo = articoloDAO.findById(rs2.getInt("idProdotto"));
+                prodotto.setId(rs2.getInt("idProdotto"));
+                prodotto.setName(articolo.getName());
+                prodotto.setPrezzo(articolo.getPrezzo());
+                prodotto.setDescrizione(articolo.getDescrizione());
+                prodotto.setImmagini(articolo.getImmagini());
+                prodotto.setProduttore(produttoreDAO.findById(rs2.getInt("idProduttore")));
+                prodotto.setSottoProdotti(this.getAllSottoProdotti(prodotto));
+                prodotti.add(prodotto);
+            }
+            return prodotti;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(dbOperation);
+        }
+        return null;
+    }
 }

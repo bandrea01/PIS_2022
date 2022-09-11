@@ -60,22 +60,6 @@ public class LoginListener implements ActionListener {
             frame.showInitialPanel();
             SessionManager.refresh();
         }
-
-        /*Object source = e.getSource(); //Ritorna istanza dell'oggetto che ha lanciato l'evento
-        if (source instanceof JButton) {
-            JButton btn = (JButton) source;
-            System.out.println(btn.getText());
-            String user = username.getText();
-            String pwd = new String(password.getPassword());
-            System.out.println("username: " + user);
-            System.out.println("password: " + pwd);
-            System.out.println("---------------------");
-        }
-        else if (source instanceof JMenuItem) {
-            JOptionPane.showMessageDialog(null, "Seleziona File");
-        }*/
-
-
     }
 
     public void setFrame(MainLayout frame) {

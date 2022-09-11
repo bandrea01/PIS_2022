@@ -2,16 +2,19 @@ package DAO.Servizio;
 
 import DAO.Articolo.ArticoloDAO;
 import DAO.Fornitore.FornitoreDAO;
+import DAO.Produttore.ProduttoreDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
 import Model.Articolo;
 import Model.Fornitore;
+import Model.Prodotto;
 import Model.Servizio;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ServizioDAO implements IServizioDAO {
     private final static ServizioDAO instance = new ServizioDAO();
@@ -164,5 +167,41 @@ public class ServizioDAO implements IServizioDAO {
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    public ArrayList<Servizio> findAll() {
+        executor = new DbOperationExecutor();
+        sql = "SELECT * FROM servizio";
+        dbOperation = new ReadOperation(sql);
+        ResultSet rs2 = executor.executeOperation(dbOperation).getResultSet();
+        FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ArrayList<Servizio> servizi = new ArrayList<>();
+        Servizio servizio = new Servizio();
+        try {
+            while (rs2.next()) {
+                if (rs2.getRow() == 0){
+                    return null;
+                }
+                Articolo articolo = articoloDAO.findById(rs2.getInt("idServizio"));
+                servizio.setId(rs2.getInt("idServizio"));
+                servizio.setName(articolo.getName());
+                servizio.setPrezzo(articolo.getPrezzo());
+                servizio.setDescrizione(articolo.getDescrizione());
+                servizio.setImmagini(articolo.getImmagini());
+                servizio.setFornitore(fornitoreDAO.findById(rs2.getInt("idFornitore")));
+                servizi.add(servizio);
+            }
+            return servizi;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(dbOperation);
+        }
+        return null;
     }
 }

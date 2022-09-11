@@ -1,16 +1,11 @@
 package DAO.PuntoVendita;
 
 
-import DAO.Categoria.CategoriaDAO;
+import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import DbInterface.DbConnection;
-import DbInterface.IDbConnection;
-import Model.Categoria;
-import Model.ICategoria;
-import Model.Manager;
 import Model.PuntoVendita;
 
 import java.sql.ResultSet;
@@ -46,9 +41,9 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                puntoVendita.setId(rs.getInt("idPuntoVendita"));
+                puntoVendita.setIdPuntoVendita(rs.getInt("idPuntoVendita"));
                 puntoVendita.setName(rs.getString("nome"));
-                puntoVendita.setidMan(rs.getInt("idManager"));
+                puntoVendita.setManager(rs.getInt("idManager"));
             }
             return puntoVendita;
         } catch (SQLException e) {
@@ -74,9 +69,9 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                puntoVendita.setId(rs.getInt("idPuntoVendita"));
+                puntoVendita.setIdPuntoVendita(rs.getInt("idPuntoVendita"));
                 puntoVendita.setName(rs.getString("nome"));
-                puntoVendita.setidMan(rs.getInt("idManager"));
+                puntoVendita.setManager(rs.getInt("idManager"));
             }
             return puntoVendita;
         } catch (SQLException e) {
@@ -102,9 +97,9 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                puntoVendita.setId(rs.getInt("idPuntoVendita"));
+                puntoVendita.setIdPuntoVendita(rs.getInt("idPuntoVendita"));
                 puntoVendita.setName(rs.getString("nome"));
-                puntoVendita.setidMan(rs.getInt("idManager"));
+                puntoVendita.setManager(rs.getInt("idManager"));
             }
             return puntoVendita;
         } catch (SQLException e) {
@@ -130,9 +125,9 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         try {
             while(rs.next()){
                 PuntoVendita punto = new PuntoVendita();
-                punto.setId(rs.getInt("idPuntoVendita"));
+                punto.setIdPuntoVendita(rs.getInt("idPuntoVendita"));
                 punto.setName(rs.getString("nome"));
-                punto.setidMan(rs.getInt("idManager"));
+                punto.setManager(rs.getInt("idManager"));
                 punti.add(punto);
             }
             return punti;
@@ -150,10 +145,30 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     }
 
     @Override
+    public boolean puntoVenditaExist(String name) {
+        String sql = "SELECT count(*) AS count FROM puntovendita WHERE nome ='" + name + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public int add(PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
         int rowCount;
-        sql = "INSERT INTO puntovendita (idPuntoVendita, nome, idManager) VALUES ('" + puntoVendita.getId() + "','" + puntoVendita.getName() + "','" + puntoVendita.getIdMan() + "');";
+        sql = "INSERT INTO puntovendita (idPuntoVendita, nome, idManager) VALUES ('" + puntoVendita.getIdPuntoVendita() + "','" + puntoVendita.getName() + "','" + puntoVendita.getIdManager() + "');";
         dbOperation = new WriteOperation(sql);
         rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -163,7 +178,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     @Override
     public int remove(PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + puntoVendita.getId() + "';";
+        sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -173,7 +188,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     @Override
     public int update(PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
-        sql = "UPDATE puntovendita SET idPuntoVendita = '" + puntoVendita.getId() + "', nome = '" + puntoVendita.getName() + "', idManager = '" +puntoVendita.getIdMan() + "' WHERE idPuntoVendita = '" + puntoVendita.getId() + "';";
+        sql = "UPDATE puntovendita SET idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "', nome = '" + puntoVendita.getName() + "', idManager = '" +puntoVendita.getIdManager() + "' WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

@@ -1,28 +1,28 @@
 package Model;
 
 public class PuntoVendita {
-    private int id;
+    private int idPuntoVendita;
     private String name;
-    private int idMan;
+    private int idManager;
 
 
     public PuntoVendita() {
-        id = 0;
+        idPuntoVendita = 0;
         name = "";
-        idMan = 0;
+        idManager = 0;
     }
 
-    public PuntoVendita(int id, String name, int idMan) {
-        this.id = id;
+    public PuntoVendita(int idPuntoVendita, String name, int idManager) {
+        this.idPuntoVendita = idPuntoVendita;
         this.name = name;
-        this.idMan = idMan;
+        this.idManager = idManager;
     }
 
-    public int getId() {
-        return id;
+    public int getIdPuntoVendita() {
+        return idPuntoVendita;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setIdPuntoVendita(int idPuntoVendita) {
+        this.idPuntoVendita = idPuntoVendita;
     }
     public String getName() {
         return name;
@@ -30,11 +30,11 @@ public class PuntoVendita {
     public void setName(String name) {
         this.name = name;
     }
-    public int getIdMan() {
-        return idMan;
+    public int getIdManager() {
+        return idManager;
     }
-    public void setidMan(int idMan) {
-        this.idMan = idMan;
+    public void setManager(int idManager) {
+        this.idManager = idManager;
     }
 
 }

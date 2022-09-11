@@ -1,4 +1,4 @@
-package View;
+package View.ViewModel;
 
 import View.ViewModel.RowCatalog;
 
@@ -29,7 +29,6 @@ public class CatalogoTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return rows.size();
-
     }
     @Override
     public int getColumnCount() {
