@@ -10,5 +10,6 @@ public interface IArticoloPuntoVenditaDAO {
     ArrayList<Articolo> findByPunto (PuntoVendita puntoVendita);
     int add (Articolo articolo, PuntoVendita puntoVendita);
     int remove (Articolo articolo, PuntoVendita puntoVendita);
+    int removeArticoloFromAll(Articolo articolo);
     int removeByPunto (PuntoVendita puntoVendita);
 }

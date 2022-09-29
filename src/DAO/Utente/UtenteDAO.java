@@ -117,7 +117,6 @@ public class UtenteDAO implements IUtenteDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                utente = new Utente();
                 utente.setId(rs.getInt("idUtente"));
                 utente.setName(rs.getString("nome"));
                 utente.setSurname(rs.getString("cognome"));
@@ -185,11 +184,11 @@ public class UtenteDAO implements IUtenteDAO {
         String sql = "SELECT * FROM manager";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
+        ResultSet rs1 = executor.executeOperation(readOp).getResultSet();
         ArrayList<Manager> managers = new ArrayList<>();
         try {
-            while (rs.next()) {
-                managers.add(getManagerById(rs.getInt("idManager")));
+            while (rs1.next()) {
+                managers.add(getManagerById(rs1.getInt("idManager")));
             }
             return managers;
         } catch (SQLException e) {
@@ -289,6 +288,17 @@ public class UtenteDAO implements IUtenteDAO {
         executor.close(writeOp2);
         return rowCount;
     }
+
+    @Override
+    public int removeManagerById(int id) {
+        sql = "DELETE FROM manager WHERE idManager = '" + id + "';";
+        IDbOperation writeOp = new WriteOperation(sql);
+        executor = new DbOperationExecutor();
+        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
+        executor.close(writeOp);
+        return rowCount;
+    }
+
     @Override
     public int update(Utente utente) {
         executor = new DbOperationExecutor();

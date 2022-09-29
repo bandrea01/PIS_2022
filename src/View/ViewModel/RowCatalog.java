@@ -1,30 +1,44 @@
 package View.ViewModel;
 
-public class RowCatalog {
-    private int idProdotto;
-    private String nomeProdotto;
-    private String nomeProduttore;
-    private Float prezzo;
-    private String nomeCategoria;
-    private Boolean selezionato;
+import Business.ArticoloBusiness;
 
-    public int getIdProdotto() {
-        return idProdotto;
+import javax.swing.*;
+import java.awt.*;
+import java.io.InputStream;
+
+public class RowCatalog {
+    private int idArticolo;
+    private String nome;
+    private String produttoreFornitore;
+    private Float prezzo;
+    private String categoria;
+    private JCheckBox checkBox;
+    private JButton viewImageButton;
+
+    public RowCatalog(){
+        ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
+        this.checkBox = new JCheckBox();
+        this.viewImageButton = ButtonCreator.createButton("", true, Color.WHITE, articoloBusiness.showImagePopup(), null);
+        this.viewImageButton.setIcon(new ImageIcon("resources/unisalento_jpeg.jpeg"));
     }
-    public void setIdProdotto(int idProdotto) {
-        this.idProdotto = idProdotto;
+
+    public int getIdArticolo() {
+        return idArticolo;
     }
-    public String getNomeProdotto() {
-        return nomeProdotto;
+    public void setIdArticolo(int idArticolo) {
+        this.idArticolo = idArticolo;
     }
-    public void setNomeProdotto(String nomeProdotto) {
-        this.nomeProdotto = nomeProdotto;
+    public String getNome() {
+        return nome;
     }
-    public String getNomeProduttore() {
-        return nomeProduttore;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-    public void setNomeProduttore(String nomeProduttore) {
-        this.nomeProduttore = nomeProduttore;
+    public String getProduttoreFornitore() {
+        return produttoreFornitore;
+    }
+    public void setProduttoreFornitore(String produttoreFornitore) {
+        this.produttoreFornitore = produttoreFornitore;
     }
     public Float getPrezzo() {
         return prezzo;
@@ -32,16 +46,23 @@ public class RowCatalog {
     public void setPrezzo(Float prezzo) {
         this.prezzo = prezzo;
     }
-    public String getNomeCategoria() {
-        return nomeCategoria;
+    public String getCategoria() {
+        return categoria;
     }
-    public void setNomeCategoria(String nomeCategoria) {
-        this.nomeCategoria = nomeCategoria;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
-    public boolean getSelezionato() {
-        return selezionato;
+    public boolean getChecked() {
+        return checkBox.isSelected();
     }
-    public void setSelezionato(boolean selezionato) {
-        this.selezionato = selezionato;
+    public void setChecked(boolean state) {
+        this.checkBox.setSelected(state);
+    }
+
+    public void setImageIcon(InputStream imageIcon) {
+        //this.viewImageButton.setIcon(imageIcon);
+    }
+    public ImageIcon getImageIcon(){
+        return (ImageIcon) viewImageButton.getIcon();
     }
 }

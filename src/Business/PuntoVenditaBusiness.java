@@ -50,11 +50,12 @@ public class PuntoVenditaBusiness {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
 
         PuntoVendita puntoVendita = new PuntoVendita();
-        if (!utenteDAO.userExist(manager)){
-            JOptionPane.showMessageDialog(null,"Error! Username doesn't exist");
+        if (!utenteDAO.emailExist(manager)){
+            JOptionPane.showMessageDialog(null,"Error! Email doesn't exist");
             return;
         }
-        if (!utenteDAO.isManager(manager)){
+        Utente utente = utenteDAO.findByEmail(manager);
+        if (!utenteDAO.isManager(utente.getUsername())){
             JOptionPane.showMessageDialog(null,"Error! User selected is not a manager");
             return;
         }
@@ -64,7 +65,7 @@ public class PuntoVenditaBusiness {
         }
 
         puntoVendita.setName(name);
-        puntoVendita.setManager(utenteDAO.getManagerByUsername(manager).getId());
+        puntoVendita.setManager(utente.getId());
 
         if (1 != puntoVenditaDAO.add(puntoVendita)){
             JOptionPane.showMessageDialog(null, "System Error! Sale point not created");

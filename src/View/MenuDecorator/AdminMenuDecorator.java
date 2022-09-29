@@ -1,9 +1,9 @@
-package View.Decorator;
+package View.MenuDecorator;
 
 import javax.swing.*;
 import java.util.List;
 
-public abstract class ManagerMenuDecorator extends Menu {
+public abstract class AdminMenuDecorator extends Menu {
     protected Menu menu;
 
     public abstract List<JButton> getButtons();

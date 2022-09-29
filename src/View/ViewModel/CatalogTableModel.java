@@ -1,20 +1,17 @@
 package View.ViewModel;
 
-import View.ViewModel.RowCatalog;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogoTableModel extends AbstractTableModel {
+public class CatalogTableModel extends AbstractTableModel {
 
-    private List<RowCatalog> rows = new ArrayList<>();
+    private List<RowCatalog> rows;
 
-    public CatalogoTableModel(List<RowCatalog> rows) {
+    public CatalogTableModel(List<RowCatalog> rows) {
         this.rows = rows;
     }
 
@@ -39,12 +36,12 @@ public class CatalogoTableModel extends AbstractTableModel {
         RowCatalog row = rows.get(rowIndex);
 
         switch(columnIndex) {
-            case 0: return row.getIdProdotto();
-            case 1: return row.getNomeProdotto();
-            case 2: return row.getNomeProduttore();
-            case 3: return row.getNomeCategoria();
+            case 0: return row.getIdArticolo();
+            case 1: return row.getNome();
+            case 2: return row.getProduttoreFornitore();
+            case 3: return row.getCategoria();
             case 4: return row.getPrezzo();
-            case 5: return row.getSelezionato();
+            case 5: return row.getChecked();
             case 6:
                 InputStream stream = getClass().getResourceAsStream("/chad png.jpg");
                 try {
@@ -74,15 +71,13 @@ public class CatalogoTableModel extends AbstractTableModel {
     public void setValueAt(Object value, int rowIndex, int columnIndex){
         RowCatalog row = rows.get(rowIndex);
         switch(columnIndex) {
-            case 0: row.setIdProdotto(Integer.parseInt(value.toString()));
-            case 1: row.setNomeProdotto(value.toString());
-            case 2: row.setNomeProduttore(value.toString());
-            case 3: row.setNomeCategoria(value.toString());
+            case 0: row.setIdArticolo(Integer.parseInt(value.toString()));
+            case 1: row.setNome(value.toString());
+            case 2: row.setProduttoreFornitore(value.toString());
+            case 3: row.setCategoria(value.toString());
             case 4: row.setPrezzo(Float.parseFloat(value.toString()));
-            case 5: row.setSelezionato(Boolean.parseBoolean(value.toString()));
+            case 5: row.setChecked(Boolean.parseBoolean(value.toString()));
         }
-
-        System.out.println('.');
     }
     @Override
     public Class getColumnClass(int columnIndex) {

@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,9 @@ public class Articolo implements IArticolo {
     protected String name;
     protected Float prezzo;
     protected String descrizione;
-    protected ArrayList<File> immagini;
+
     protected ICategoria categoria;
+    protected ArrayList<Immagine> immagini;
 
     public Articolo() {
     }
@@ -55,11 +57,11 @@ public class Articolo implements IArticolo {
         this.descrizione = descrizione;
     }
     @Override
-    public ArrayList<File> getImmagini() {
+    public ArrayList<Immagine> getImmagini() {
         return immagini;
     }
     @Override
-    public void setImmagini(ArrayList<File> immagini) {
+    public void setImmagini(ArrayList<Immagine> immagini) {
         this.immagini = immagini;
     }
     @Override

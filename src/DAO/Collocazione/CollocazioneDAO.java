@@ -7,6 +7,7 @@ import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
 import Model.Collocazione;
 import Model.Magazzino;
+import Model.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

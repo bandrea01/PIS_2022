@@ -90,7 +90,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     @Override
     public PuntoVendita findByIdManager(int id) {
         executor = new DbOperationExecutor();
-        sql = "SELECT idPuntoVendita, nome, idManager FROM puntovendita WHERE idManager = '" + id + "';";
+        sql = "SELECT idPuntoVendita, idManager, nome FROM puntovendita WHERE idManager = '" + id + "';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         PuntoVendita puntoVendita = new PuntoVendita();

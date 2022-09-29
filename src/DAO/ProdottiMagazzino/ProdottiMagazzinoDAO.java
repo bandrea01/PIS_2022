@@ -178,4 +178,14 @@ public class ProdottiMagazzinoDAO implements IProdottiMagazzinoDAO{
         executor.close(dbOperation);
         return rowCount;
     }
+
+    @Override
+    public int removeProdotto(Prodotto prodotto){
+        executor = new DbOperationExecutor();
+        sql = "DELETE FROM magazzino_has_prodotto WHERE idProdotto = '" + prodotto.getId() + "';";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
 }

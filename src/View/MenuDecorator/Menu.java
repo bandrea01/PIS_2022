@@ -1,4 +1,4 @@
-package View.Decorator;
+package View.MenuDecorator;
 
 import View.MainLayout;
 

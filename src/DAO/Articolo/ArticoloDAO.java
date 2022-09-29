@@ -1,5 +1,6 @@
 package DAO.Articolo;
 
+import DAO.ArticoloPuntoVendita.ArticoloPuntoVenditaDAO;
 import DAO.Categoria.CategoriaDAO;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.Servizio.ServizioDAO;
@@ -7,10 +8,14 @@ import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.*;
+import Model.Articolo;
+import Model.Prodotto;
+import Model.Servizio;
 
-import java.io.File;
-import java.sql.Blob;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,9 +44,10 @@ public class ArticoloDAO implements IArticoloDAO {
         executor = new DbOperationExecutor();
         sql = "SELECT idArticolo, nome, prezzo, descrizione, idCategoria FROM articolo WHERE idArticolo = '" + id + "';";
         dbOperation = new ReadOperation(sql);
-        rs = executor.executeOperation(dbOperation).getResultSet();
+        ResultSet rs = executor.executeOperation(dbOperation).getResultSet();
         Articolo articolo = new Articolo();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         try {
             rs.next();
             if (rs.getRow() == 1) {
@@ -50,35 +56,9 @@ public class ArticoloDAO implements IArticoloDAO {
                 articolo.setPrezzo(rs.getFloat("prezzo"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setCategoria(categoriaDAO.findById(rs.getInt("idCategoria")));
-                articolo.setImmagini(getImmagini(id));
+                articolo.setImmagini(immagineDAO.findImagesByArticoloId(rs.getInt("idArticolo")));
             }
             return articolo;
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-
-            System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            executor.close(dbOperation);
-        }
-        return null;
-    }
-
-    @Override
-    public ArrayList<File> getImmagini (int id){
-        executor = new DbOperationExecutor();
-        sql = "SELECT * FROM immagine WHERE idArticolo = '" + id + "';";
-        dbOperation = new ReadOperation(sql);
-        rs = executor.executeOperation(dbOperation).getResultSet();
-        ArrayList<File> immagini = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                File file = new File(rs.getString("immagine"));
-                immagini.add(file);
-            }
-            return immagini;
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -100,6 +80,7 @@ public class ArticoloDAO implements IArticoloDAO {
         rs = executor.executeOperation(dbOperation).getResultSet();
         Articolo articolo = new Articolo();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         try {
             rs.next();
             if (rs.getRow() == 1) {
@@ -108,7 +89,8 @@ public class ArticoloDAO implements IArticoloDAO {
                 articolo.setPrezzo(rs.getFloat("prezzo"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setCategoria(categoriaDAO.findById(rs.getInt("idCategoria")));
-                //articolo.setImmagini(this.getImmagini(articolo.getId()));
+                articolo.setImmagini(immagineDAO.findImagesByArticoloId(rs.getInt("idArticolo")));
+
             }
             return articolo;
         } catch (SQLException e) {
@@ -120,6 +102,33 @@ public class ArticoloDAO implements IArticoloDAO {
             System.out.println("Resultset: " + e.getMessage());
         } finally {
             executor.close(dbOperation);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Articolo> findAll() {
+        String sql = "SELECT * FROM articolo";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
+        ArrayList<Articolo> articoli = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Articolo articolo = findById(rs.getInt("IdArticolo"));
+                articoli.add(articolo);
+            }
+            return articoli;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
         }
         return null;
     }
@@ -217,6 +226,7 @@ public class ArticoloDAO implements IArticoloDAO {
 
     @Override
     public int removeById(int id) {
+        ArticoloPuntoVenditaDAO.getInstance().removeArticoloFromAll(findById(id));
         executor = new DbOperationExecutor();
         sql = "DELETE FROM articolo WHERE idArticolo = '" + id + "';";
         if (this.isProdotto(id)){
@@ -235,6 +245,7 @@ public class ArticoloDAO implements IArticoloDAO {
 
     @Override
     public int removeByName(String name) {
+        ArticoloPuntoVenditaDAO.getInstance().removeArticoloFromAll(findByName(name));
         ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ServizioDAO servizioDAO = ServizioDAO.getInstance();
         executor = new DbOperationExecutor();

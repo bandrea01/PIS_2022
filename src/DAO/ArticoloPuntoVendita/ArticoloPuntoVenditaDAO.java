@@ -83,6 +83,17 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
     }
 
     @Override
+    public int removeArticoloFromAll(Articolo articolo) {
+        executor = new DbOperationExecutor();
+        sql = "DELETE FROM puntovendita_has_articolo WHERE idArticolo = '" + articolo.getId() + "';";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+
+    @Override
     public int removeByPunto(PuntoVendita puntoVendita){
         executor = new DbOperationExecutor();
         sql = "DELETE FROM puntovendita_has_articolo WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";

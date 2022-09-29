@@ -2,8 +2,13 @@ package View.Panel;
 
 import Business.PuntoVenditaBusiness;
 import Business.UtenteBusiness;
+import DAO.Articolo.ArticoloDAO;
+import DAO.Prodotto.ProdottoDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
+import DAO.Servizio.ServizioDAO;
+import Model.Prodotto;
 import Model.PuntoVendita;
+import Model.Servizio;
 import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
@@ -12,22 +17,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ManagePointsPanel extends JPanel {
+public class ManageCatalogPanel extends JPanel {
     MainLayout window;
     JPanel centre;
     JPanel south;
     ManagePointsListener listener;
-    public ManagePointsPanel(MainLayout window) {
+    public ManageCatalogPanel(MainLayout window) {
         this.setLayout(new BorderLayout(20,20));
         this.window = window;
-        this.listener = new ManagePointsListener(window);
+        //this.listener = new ManageCatalogListener(window);
 
         //Pannello punti centre
         centre = new JPanel();
         centre.setLayout(new GridLayout(0,2));
-        for (JButton b : getPointsButtons()){
-            centre.add(b);
-        }
+        //for (JButton b : getPointsButtons()){
+          //  centre.add(b);
+        //}
 
         //Pannello bottoni south
         south = new JPanel();
@@ -48,14 +53,22 @@ public class ManagePointsPanel extends JPanel {
         this.repaint(); this.validate();
     }
 
-    public ArrayList<JButton> getPointsButtons(){
-        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        ArrayList<PuntoVendita> punti = puntoVenditaDAO.findAll();
+    public ArrayList<JButton> getProdottiButtons(){
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        ServizioDAO servizioDAO = ServizioDAO.getInstance();
+
+        ArrayList<Prodotto> prodotti = prodottoDAO.findAll();
+        ArrayList<Servizio> servizi = servizioDAO.findAll();
+
+        for (Prodotto p : prodotti){
+
+        }
         ArrayList<JButton> buttons = new ArrayList<>();
         PuntoVenditaBusiness puntoVenditaBusiness = PuntoVenditaBusiness.getInstance();
-        for (PuntoVendita p : punti){
-            buttons.add(ButtonCreator.createButton(p.getName(), true, ButtonCreator.SLIME, e -> puntoVenditaBusiness.showInformations(p) , null));
-        }
+        //for (PuntoVendita p : punti){
+          //  buttons.add(ButtonCreator.createButton(p.getName(), true, ButtonCreator.SLIME, e -> puntoVenditaBusiness.showInformations(p) , null));
+        //}
         return buttons;
     }
 }

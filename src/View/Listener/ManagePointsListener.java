@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public class ManagePointsListener implements ActionListener {
     public final static String MODIFY_BTN = "modify-btn";
     public final static String DELETE_BTN = "delete-btn";
+    public final static String DELETE_MAN_BTN = "delete-man-btn";
+
     private MainLayout window;
 
     public ManagePointsListener(MainLayout window) {
@@ -57,6 +59,21 @@ public class ManagePointsListener implements ActionListener {
             PuntoVenditaBusiness puntoVenditaBusiness = new PuntoVenditaBusiness();
             puntoVenditaBusiness.deletePunto(puntoVenditaDAO.findByName(input));
             window.managePoints();
+        } else if (DELETE_MAN_BTN.equalsIgnoreCase(action)){
+            UtenteDAO utenteDAO = UtenteDAO.getInstance();
+            ArrayList<Manager> managers = utenteDAO.findAllManagers();
+            Object[] options = new Object[managers.size()];
+            for (int i = 0; i < managers.size(); i++){
+                options[i] = managers.get(i).getUsername();
+            }
+            String input = (String) JOptionPane.showInputDialog(
+                    null, "Select managers you want to delete", null ,
+                    JOptionPane.QUESTION_MESSAGE, null, options, null);
+            if (input == null){
+                return;
+            }
+            UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
+            utenteBusiness.deleteManager(input);
         }
     }
 }

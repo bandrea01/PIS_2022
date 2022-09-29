@@ -1,11 +1,9 @@
-package View.Decorator;
+package View.MenuDecorator;
 
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 /**

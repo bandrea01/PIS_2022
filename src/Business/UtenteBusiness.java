@@ -32,7 +32,6 @@ public class UtenteBusiness {
 
     public LoginResult login(String username, String password) {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         LoginResult result = new LoginResult();
 
         //1. Controllare se esiste l'utente
@@ -88,7 +87,7 @@ public class UtenteBusiness {
             JOptionPane.showMessageDialog(null, "Password length must be at least 8 alphanumeric characters");
             return false;
         }
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern pattern = Pattern.compile("[^a-zA-Z\\d]");
         Matcher matcher = pattern.matcher(password);
         boolean specialFound = matcher.find();
         if (specialFound){
@@ -101,7 +100,7 @@ public class UtenteBusiness {
             return false;
         }
         //Controllo Telefono
-        Pattern pattern2 = Pattern.compile("[^0-9]");
+        Pattern pattern2 = Pattern.compile("\\D");
         Matcher matcher2 = pattern2.matcher(telefono);
         boolean notDigit = matcher2.find();
         if(notDigit){
@@ -141,8 +140,21 @@ public class UtenteBusiness {
 
         return utenteDAO.addUtente(utente) == 1;
     }
-
-
+    public void deleteManager(String username){
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        Utente utente = utenteDAO.findByUsername(username);
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByIdManager(utente.getId());
+        if (!"".equalsIgnoreCase(puntoVendita.getName())){
+            JOptionPane.showMessageDialog(null,"Can't delete manager: change manager in sale point " + puntoVendita.getName() + " first");
+            return;
+        }
+        if (1 != utenteDAO.removeManagerById(utente.getId())){
+            JOptionPane.showMessageDialog(null, "System error! Can't delete manager");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Manager successfully deleted!");
+    }
     public void createManager() {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
         String input = JOptionPane.showInputDialog(null, "Insert user's email to be made manager");

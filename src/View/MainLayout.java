@@ -6,7 +6,7 @@ import Model.Amministratore;
 import Model.Manager;
 import Model.PuntoVendita;
 import Model.Utente;
-import View.Decorator.*;
+import View.MenuDecorator.*;
 import View.Listener.LoginListener;
 import View.Panel.*;
 import View.ViewModel.ButtonCreator;
@@ -27,11 +27,10 @@ public class MainLayout extends JFrame {
     private JPanel down;
     private JMenuBar menuBar;
 
-
     public MainLayout(){
         //Settaggio finestra principale applicazione
         super ("MyShop");
-        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("unisalento_logo.jpeg"))).getImage());
+        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/unisalento_logo.jpeg"))).getImage());
         this.setSize(500, 500);
         this.setFont(new Font("Sans",Font.BOLD,15));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,7 +137,10 @@ public class MainLayout extends JFrame {
     }
     public void showCatalog() {
         centre.removeAll();
-        centre.add(new CatalogoPanel());
+        this.setSize(new Dimension(700, 500));
+        repaint(); validate();
+        this.setLocationRelativeTo(null);
+        centre.add(new CatalogPanel());
         repaint();
         validate();
     }
@@ -158,7 +160,7 @@ public class MainLayout extends JFrame {
         }
         //Sessione admin
         else if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Amministratore) {
-            View.Decorator.Menu guestMenu = new GuestMenu(this);
+            View.MenuDecorator.Menu guestMenu = new GuestMenu(this);
             AdminMenuDecorator adminMenu = new AdminMenu(guestMenu, this);
             for (JButton b : adminMenu.getButtons()) {
                 left.add(b);
@@ -166,7 +168,7 @@ public class MainLayout extends JFrame {
         }
         //Sessione cliente
         else if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Utente) {
-            View.Decorator.Menu guestMenu = new GuestMenu(this);
+            View.MenuDecorator.Menu guestMenu = new GuestMenu(this);
             ClienteMenuDecorator clienteMenu = new ClienteMenu(guestMenu, this);
             for (JButton b : clienteMenu.getButtons()) {
                 left.add(b);
@@ -174,7 +176,7 @@ public class MainLayout extends JFrame {
         }
         //Sessione guest
         else {
-            View.Decorator.Menu menu = new GuestMenu(this);
+            View.MenuDecorator.Menu menu = new GuestMenu(this);
             for (JButton b : menu.getButtons()) {
                 left.add(b);
             }
@@ -217,8 +219,8 @@ public class MainLayout extends JFrame {
     public void manageCatalog() {
         //TODO
     }
-
-    public void showPoint() {
-        System.out.println("done");
+    public void resizeFrame(){
+        this.setSize(new Dimension(500,500));
+        this.setLocationRelativeTo(null);
     }
 }

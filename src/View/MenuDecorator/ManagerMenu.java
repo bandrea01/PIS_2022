@@ -1,6 +1,5 @@
-package View.Decorator;
+package View.MenuDecorator;
 
-import Model.Manager;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
 

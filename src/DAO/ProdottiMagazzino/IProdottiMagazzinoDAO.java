@@ -16,5 +16,6 @@ public interface IProdottiMagazzinoDAO {
     int add(ProdottiMagazzino prodottoMagazzino);
     int update(ProdottiMagazzino prodottoMagazzino);
     int remove(ProdottiMagazzino prodottoMagazzino);
+    int removeProdotto(Prodotto prodotto);
 
 }

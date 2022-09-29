@@ -18,6 +18,7 @@ public interface IUtenteDAO {
     int addAdmin(Amministratore amministratore);
     int removeById(int id);
     int removeByUsername(String username);
+    int removeManagerById(int id);
     int update(Utente utente);
     boolean userExist(String username);
     boolean emailExist(String email);
@@ -28,6 +29,7 @@ public interface IUtenteDAO {
     boolean isAdmin(String username);
     Manager getManagerByUsername(String username);
     Manager getManagerById(int id);
+
     Amministratore getAdminByUsername(String name);
 
     Amministratore getAdminById(int id);

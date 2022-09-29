@@ -5,13 +5,12 @@ import DAO.Articolo.ArticoloDAO;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Servizio.ServizioDAO;
-import Model.Articolo;
-import Model.Prodotto;
-import Model.PuntoVendita;
-import Model.Servizio;
+import DAO.Utente.UtenteDAO;
+import Model.*;
 import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
+import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +23,7 @@ public class CreatePointPanel extends JPanel {
 
     public CreatePointPanel(MainLayout window) {
         this.window = window;
-        this.setLayout(new BorderLayout(10,10));
+        this.setLayout(new BorderLayout());
 
         //Pannelli
         JPanel infoPanel = new JPanel();
@@ -36,27 +35,31 @@ public class CreatePointPanel extends JPanel {
 
         //Info panel
         JLabel pointName = new JLabel("Sale point name: ");
-        JLabel managerUsername = new JLabel("Manager username: ");
+        JLabel managerUsername = new JLabel("Manager email: ");
         JTextField pointNameField = new JTextField();
-        JTextField managerUsernameField = new JTextField();
+
+        String[] managerEmails = getManagerEmails();
+        WideComboBox emailChooses = new WideComboBox(managerEmails);
+        emailChooses.setPreferredSize(new Dimension(7,7));
+        emailChooses.setWide(true);
 
         infoPanel.add(pointName);
         infoPanel.add(pointNameField);
         infoPanel.add(managerUsername);
-        infoPanel.add(managerUsernameField);
+        infoPanel.add(emailChooses);
 
         //Articoli panel
         ArrayList<JCheckBox> articoliBox = getArticoliCheckBox();
         for (JCheckBox c : articoliBox) {
             articoliPanel.add(c);
-            articoliPanel.repaint(); articoliPanel.validate();
         }
         add(infoPanel, BorderLayout.NORTH);
         add(articoliPanel, BorderLayout.CENTER);
 
         //Buttons panel
         PuntoVenditaBusiness puntoVenditaBusiness = new PuntoVenditaBusiness();
-        buttonsPanel.add(ButtonCreator.createButton("Conferma", true, ButtonCreator.LILLE, e -> puntoVenditaBusiness.createPuntoVendita(pointNameField.getText(), managerUsernameField.getText(), getSelectedArticles(articoliPanel), window) , null));
+        String selectedEmail = (String) emailChooses.getSelectedItem();
+        buttonsPanel.add(ButtonCreator.createButton("Conferma", true, ButtonCreator.LILLE, e -> puntoVenditaBusiness.createPuntoVendita(pointNameField.getText(), selectedEmail, getSelectedArticles(articoliPanel), window) , null));
         buttonsPanel.add(ButtonCreator.createButton("Select all", true, ButtonCreator.LILLE, e -> selectAll(articoliPanel), null));
         buttonsPanel.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.managePoints(), null));
 
@@ -64,6 +67,15 @@ public class CreatePointPanel extends JPanel {
 
         repaint();
         validate();
+    }
+
+    private String[] getManagerEmails() {
+        ArrayList<Manager> managers = UtenteDAO.getInstance().findAllManagers();
+        String[] emails = new String[managers.size()];
+        for (int i = 0; i < managers.size(); i++){
+            emails[i] = managers.get(i).getEmail();
+        }
+        return emails;
     }
 
     public ArrayList<JCheckBox> getArticoliCheckBox(){

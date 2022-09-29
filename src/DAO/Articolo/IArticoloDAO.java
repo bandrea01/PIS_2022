@@ -4,13 +4,13 @@ import Model.Articolo;
 import Model.Prodotto;
 import Model.Servizio;
 
-import java.io.File;
+import java.awt.*;
 import java.util.ArrayList;
 
 public interface IArticoloDAO {
     Articolo findById (int id);
     Articolo findByName (String name);
-    ArrayList<File> getImmagini(int id);
+    ArrayList<Articolo> findAll();
     boolean isProdotto(int id);
     boolean isServizio(int id);
     int addProdotto (Prodotto prodotto);
