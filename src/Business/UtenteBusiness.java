@@ -42,7 +42,8 @@ public class UtenteBusiness {
             return result;
         }
         //2. Controllare se username e password coincidono
-        boolean credentialsOk = utenteDAO.checkCredentials(username, password);
+        String hash = HashingBusiness.encrypt(password);
+        boolean credentialsOk = utenteDAO.checkCredentials(username, hash);
         if(!credentialsOk) {
             result.setResult(LoginResult.Result.WRONG_PASSWORD);
             result.setMessage("Wrong password!");
@@ -132,7 +133,7 @@ public class UtenteBusiness {
         utente.setSurname(cognome);
         utente.setUsername(username);
         utente.setEmail(email);
-        utente.setPassword(password);
+        utente.setPassword(HashingBusiness.encrypt(password));
         utente.setPhone(telefono);
         utente.setAge(eta);
         utente.setCity(residenza);

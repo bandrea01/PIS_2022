@@ -35,9 +35,9 @@ public class LoginListener implements ActionListener {
             String user = username.getText();
             String pwd = new String(password.getPassword());
 
-            System.out.println("username: " + user);
-            System.out.println("password: " + pwd);
-            System.out.println("---------------------");
+//            System.out.println("username: " + user);
+//            System.out.println("password: " + pwd);
+//            System.out.println("---------------------");
 
             if (user.contains(";")){
                 JOptionPane.showMessageDialog(null, "Wrong Username");

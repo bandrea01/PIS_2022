@@ -12,10 +12,6 @@ import Model.Articolo;
 import Model.Prodotto;
 import Model.Servizio;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
