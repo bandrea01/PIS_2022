@@ -49,7 +49,7 @@ public class SignInPanel extends JPanel {
         gridPanel.add(residenzaLabel); gridPanel.add(residenza);
         gridPanel.add(professioneLabel); gridPanel.add(professione);
 
-        gridPanel.add(ButtonCreator.createButton("Sign in", true, ButtonCreator.SALMON, e -> {
+        gridPanel.add(ButtonCreator.createButton("Sign in", true, ButtonCreator.SLIME, e -> {
             UtenteBusiness utenteBusiness = new UtenteBusiness();
             try {
                 boolean signed = utenteBusiness.signIn(nome.getText(), cognome.getText(), username.getText(), email.getText(),

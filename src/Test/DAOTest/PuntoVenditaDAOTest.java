@@ -14,8 +14,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class PuntoVenditaDAOTest {
-    static PuntoVendita myShopLecce = new PuntoVendita(1, "MyShopLecce", 1);
-    static Manager manager = new Manager(1,"Luca","Mainetti","luca.mainetti@gmail.com","lmainetti","352", "22222222", 40, "Lecce", "Docente", myShopLecce);
+    static PuntoVendita myShopLecce = new PuntoVendita(9990, "MyShopLecce", 9991);
+    static Manager manager = new Manager(9991,"Name","Surname","manager@gmail.com","user","12345678", "22222222", 40, "Lecce", "Docente", myShopLecce);
 
     @Before
     public void setUp() {
@@ -44,7 +44,7 @@ public class PuntoVenditaDAOTest {
     public void findAllTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         ArrayList<PuntoVendita> punti = puntoVenditaDAO.findAll();
-        Assert.assertEquals(1, punti.size());
+        Assert.assertEquals(2, punti.size());
     }
     @Test
     public void remove() {

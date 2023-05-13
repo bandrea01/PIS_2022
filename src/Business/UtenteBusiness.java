@@ -42,8 +42,9 @@ public class UtenteBusiness {
             return result;
         }
         //2. Controllare se username e password coincidono
-        String hash = HashingBusiness.encrypt(password);
-        boolean credentialsOk = utenteDAO.checkCredentials(username, hash);
+        String hashed = utenteDAO.findByUsername(username).getPassword();
+        HashingBusiness hashingBusiness = new HashingBusiness();
+        boolean credentialsOk = hashingBusiness.checkPassword(password, hashed);
         if(!credentialsOk) {
             result.setResult(LoginResult.Result.WRONG_PASSWORD);
             result.setMessage("Wrong password!");
@@ -57,7 +58,7 @@ public class UtenteBusiness {
         if (isManager) {
             Manager manager = utenteDAO.getManagerByUsername(username);
             SessionManager.getSession().put(SessionManager.LOGGED_USER, manager);
-            result.setMessage("Welcome " + manager.getName() + "!");
+            result.setMessage("Welcome " + manager.getName() + " manager!");
         } else if (isAdmin) {
             Amministratore admin = utenteDAO.getAdminByUsername(username);
             SessionManager.getSession().put(SessionManager.LOGGED_USER, admin);

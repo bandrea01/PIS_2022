@@ -15,10 +15,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class UtenteDAOTest {
-    static PuntoVendita myShopLecce = new PuntoVendita(1, "MyShopLecce", 3);
-    static Utente utente = new Utente(1,"Cristian","Scarciglia","cristian.scarciglia@gmail.com","cristians","111","11111111", 21, "Nociglia", "Studente");
-    static Manager manager = new Manager(3,"Luca","Mainetti","luca.mainetti@gmail.com","lmainetti","352", "22222222", 40, "Lecce", "Docente", myShopLecce);
-    static Amministratore amministratore = new Amministratore(2,"Andrea","Barone","andrea.barone@gmail.com","bandrea","123","3202944654", 21, "Poggiardo", "Studente");
+    static PuntoVendita myShopLecce = new PuntoVendita(9990, "MyShopLecce", 9992);
+    static Utente utente = new Utente(9991,"Francesco","Rossi","francesco.rossi@gmail.com","frossi","12345678","11111111", 21, "Roma", "Studente");
+    static Manager manager = new Manager(9992,"Maria","Ferri","maria.ferri@gmail.com","mferri","12345678", "22222222", 40, "Lecce", "Docente", myShopLecce);
+    static Amministratore amministratore = new Amministratore(9993,"Admin","Admin","admin@gmail.com","admin","12345678","3202944654", 21, "Poggiardo", "Studente");
 
     @Before
     public void setUp() {
@@ -36,51 +36,51 @@ public class UtenteDAOTest {
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
 
         puntoVenditaDAO.remove(myShopLecce);
-        utenteDAO.removeById(2);
-        utenteDAO.removeById(3);
-        utenteDAO.removeByUsername("cristians");
+        utenteDAO.removeById(9993);
+        utenteDAO.removeById(9992);
+        utenteDAO.removeById(9991);
     }
 
     @Test
     public void findByIdTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Utente utente1 = utenteDAO.findById(1);
-        Assert.assertEquals("Scarciglia", utente1.getSurname());
-        Utente utente2 = utenteDAO.findById(2);
-        Assert.assertEquals("Andrea", utente2.getName());
-        Utente utente3 = utenteDAO.findById(3);
-        Assert.assertEquals("Docente", utente3.getJob());
+        Utente utente1 = utenteDAO.findById(9991);
+        Assert.assertEquals("Rossi", utente1.getSurname());
+        Utente utente2 = utenteDAO.findById(9992);
+        Assert.assertEquals("Maria", utente2.getName());
+        Utente utente3 = utenteDAO.findById(9993);
+        Assert.assertEquals("Studente", utente3.getJob());
     }
     @Test
     public void findByUsernameTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Utente utente = utenteDAO.findByUsername("bandrea");
+        Utente utente = utenteDAO.findByUsername("frossi");
         Assert.assertEquals("Studente", utente.getJob());
     }
     @Test
     public void findAllTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         ArrayList<Utente> utenti = utenteDAO.findAll();
-        Assert.assertEquals(3, utenti.size());
+        Assert.assertEquals(5, utenti.size());
     }
     @Test
     public void updateTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Utente utente = new Utente(2,"Andrea","Barone","andrea.barone@gmail.com","bandrea","123","111111111", 21, "Poggiardo", "Studente");
+        Utente utente = new Utente(9991,"New","Utente","user@gmail.com","user","12345678","111111111", 21, "Poggiardo", "Studente");
         int rowCount = utenteDAO.update(utente);
-        utente = utenteDAO.findByUsername("bandrea");
-        Assert.assertEquals("andrea.barone@gmail.com", utente.getEmail());
+        utente = utenteDAO.findByUsername("user");
+        Assert.assertEquals("user@gmail.com", utente.getEmail());
         Assert.assertEquals(1, rowCount);
     }
     @Test
     public void userExists(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Assert.assertTrue(utenteDAO.userExist("lmainetti"));
+        Assert.assertTrue(utenteDAO.userExist("mferri"));
     }
     @Test
     public void emailExist(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Assert.assertTrue(utenteDAO.emailExist("andrea.barone@gmail.com"));
+        Assert.assertTrue(utenteDAO.emailExist("admin@gmail.com"));
     }
     @Test
     public void phoneExist(){
@@ -90,22 +90,22 @@ public class UtenteDAOTest {
     @Test
     public void checkCredentials(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Assert.assertTrue(utenteDAO.checkCredentials("bandrea", "123"));
+        Assert.assertTrue(utenteDAO.checkCredentials("admin", "12345678"));
     }
     @Test
     public void getByUsername(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Manager manager = utenteDAO.getManagerByUsername("lmainetti");
-        Amministratore admin = utenteDAO.getAdminByUsername("bandrea");
-        Assert.assertEquals("123", admin.getPassword());
+        Manager manager = utenteDAO.getManagerByUsername("mferri");
+        Amministratore admin = utenteDAO.getAdminByUsername("admin");
+        Assert.assertEquals("12345678", admin.getPassword());
         Assert.assertEquals("Docente", manager.getJob());
     }
     @Test
     public void getById(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Manager manager = utenteDAO.getManagerById(3);
-        Amministratore admin = utenteDAO.getAdminById(2);
-        Assert.assertEquals("123", admin.getPassword());
+        Manager manager = utenteDAO.getManagerById(9992);
+        Amministratore admin = utenteDAO.getAdminById(9993);
+        Assert.assertEquals("12345678", admin.getPassword());
         Assert.assertEquals("Docente", manager.getJob());
     }
 }
