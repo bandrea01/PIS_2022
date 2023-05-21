@@ -4,11 +4,9 @@ import Business.ImmagineBusiness;
 import DAO.Articolo.ArticoloDAO;
 import DAO.Articolo.ImmagineDAO;
 import DAO.Categoria.CategoriaDAO;
+import DAO.Prodotto.ProdottoDAO;
 import DAO.Produttore.ProduttoreDAO;
-import Model.Categoria;
-import Model.Immagine;
-import Model.Prodotto;
-import Model.Produttore;
+import Model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +14,6 @@ import org.junit.Test;
 import javax.swing.*;
 import java.awt.*;
 
-
-//TODO DAO per le immagini in locale
 public class ImmagineDAOTest {
     Categoria categoria = new Categoria(1000, "categoria", null);
     Produttore produttore = new Produttore(1000, "produttore", "sito", "citta", "nazione");
