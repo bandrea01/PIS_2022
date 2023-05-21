@@ -1,8 +1,6 @@
 package Test.DAOTest;
 
-import Business.ImmagineBusiness;
 import DAO.Articolo.ArticoloDAO;
-import DAO.Articolo.ImmagineDAO;
 import DAO.Categoria.CategoriaDAO;
 import DAO.Fornitore.FornitoreDAO;
 import DAO.Prodotto.ProdottoDAO;
@@ -13,25 +11,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ArticoloDAOTest {
-    static Categoria categoria = new Categoria(1001, "Cucina", null);
-    static Immagine immagine = new Immagine(1000, 1000, ImmagineBusiness.getInstance().getImageByFilename("resources/Fridge.png"));
-    static Fornitore fornitore = new Fornitore(1001,"Amazon", "www.amazon.com", "Seattle", "USA");
-    static Produttore produttore1 = new Produttore(1001,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-    static Prodotto prodotto = new Prodotto(1000, "Frigorifero", 150F, "un frigorifero", categoria, produttore1);
-    static Prodotto sottoProdotto1 = new Prodotto(1001, "Fornelli", 75F, "dei fornelli", categoria, produttore1);
-    static Prodotto sottoProdotto2 = new Prodotto(1002, "Griglia", 10F, "una griglia", categoria, produttore1);
+    //TODO aggiungere le immagini per i test
+    static Categoria categoria = new Categoria(9999, "Cucina", null);
+    static Immagine immagine = new Immagine(9999, 1000,null);
+    static Fornitore fornitore = new Fornitore(9999,"Amazon", "www.amazon.com", "Seattle", "USA");
+    static Produttore produttore1 = new Produttore(9998,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static Prodotto prodotto = new Prodotto(9990, "Frigorifero", 150F, "un frigorifero", categoria, produttore1);
+    static Prodotto sottoProdotto1 = new Prodotto(9991, "Fornelli", 75F, "dei fornelli", categoria, produttore1);
+    static Prodotto sottoProdotto2 = new Prodotto(9992, "Griglia", 10F, "una griglia", categoria, produttore1);
     public ArrayList<Prodotto> array = new ArrayList<>(2);
     static Prodotto prodotto2;
-    static Servizio servizio = new Servizio(2000,"Montaggio", 300F, "montaggio cucina", categoria, fornitore);
-
-    public ArticoloDAOTest() throws IOException {
-    }
-
+    static Servizio servizio = new Servizio(9994,"Montaggio", 300F, "montaggio cucina", categoria, fornitore);
 
     @Before
     public void setUp () throws IOException {
@@ -39,12 +33,11 @@ public class ArticoloDAOTest {
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+        //ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
 
-        Image image = ImmagineBusiness.getInstance().getImageByFilename("resources/frigorifero.jpeg");
         array.add(sottoProdotto1);
         array.add(sottoProdotto2);
-        prodotto2 = new Prodotto(1003, "Piano cottura", "un piano cottura", categoria, produttore1, array);
+        prodotto2 = new Prodotto(9993, "Piano cottura", "un piano cottura", categoria, produttore1, array);
 
         categoriaDAO.add(categoria);
         produttoreDAO.add(produttore1);
@@ -54,18 +47,18 @@ public class ArticoloDAOTest {
         articoloDAO.addProdotto(sottoProdotto2);
         articoloDAO.addProdotto(prodotto2);
         articoloDAO.addServizio(servizio);
-        immagineDAO.add(immagine);
+        //immagineDAO.add(immagine);
     }
 
     @Test
     public void findById(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Articolo a1 = articoloDAO.findById(1);
+        Articolo a1 = articoloDAO.findById(9990);
         Assert.assertEquals("un frigorifero", a1.getDescrizione());
-        Articolo a2 = articoloDAO.findById(2);
+        Articolo a2 = articoloDAO.findById(9994);
         Assert.assertEquals("montaggio cucina", a2.getDescrizione());
-        Articolo a3 = articoloDAO.findById(3);
+        Articolo a3 = articoloDAO.findById(9993);
         Assert.assertEquals("un piano cottura", a3.getDescrizione());
     }
 
@@ -100,20 +93,20 @@ public class ArticoloDAOTest {
     public void updateProdotto(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Prodotto p = new Prodotto(1, "Frigorifero","un frigorifero", categoria, produttore1, array);
+        Prodotto p = new Prodotto(9990, "Frigorifero","Un frigorifero bianco", categoria, produttore1, array);
 
         articoloDAO.updateProdotto(p);
-        Assert.assertEquals(0, Float.compare(85F, articoloDAO.findById(p.getId()).getPrezzo()));
+        Assert.assertEquals("Un frigorifero bianco", articoloDAO.findById(9990).getDescrizione());
     }
 
     @Test
     public void updateServizio(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Servizio s = new Servizio(2,"Montaggio cucina", 300F, "montaggio cucina", categoria, fornitore);
+        Servizio s = new Servizio(9994,"Montaggio cucina", 200F, "montaggio cucina", categoria, fornitore);
 
         articoloDAO.updateServizio(s);
-        Assert.assertEquals("Montaggio cucina", articoloDAO.findById(s.getId()).getName());
+        Assert.assertEquals(0, Float.compare(200F, articoloDAO.findById(9994).getPrezzo()));
     }
 
     @Test
@@ -135,8 +128,8 @@ public class ArticoloDAOTest {
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
-        Image image = ImmagineBusiness.getInstance().getImageByFilename("resources/frigorifero.jpeg");
+        //ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+        //Image image = ImmagineBusiness.getInstance().getImageByFilename("resources/frigorifero.jpeg");
 
         //immagineDAO.removeSingleImage(image.getSource().toString());
         articoloDAO.removeById(prodotto.getId());

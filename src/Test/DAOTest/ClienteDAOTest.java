@@ -1,24 +1,24 @@
 package Test.DAOTest;
 
 import Business.FactoryMethod.NotificationFactory;
-import DAO.Categoria.CategoriaDAO;
-import DAO.Categoria.ICategoriaDAO;
 import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Utente.IUtenteDAO;
 import DAO.Utente.UtenteDAO;
-import Model.*;
+import Model.Cliente;
+import Model.Manager;
+import Model.PuntoVendita;
+import Model.Utente;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 public class ClienteDAOTest {
-    static PuntoVendita myShopLecce = new PuntoVendita(1, "MyShopLecce", 1);
-    static Manager manager = new Manager(1,"Luca","Mainetti","luca.mainetti@gmail.com","lmainetti","352", "22222222", 40, "Lecce", "Docente", myShopLecce);
-    static Cliente cliente = new Cliente(2,"Andrea","Barone","andrea.barone@gmail.com","bandrea","124", "111111", 21, "Lecce", "Studente", null, null, myShopLecce, NotificationFactory.TipoNotifica.PUSH, false);
+    static PuntoVendita punto = new PuntoVendita(9999, "punto", 9991);
+    static Manager manager = new Manager(9991,"name","surname","manager@gmail.com","username","12345678","11111111",30,"city","DOcente", punto);
+    static Utente utente = new Utente(9992,"Francesco","Rossi","francesco.rossi@gmail.com","frossi","12345678","11111111", 21, "Roma", "Studente");
+
+    static Cliente cliente = new Cliente(utente, null, null, punto, NotificationFactory.TipoNotifica.PUSH, false);
 
     @Before
     public void setUp() {
@@ -27,7 +27,7 @@ public class ClienteDAOTest {
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
 
         utenteDAO.addManager(manager);
-        puntoVenditaDAO.add(myShopLecce);
+        puntoVenditaDAO.add(punto);
         clientePuntoVenditaDAO.add(cliente);
 
     }
@@ -38,7 +38,7 @@ public class ClienteDAOTest {
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
 
         clientePuntoVenditaDAO.remove(cliente);
-        puntoVenditaDAO.remove(myShopLecce);
+        puntoVenditaDAO.remove(punto);
         utenteDAO.removeById(manager.getId());
     }
 
@@ -46,14 +46,14 @@ public class ClienteDAOTest {
     public void isClienteRegistred(){
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
 
-        Assert.assertTrue(clientePuntoVenditaDAO.isClienteRegistred(cliente, myShopLecce));
+        Assert.assertTrue(clientePuntoVenditaDAO.isClienteRegistred(cliente, punto));
     }
 
     @Test
     public void isClienteBanned(){
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
 
-        Assert.assertFalse(clientePuntoVenditaDAO.isClienteBanned(cliente, myShopLecce));
+        Assert.assertFalse(clientePuntoVenditaDAO.isClienteBanned(cliente, punto));
     }
 
 

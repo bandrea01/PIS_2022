@@ -14,7 +14,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class PuntoVenditaDAOTest {
-    static PuntoVendita myShopLecce = new PuntoVendita(9990, "MyShopLecce", 9991);
+    static PuntoVendita myShopLecce = new PuntoVendita(9990, "MyShopTest", 9991);
     static Manager manager = new Manager(9991,"Name","Surname","manager@gmail.com","user","12345678", "22222222", 40, "Lecce", "Docente", myShopLecce);
 
     @Before
@@ -31,14 +31,14 @@ public class PuntoVenditaDAOTest {
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
 
-        puntoVenditaDAO.remove(myShopLecce);
-        utenteDAO.removeById(1);
+        puntoVenditaDAO.removeById(9990);
+        utenteDAO.removeById(9991);
     }
     @Test
     public void findByNameTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        PuntoVendita puntoVendita = puntoVenditaDAO.findByName("MyShopLecce");
-        Assert.assertEquals("MyShopLecce", puntoVendita.getName());
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName("MyShopTest");
+        Assert.assertEquals("MyShopTest", puntoVendita.getName());
     }
     @Test
     public void findAllTest() {
@@ -55,11 +55,11 @@ public class PuntoVenditaDAOTest {
     @Test
     public void updateTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        PuntoVendita puntoVendita = new PuntoVendita(1, "MyShopBari", 1);
+        PuntoVendita puntoVendita = new PuntoVendita(9990, "MyShopTestUpdate", 9991);
         int rowCount = puntoVenditaDAO.update(puntoVendita);
-        puntoVendita = puntoVenditaDAO.findByName("MyShopBari");
-        Assert.assertEquals(1, puntoVendita.getIdPuntoVendita());
-        Assert.assertEquals("MyShopBari", puntoVendita.getName());
-        Assert.assertEquals(1, puntoVendita.getIdManager());
+        puntoVendita = puntoVenditaDAO.findByName("MyShopTestUpdate");
+        Assert.assertEquals(9990, puntoVendita.getIdPuntoVendita());
+        Assert.assertEquals("MyShopTestUpdate", puntoVendita.getName());
+        Assert.assertEquals(9991, puntoVendita.getIdManager());
     }
 }

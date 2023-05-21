@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FornitoriProduttoriDAOTest {
-    static Fornitore fornitore = new Fornitore(1,"Amazon","www.amazon.com","Seattle", "USA");
-    static Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static Fornitore fornitore = new Fornitore(9999,"fornitore","www.fornitore.com","Seattle", "USA");
+    static Produttore produttore = new Produttore(9999,"produttore","www.produttore.com","Moscow", "Russia");
     @Before
     public void setUp (){
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
@@ -24,11 +24,11 @@ public class FornitoriProduttoriDAOTest {
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
-        Fornitore fornitore = fornitoreDAO.findById(1);
-        Produttore produttore = produttoreDAO.findById(1);
+        Fornitore fornitore = fornitoreDAO.findById(9999);
+        Produttore produttore = produttoreDAO.findById(9999);
 
-        Assert.assertEquals("www.amazon.com", fornitore.getSito());
-        Assert.assertEquals("www.gazprom.com", produttore.getSito());
+        Assert.assertEquals("www.fornitore.com", fornitore.getSito());
+        Assert.assertEquals("www.produttore.com", produttore.getSito());
 
     }
 
@@ -37,11 +37,11 @@ public class FornitoriProduttoriDAOTest {
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
-        Fornitore fornitore = fornitoreDAO.findByName("Amazon");
-        Produttore produttore = produttoreDAO.findByName("Gazprom");
+        Fornitore fornitore = fornitoreDAO.findByName("fornitore");
+        Produttore produttore = produttoreDAO.findByName("produttore");
 
-        Assert.assertEquals("www.amazon.com", fornitore.getSito());
-        Assert.assertEquals("www.gazprom.com", produttore.getSito());
+        Assert.assertEquals("www.fornitore.com", fornitore.getSito());
+        Assert.assertEquals("www.produttore.com", produttore.getSito());
     }
 
     @Test
@@ -49,14 +49,17 @@ public class FornitoriProduttoriDAOTest {
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
-        Fornitore fornitore = new Fornitore(1,"Amazon","www.amazon.com","NYC", "USA");
-        Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","Mosca", "Russia");
+        Fornitore fornitore2 = new Fornitore(9999,"fornitore2","www.fornitore.com","NYC", "USA");
+        Produttore produttore2 = new Produttore(9999,"produttore2","www.produttore.com","Saint Petersburg", "Russia");
 
-        fornitoreDAO.update(fornitore);
-        produttoreDAO.update(produttore);
+        fornitoreDAO.update(fornitore2);
+        produttoreDAO.update(produttore2);
 
-        Assert.assertEquals("NYC", fornitore.getCitta());
-        Assert.assertEquals("Mosca", produttore.getCitta());
+        Assert.assertEquals("NYC", fornitoreDAO.findById(9999).getCitta());
+        Assert.assertEquals("Saint Petersburg", produttoreDAO.findById(9999).getCitta());
+
+        fornitoreDAO.remove(fornitore2);
+        produttoreDAO.remove(produttore2);
     }
 
     @After

@@ -2,9 +2,14 @@ package Business;
 
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
-import Model.*;
+import Model.Amministratore;
+import Model.Manager;
+import Model.PuntoVendita;
+import Model.Utente;
 
 import javax.swing.*;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,13 +25,63 @@ public class UtenteBusiness {
 
     public static void regainCredentials() {
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        String email = JOptionPane.showInputDialog(null, "Insert your email, we send you your credentials:");
+        String email = JOptionPane.showInputDialog(null, "Insert your email, you will recive a token:");
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] tokenBytes = new byte[5];
+        secureRandom.nextBytes(tokenBytes);
+
+
         if (!utenteDAO.emailExist(email)){
             JOptionPane.showMessageDialog(null,"Unknown email! Please insert a valid email");
         }
         else {
-            //TODO
-            //Mail helper
+            MailHelper mailHelper = MailHelper.getInstance();
+            EmailSessionManager sessione = new EmailSessionManager(5); // Creazione di una sessione di 5 minuti
+            String token = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
+
+            while (!sessione.isScaduta()) {
+                System.out.println("Sessione attiva...");
+                mailHelper.send(email, "Richiesta credenziali", "" +
+                        "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token);
+                String input = JOptionPane.showInputDialog("Insert the token you recived in your email");
+                String newPassword;
+                if (input.equals(token)){
+                    while(true) {
+                        newPassword = JOptionPane.showInputDialog("Insert a password (at least 8 alphanumeric characters)");
+
+                        //Controllo password
+                        if (newPassword.length() < 8) {
+                            JOptionPane.showMessageDialog(null, "Password length must be at least 8 alphanumeric characters");
+                        } else {
+                            Pattern pattern = Pattern.compile("[^a-zA-Z\\d]");
+                            Matcher matcher = pattern.matcher(newPassword);
+                            boolean specialFound = matcher.find();
+                            if (specialFound) {
+                                JOptionPane.showMessageDialog(null, "Password length must be of 8 alphanumeric characters");
+                            } else{
+                                break;
+                            }
+                        }
+                    }
+                    //Inserimento password nel database
+                    UtenteDAO utenteDAO1 = UtenteDAO.getInstance();
+                    Utente utente = utenteDAO1.findByEmail(email);
+                    utente.setPassword(HashingBusiness.encrypt(newPassword));
+                    utenteDAO1.update(utente);
+                    JOptionPane.showMessageDialog(null, "Password changed succesfully!");
+                    break;
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Invalid Token!");
+                }
+                try {
+                    Thread.sleep(1000); // Aspetta 1 secondo prima di ripetere il ciclo
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Sessione scaduta.");
         }
     }
 
