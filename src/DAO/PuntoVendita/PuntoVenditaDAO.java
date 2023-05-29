@@ -1,6 +1,7 @@
 package DAO.PuntoVendita;
 
 
+import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
@@ -178,15 +179,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     public int remove(PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
         sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
-        dbOperation = new WriteOperation(sql);
-        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
-        executor.close(dbOperation);
-        return rowCount;
-    }
-    @Override
-    public int removeById (int id) {
-        executor = new DbOperationExecutor();
-        sql = "DELETE FROM puntovendita WHERE idPuntoVendita = '" + id + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

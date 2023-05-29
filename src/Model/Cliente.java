@@ -29,14 +29,6 @@ public class Cliente extends Utente{
         this.canalePreferito = canalePreferito;
         this.banned = banned;
     }
-    public Cliente(Utente utente, ArrayList<Ordine> ordini, ArrayList<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned) {
-        super(utente.getId(), utente.getName(),utente.getSurname(),utente.getEmail(),utente.getUsername(), utente.getPassword(), utente.getPhone(), utente.getAge(),utente.getCity(),utente.getJob());
-        this.ordini = ordini;
-        this.prenotazioni = prenotazioni;
-        this.puntoVenditaRegistrato = puntoVenditaRegistrato;
-        this.canalePreferito = canalePreferito;
-        this.banned = banned;
-    }
 
     public List<Ordine> getOrdini() {
         return ordini;

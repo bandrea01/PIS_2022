@@ -6,6 +6,7 @@ import DAO.Utente.UtenteDAO;
 import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
+import Model.Utente;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,10 +16,10 @@ public class MagazzinoDAOTest {
     private UtenteDAO utenteDAO = UtenteDAO.getInstance();
     private PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
     private MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-    static PuntoVendita punto = new PuntoVendita(9999,"punto",9991);
-    static Manager manager = new Manager(9991,"Name","Surname","manager@gmail.com","user","12345678", "22222222", 40, "Lecce", "Docente", punto);
-    static Magazzino magazzino = new Magazzino(9998,punto);
-    static Magazzino magazzino2 = new Magazzino(9999,punto);
+    static PuntoVendita punto = new PuntoVendita(1,"bbb",1);
+    static Manager manager = new Manager(1,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa",punto);
+    static Magazzino magazzino = new Magazzino(1,punto);
+    static Magazzino magazzino2 = new Magazzino(2,punto);
 
     @Before
     public void setUp(){
@@ -29,7 +30,7 @@ public class MagazzinoDAOTest {
     }
     @Test
     public void findById(){
-        Assert.assertEquals(magazzinoDAO.findMagazzinoById(9999).getPunto().getName(), "punto");
+        Assert.assertEquals(magazzinoDAO.findMagazzinoById(1).getPunto().getName(), "bbb");
     }
     @Test
     public void findAll(){
@@ -37,7 +38,7 @@ public class MagazzinoDAOTest {
     }
     @Test
     public void findByPunto(){
-        Assert.assertEquals("punto", magazzinoDAO.findMagazzinoByPunto(punto).getPunto().getName());
+        Assert.assertEquals("bbb", magazzinoDAO.findMagazzinoByPunto(punto).getPunto().getName());
     }
     @After
     public void tearDown(){

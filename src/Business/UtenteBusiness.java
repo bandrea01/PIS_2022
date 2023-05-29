@@ -42,7 +42,7 @@ public class UtenteBusiness {
             while (!sessione.isScaduta()) {
                 System.out.println("Sessione attiva...");
                 mailHelper.send(email, "Richiesta credenziali", "" +
-                        "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token );
+                        "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token);
                 String input = JOptionPane.showInputDialog("Insert the token you recived in your email");
                 String newPassword;
                 if (input.equals(token)){
