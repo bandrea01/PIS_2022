@@ -30,7 +30,6 @@ public class UtenteBusiness {
         byte[] tokenBytes = new byte[5];
         secureRandom.nextBytes(tokenBytes);
 
-
         if (!utenteDAO.emailExist(email)){
             JOptionPane.showMessageDialog(null,"Unknown email! Please insert a valid email");
         }
