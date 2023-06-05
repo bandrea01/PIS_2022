@@ -1,11 +1,14 @@
 package Business;
 
+import DAO.Articolo.ArticoloDAO;
+import DAO.Categoria.CategoriaDAO;
+import DAO.Fornitore.FornitoreDAO;
+import DAO.Prodotto.ProdottoDAO;
+import DAO.Produttore.ProduttoreDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
+import DAO.Servizio.ServizioDAO;
 import DAO.Utente.UtenteDAO;
-import Model.Amministratore;
-import Model.Manager;
-import Model.PuntoVendita;
-import Model.Utente;
+import Model.*;
 
 import javax.swing.*;
 import java.security.SecureRandom;
@@ -226,4 +229,7 @@ public class UtenteBusiness {
         Utente utente = utenteDAO.findByEmail(input);
         utenteDAO.addManager(utente);
     }
+
+
+
 }

@@ -1,9 +1,8 @@
 package View.ViewModel;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class WideComboBox extends JComboBox {
+public class WideComboBox extends javax.swing.JComboBox {
 
     private boolean layingOut = false;
     private int widestLength = 0;
@@ -12,6 +11,7 @@ public class WideComboBox extends JComboBox {
     public WideComboBox(Object[] objs) {
         super(objs);
     }
+
 
     public boolean isWide() {
         return wide;

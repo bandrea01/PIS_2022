@@ -30,6 +30,7 @@ public class CategoriaDAO implements ICategoriaDAO {
         return instance;
     }
 
+
     @Override
     public ICategoria findById(int id) {
         executor = new DbOperationExecutor();
@@ -200,5 +201,45 @@ public class CategoriaDAO implements ICategoriaDAO {
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    @Override
+    public int findId(String categoria) {
+        String sql = "SELECT idCategoria FROM mydb.categoria WHERE nome='"+categoria+"';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int id = rs.getInt("idCategoria");
+                return id;
+            }
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean categoriaExist(String nome) {
+        String sql = "SELECT count(*) AS count FROM mydb.categoria AS U WHERE U.nome='"+nome+"';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

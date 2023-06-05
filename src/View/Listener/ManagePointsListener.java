@@ -18,6 +18,7 @@ public class ManagePointsListener implements ActionListener {
     public final static String MODIFY_BTN = "modify-btn";
     public final static String DELETE_BTN = "delete-btn";
     public final static String DELETE_MAN_BTN = "delete-man-btn";
+    public final static String ADD_ARTICLE_BTN = "add-article-btn";
 
     private MainLayout window;
 

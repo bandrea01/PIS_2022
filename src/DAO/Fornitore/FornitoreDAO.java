@@ -4,10 +4,13 @@ import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
+import Model.Categoria;
 import Model.Fornitore;
+import Model.ICategoria;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FornitoreDAO implements IFornitoreDAO{
     private final static FornitoreDAO instance = new FornitoreDAO();
@@ -120,5 +123,35 @@ public class FornitoreDAO implements IFornitoreDAO{
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    @Override
+    public ArrayList<Fornitore> findAll() {
+        executor = new DbOperationExecutor();
+        sql = "SELECT idFornitore, nome, sito, citta, nazione FROM fornitore;";
+        dbOperation = new ReadOperation(sql);
+        ResultSet rs2 = executor.executeOperation(dbOperation).getResultSet();
+        ArrayList<Fornitore> fornitori = new ArrayList<>();
+        try {
+            while (rs2.next()) {
+                Fornitore fornitore = new Fornitore();
+                fornitore.setId(rs2.getInt("idFornitore"));
+                fornitore.setNome(rs2.getString("nome"));
+                fornitore.setSito(rs2.getString("sito"));
+                fornitore.setCitta(rs2.getString("citta"));
+                fornitore.setNazione(rs2.getString("nazione"));
+                fornitori.add(fornitore);
+            }
+            return fornitori;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(dbOperation);
+        }
+        return null;
     }
 }

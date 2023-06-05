@@ -21,9 +21,11 @@ public class AdminMenu extends AdminMenuDecorator {
         //Funzioni admin
         JButton punti = ButtonCreator.createButton("My Sale Points", true, ButtonCreator.LIGHT_BLUE, e -> window.managePoints(), null);
         JButton catalogo = ButtonCreator.createButton("My Catalog", true, ButtonCreator.LIGHT_BLUE, e -> window.manageCatalog(), null);
+        JButton articolo = ButtonCreator.createButton("Manage Articles", true, ButtonCreator.LIGHT_BLUE, e -> window.manageArticles(), null);
 
         buttons.add(punti);
         buttons.add(catalogo);
+        buttons.add(articolo);
 
         return buttons;
     }

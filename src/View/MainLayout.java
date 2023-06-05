@@ -216,11 +216,41 @@ public class MainLayout extends JFrame {
         //TODO
     }
 
+
+
     public void manageCatalog() {
         //TODO
     }
     public void resizeFrame(){
         this.setSize(new Dimension(500,500));
         this.setLocationRelativeTo(null);
+    }
+
+    public void manageArticles() {
+        centre.removeAll();
+        centre.add(new ManageArticlesPanel(this));
+        repaint();
+        validate();
+    }
+
+    public void addArticle() {
+        centre.removeAll();
+        centre.add(new AddArticlePanel(this));
+        repaint();
+        validate();
+    }
+
+    public void addCategory() {
+        centre.removeAll();
+        centre.add(new AddCategoryPanel(this));
+        repaint();
+        validate();
+    }
+
+    public void deleteArticle() {
+        centre.removeAll();
+        centre.add(new DeleteArticlePanel(this));
+        repaint();
+        validate();
     }
 }

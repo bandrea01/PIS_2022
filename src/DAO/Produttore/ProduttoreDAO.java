@@ -9,6 +9,7 @@ import Model.Produttore;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProduttoreDAO implements IProduttoreDAO{
     private final static ProduttoreDAO instance = new ProduttoreDAO();
@@ -120,5 +121,35 @@ public class ProduttoreDAO implements IProduttoreDAO{
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    @Override
+    public ArrayList<Produttore> findAll() {
+        executor = new DbOperationExecutor();
+        sql = "SELECT idProduttore, nome, sito, citta, nazione FROM produttore;";
+        dbOperation = new ReadOperation(sql);
+        ResultSet rs2 = executor.executeOperation(dbOperation).getResultSet();
+        ArrayList<Produttore> produttori = new ArrayList<>();
+        try {
+            while (rs2.next()) {
+                Produttore produttore = new Produttore();
+                produttore.setId(rs2.getInt("idProduttore"));
+                produttore.setNome(rs2.getString("nome"));
+                produttore.setSito(rs2.getString("sito"));
+                produttore.setCitta(rs2.getString("citta"));
+                produttore.setNazione(rs2.getString("nazione"));
+                produttori.add(produttore);
+            }
+            return produttori;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(dbOperation);
+        }
+        return null;
     }
 }

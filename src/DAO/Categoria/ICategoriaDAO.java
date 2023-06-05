@@ -12,4 +12,8 @@ public interface ICategoriaDAO {
     int add(ICategoria categoria);
     int update(ICategoria categoria);
     int remove(ICategoria categoria);
+
+    int findId(String categoria);
+
+    boolean categoriaExist(String nome);
 }

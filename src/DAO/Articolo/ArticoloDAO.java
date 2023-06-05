@@ -265,4 +265,42 @@ public class ArticoloDAO implements IArticoloDAO {
         executor.close(dbOperation);
         return rowCount;
     }
+
+    public boolean articoloExist(int id) {
+        String sql = "SELECT count(*) AS count FROM mydb.articolo AS U WHERE U.idArticolo="+id+";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean articoloNameExist(String nome) {
+        String sql = "SELECT count(*) AS count FROM mydb.articolo AS U WHERE U.idArticolo='"+nome+"';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
