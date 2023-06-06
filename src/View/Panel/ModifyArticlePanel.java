@@ -1,12 +1,15 @@
 package View.Panel;
 
+import DAO.Articolo.ArticoloDAO;
 import DAO.Categoria.CategoriaDAO;
 import DAO.Fornitore.FornitoreDAO;
 import DAO.Produttore.ProduttoreDAO;
-import Model.*;
+import Model.Articolo;
+import Model.Fornitore;
+import Model.ICategoria;
+import Model.Produttore;
 import View.Listener.ManageArticlesListener;
 import View.MainLayout;
-
 import View.ViewModel.ButtonCreator;
 import View.ViewModel.WideComboBox;
 
@@ -16,26 +19,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+public class ModifyArticlePanel extends JPanel {
+    public ModifyArticlePanel(MainLayout window) {
 
-public class AddArticlePanel extends JPanel {
-    public AddArticlePanel(MainLayout window) {
         JPanel gridPanel = new JPanel();
-        JPanel south = new JPanel();
         this.setLayout(new BorderLayout());
-        gridPanel.setLayout(new GridLayout(10, 2));
-        south.setLayout(new GridLayout(2, 0));
+        gridPanel.setLayout(new GridLayout(8, 2));
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new GridLayout(2, 10));
 
+        JLabel seleziona = new JLabel("Articolo da modificare");
 
-        JLabel idLabel = new JLabel("Id: ");
+        String[] articoli = getArticoli();
+        WideComboBox articoliChooses = new WideComboBox(articoli);
+        articoliChooses.setPreferredSize(new Dimension(7,7));
+        articoliChooses.setWide(true);
+
+        gridPanel.add(seleziona); gridPanel.add(articoliChooses);
+
         JLabel nomeLabel = new JLabel("Name: ");
         JLabel prezzoLabel = new JLabel("Price: ");
         JLabel descrizioneLabel = new JLabel("Description: ");
         JLabel categoriaLabel = new JLabel("Category: ");
-        JLabel prodottoServizioLabel = new JLabel("Product or Service: ");
         JLabel produttoreFornitoreLabel = new JLabel("");
 
-
-        JTextField id = new JTextField(15);
         JTextField nome = new JTextField();
         JTextField prezzo = new JTextField();
         JTextField descrizione = new JTextField();
@@ -45,76 +52,69 @@ public class AddArticlePanel extends JPanel {
         categorieChooses.setPreferredSize(new Dimension(7,7));
         categorieChooses.setWide(true);
 
-        String isProdotto = "Prodotto"; String isServizio = "Servizio";
-        String[] prodottoServizio = {"Seleziona un elemento", isProdotto, isServizio};
-        WideComboBox isProdottoServizio = new WideComboBox(prodottoServizio);
-        isProdottoServizio.setPreferredSize(new Dimension(7,7));
-        isProdottoServizio.setWide(true);
-
         String[] produttoriFornitori = {"Seleziona un elemento"};
         WideComboBox produttoriFornitorichooses = new WideComboBox(produttoriFornitori);
         produttoriFornitorichooses.setPreferredSize(new Dimension(7,7));
         produttoriFornitorichooses.setWide(true);
 
-        gridPanel.add(idLabel); gridPanel.add(id);
         gridPanel.add(nomeLabel); gridPanel.add(nome);
         gridPanel.add(prezzoLabel); gridPanel.add(prezzo);
         gridPanel.add(descrizioneLabel); gridPanel.add(descrizione);
         gridPanel.add(categoriaLabel); gridPanel.add(categorieChooses);
-        gridPanel.add(prodottoServizioLabel); gridPanel.add(isProdottoServizio);
 
         gridPanel.add(produttoreFornitoreLabel);
         gridPanel.add(produttoriFornitorichooses);
 
-        isProdottoServizio.addActionListener(new ActionListener() {
+
+
+        ManageArticlesListener listener = new ManageArticlesListener(articoliChooses, nome, prezzo, descrizione, categorieChooses, produttoriFornitorichooses);
+        buttonsPanel.add(ButtonCreator.createButton("Modify",true,ButtonCreator.LILLE, listener, ManageArticlesListener.MODIFY_ARTICLE));
+        buttonsPanel.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null));
+
+        //ACTION LISTENER PER VEDERE SE ARTICOLO è PRODOTTO O SERVIZIO
+        articoliChooses.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String selectedElement = articoliChooses.getSelectedItem().toString();
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+                if (articoloDAO.isProdotto(articoloDAO.findByName(selectedElement).getId())) {
+                    produttoreFornitoreLabel.setText("Productor: ");
+                } else if (articoloDAO.isServizio(articoloDAO.findByName(selectedElement).getId())){
+                    produttoreFornitoreLabel.setText("Supplier: ");
+                }
+            }
+        });
+
+        articoliChooses.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 updateProduttoriFornitorichooses();
             }
 
             private void updateProduttoriFornitorichooses() {
-                String selectedElement = isProdottoServizio.getSelectedItem().toString();
+                String selectedElement = articoliChooses.getSelectedItem().toString();
                 produttoriFornitorichooses.removeAllItems();
                 String[] updatedElements;
-                if (isProdotto.equals(selectedElement)) {
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+                if (articoloDAO.isProdotto(articoloDAO.findByName(selectedElement).getId())) {
                     updatedElements = getProduttori();
                     for (String element : updatedElements) {
                         produttoriFornitorichooses.addItem(element);
                     }
-                } else if (isServizio.equals(selectedElement)) {
-                        updatedElements = getFornitori();
-                        for (String element : updatedElements) {
-                            produttoriFornitorichooses.addItem(element);
-                        }                    }
-                }
-        });
-
-
-        isProdottoServizio.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                String selectedElement = isProdottoServizio.getSelectedItem().toString();
-                if (isProdotto.equals(selectedElement)) {
-                    produttoreFornitoreLabel.setText("Productor: ");
-                } else if (isServizio.equals(selectedElement)){
-                    produttoreFornitoreLabel.setText("Supplier: ");
+                } else if (articoloDAO.isServizio(articoloDAO.findByName(selectedElement).getId())) {
+                    updatedElements = getFornitori();
+                    for (String element : updatedElements) {
+                        produttoriFornitorichooses.addItem(element);
+                    }
                 }
             }
         });
 
-
-
-        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses);
-        JButton confirm = ButtonCreator.createButton("Confirm", true, ButtonCreator.LILLE, listener, ManageArticlesListener.ADD_ARTICLE);
-        south.add(confirm);
-        JButton back = ButtonCreator.createButton("Go Back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null);
-        south.add(back);
-
         this.add(gridPanel, BorderLayout.CENTER);
-        this.add(south, BorderLayout.SOUTH);
-
+        this.add(buttonsPanel, BorderLayout.SOUTH);
 
         setVisible(true);
+
     }
 
     private String[] getProduttori() {
@@ -137,7 +137,6 @@ public class AddArticlePanel extends JPanel {
         return nomiFornitori;
     }
 
-
     private String[] getCategorie() {
         ArrayList<ICategoria> categorie = CategoriaDAO.getInstance().findAll();
         String[] nomiCategorie = new String[categorie.size() + 1];
@@ -147,20 +146,12 @@ public class AddArticlePanel extends JPanel {
         }
         return nomiCategorie;
     }
-
-
+    private String[] getArticoli() {
+        ArrayList<Articolo> articoli = ArticoloDAO.getInstance().findAll();
+        String[] nomiArticoli = new String[articoli.size()];
+        for (int i = 0; i < articoli.size(); i++) {
+            nomiArticoli[i] = articoli.get(i).getName();
+        }
+        return nomiArticoli;
+    }
 }
-
-
-/* private String[] getSottoCategorie(Object name) {
-         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-         int id = categoriaDAO.findId(name.toString());
-         ArrayList<ICategoria> sottoCategorie = CategoriaDAO.getInstance().findAllSottoCategorie(id);
-         String[] nomiSottoCategorie = new String[sottoCategorie.size()];
-         for (int i = 0; i < sottoCategorie.size(); i++) {
-             nomiSottoCategorie[i] = sottoCategorie.get(i).getName();
-         }
-         return nomiSottoCategorie;
-     }
- */
-

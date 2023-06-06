@@ -260,4 +260,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void modifyArticle() {
+        centre.removeAll();
+        centre.add(new ModifyArticlePanel(this));
+        repaint();
+        validate();
+    }
 }

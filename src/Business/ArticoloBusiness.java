@@ -24,6 +24,68 @@ public class ArticoloBusiness {
         return null;
     }
 
+    public int modifyArticolo(String nome, String nomeMod, float prezzoMod, String descrizioneMod, String categoriaMod, String produttoreFornitoreMod) {
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        int idArticolo = articoloDAO.findByName(nome).getId();
+        CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
+        if (articoloDAO.isProdotto(idArticolo)) {
+            ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+            Prodotto prodotto = prodottoDAO.findById(idArticolo);
+            if (!nomeMod.isEmpty()) {
+                prodotto.setName(nomeMod);
+            }
+            if (prezzoMod != 0) {
+                prodotto.setPrezzo(prezzoMod);
+            }
+            if (!descrizioneMod.isEmpty()) {
+                prodotto.setDescrizione(descrizioneMod);
+            }
+            if (!categoriaMod.isEmpty()) {
+                if ("Seleziona un elemento".equals(categoriaMod)) {
+                    categoriaMod = categoriaDAO.findById(idArticolo).getName();
+                }
+                prodotto.setCategoria(categoriaDAO.findByName(categoriaMod));
+            }
+            if (!produttoreFornitoreMod.isEmpty()) {
+                if ("Seleziona un produttore".equals(produttoreFornitoreMod)) {
+                    produttoreFornitoreMod = prodottoDAO.findById(idArticolo).getProduttore().getNome();
+                }
+                prodotto.setProduttore(produttoreDAO.findByName(produttoreFornitoreMod));
+            }
+            articoloDAO.updateProdotto(prodotto);
+            return 1;
+        }
+        if (articoloDAO.isServizio(idArticolo)) {
+            ServizioDAO servizioDAO = ServizioDAO.getInstance();
+            Servizio servizio = servizioDAO.findById(idArticolo);
+            if (!nomeMod.isEmpty()) {
+                servizio.setName(nomeMod);
+            }
+            if (prezzoMod != 0) {
+                servizio.setPrezzo(prezzoMod);
+            }
+            if (!descrizioneMod.isEmpty()) {
+                servizio.setDescrizione(descrizioneMod);
+            }
+            if (!categoriaMod.isEmpty()) {
+                if ("Seleziona un elemento".equals(categoriaMod)) {
+                    categoriaMod = articoloDAO.findById(idArticolo).getCategoria().getName();
+                }
+                servizio.setCategoria(categoriaDAO.findByName(categoriaMod));
+            }
+            if (!produttoreFornitoreMod.isEmpty()) {
+                if ("Seleziona un fornitore".equals(produttoreFornitoreMod)) {
+                    produttoreFornitoreMod = servizioDAO.findById(idArticolo).getFornitore().getNome();
+                }
+                servizio.setFornitore(fornitoreDAO.findByName(produttoreFornitoreMod));
+            }
+            articoloDAO.updateServizio(servizio);
+            return 1;
+        }
+        return 0;
+    }
 
     public int addArticolo(int id, String nome, float prezzo, String descrizione, String nomeCategoria, String isprodottoServizio, String produttoreFornitore) {
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();

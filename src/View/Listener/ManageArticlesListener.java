@@ -57,6 +57,15 @@ public class ManageArticlesListener implements ActionListener {
         this.panel = panel;
     }
 
+    public ManageArticlesListener(WideComboBox articoli, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox produttoreFornitore) {
+        this.articoli = articoli;
+        this.nome = nome;
+        this.prezzo = prezzo;
+        this.descrizione = descrizione;
+        this.categoria = categoria;
+        this.produttoreFornitore = produttoreFornitore;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
@@ -153,6 +162,27 @@ public class ManageArticlesListener implements ActionListener {
             }
             categoriaDAO.remove(categoriaDAO.findById(idCategoria));
             JOptionPane.showMessageDialog(null, "La categoria è stata eliminata correttamente");
+        }
+        if (MODIFY_ARTICLE.equals(e.getActionCommand())) {
+            String nomeArticolo = articoli.getSelectedItem().toString();
+            if (nomeArticolo.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Scegli l'articolo da modificare");
+                return;
+            }
+            ArticoloBusiness articoloBusiness = new ArticoloBusiness();
+
+            String name = nome.getText();
+            float price = 0;
+            if (!prezzo.getText().isEmpty()) {
+                price = Float.parseFloat(prezzo.getText());
+            }
+            String description = descrizione.getText();
+            String category = categoria.getSelectedItem().toString();
+            String productorSupplier = produttoreFornitore.getSelectedItem().toString();
+
+            if (articoloBusiness.modifyArticolo(nomeArticolo, name, price, description, category, productorSupplier) == 1) {
+                JOptionPane.showMessageDialog(null, "L'articolo è stato modificato correttamente");
+            }
         }
     }
 }
