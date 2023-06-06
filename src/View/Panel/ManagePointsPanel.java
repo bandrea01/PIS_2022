@@ -42,6 +42,7 @@ public class ManagePointsPanel extends JPanel {
         south.add(ButtonCreator.createButton("Delete Manager", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_MAN_BTN));
         south.add(ButtonCreator.createButton("Delete Point", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_BTN));
 
+
         //Aggiungo al pannello principale
         this.add(centre, BorderLayout.CENTER);
         this.add(south, BorderLayout.SOUTH);

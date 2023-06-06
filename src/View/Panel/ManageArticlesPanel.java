@@ -1,5 +1,6 @@
 package View.Panel;
 
+import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
 
@@ -15,6 +16,8 @@ public class ManageArticlesPanel extends JPanel {
         buttonsPanel.add(ButtonCreator.createButton("Add Article", true, ButtonCreator.LILLE, e -> window.addArticle(), null));
         buttonsPanel.add(ButtonCreator.createButton("Add Category", true, ButtonCreator.LILLE, e -> window.addCategory(), null));
         buttonsPanel.add(ButtonCreator.createButton("Delete Article", true, ButtonCreator.LILLE, e -> window.deleteArticle(), null));
+        buttonsPanel.add(ButtonCreator.createButton("Delete Category", true, ButtonCreator.LILLE, e -> window.deleteCategory(), null));
+
 
         this.add(buttonsPanel, BorderLayout.CENTER);
 

@@ -22,7 +22,7 @@ public class AddCategoryPanel extends JPanel {
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
         JLabel nomeLabel = new JLabel("Nome:");
-        JLabel sottoCategoriaLabel = new JLabel("Sottocategoria: ");
+        JLabel sottoCategoriaLabel = new JLabel("Categoria padre: ");
 
         JTextField nome = new JTextField(15);
 

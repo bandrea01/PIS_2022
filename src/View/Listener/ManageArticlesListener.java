@@ -2,21 +2,23 @@ package View.Listener;
 
 import Business.ArticoloBusiness;
 import Business.CategoriaBusiness;
-import Business.UtenteBusiness;
 import DAO.Articolo.ArticoloDAO;
 import DAO.Categoria.CategoriaDAO;
-import Model.Articolo;
+import Model.ICategoria;
 import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ManageArticlesListener implements ActionListener {
     public final static String ADD_ARTICLE = "addarticle-btn";
     public final static String ADD_CATEGORY = "addcategory-btn";
     public final static String DELETE_ARTICLE = "deletearticle-btn";
     public final static String DELETE_CATEGORY = "deletecategory-btn";
+    public final static String MODIFY_ARTICLE = "modifyarticle-btn";
+    public final static String MODIFY_CATEGORY = "modifycategory-btn";
 
 
     private JTextField id;
@@ -132,8 +134,25 @@ public class ManageArticlesListener implements ActionListener {
                 return;
             }
             ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-            articoloDAO.removeByName(nomeArticolo);
+            int idArticolo = articoloDAO.findByName(nomeArticolo).getId();
+            articoloDAO.removeById(idArticolo);
             JOptionPane.showMessageDialog(null, "L'articolo è stato cancellato correttamente");
+        }
+        if (DELETE_CATEGORY.equals(e.getActionCommand())) {
+            String nomeCategoria = articoli.getSelectedItem().toString();
+            if (nomeCategoria.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Scegli una categoria");
+                return;
+            }
+            CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+            int idCategoria = categoriaDAO.findByName(nomeCategoria).getId();
+            ArrayList<ICategoria> sottoCategorie = categoriaDAO.findAllSottoCategorie(idCategoria);
+            if (sottoCategorie.size() != 0) {
+                JOptionPane.showMessageDialog(null, "Cancella prima le sottocategorie");
+                return;
+            }
+            categoriaDAO.remove(categoriaDAO.findById(idCategoria));
+            JOptionPane.showMessageDialog(null, "La categoria è stata eliminata correttamente");
         }
     }
 }

@@ -253,4 +253,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void deleteCategory() {
+        centre.removeAll();
+        centre.add(new DeleteCategoryPanel(this));
+        repaint();
+        validate();
+    }
 }
