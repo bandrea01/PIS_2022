@@ -154,4 +154,23 @@ public class FornitoreDAO implements IFornitoreDAO{
         }
         return null;
     }
+
+    public boolean fornitoreExist(int id) {
+        String sql = "SELECT count(*) AS count FROM mydb.fornitore AS U WHERE U.idFornitore="+id+";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

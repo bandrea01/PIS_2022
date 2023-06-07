@@ -2,6 +2,8 @@ package View.Listener;
 
 import Business.ArticoloBusiness;
 import Business.CategoriaBusiness;
+import Business.FornitoreBusiness;
+import Business.ProduttoreBusiness;
 import DAO.Articolo.ArticoloDAO;
 import DAO.Categoria.CategoriaDAO;
 import Model.ICategoria;
@@ -19,6 +21,8 @@ public class ManageArticlesListener implements ActionListener {
     public final static String DELETE_CATEGORY = "deletecategory-btn";
     public final static String MODIFY_ARTICLE = "modifyarticle-btn";
     public final static String MODIFY_CATEGORY = "modifycategory-btn";
+    public final static String ADD_PRODUCTOR = "addproductor-btn";
+    public final static String ADD_SUPPLIER = "addsupplier-btn";
 
 
     private JTextField id;
@@ -31,6 +35,10 @@ public class ManageArticlesListener implements ActionListener {
     private WideComboBox isProdottoServizio;
     private WideComboBox produttoreFornitore;
     private WideComboBox categoriaPadre;
+
+    private JTextField sito;
+    private JTextField citta;
+    private JTextField nazione;
 
 
     private JPanel panel;
@@ -72,6 +80,13 @@ public class ManageArticlesListener implements ActionListener {
         this.descrizione = descrizione;
         this.categoria = categoria;
         this.produttoreFornitore = produttoreFornitore;
+    }
+
+    public ManageArticlesListener(JTextField nome, JTextField sito, JTextField citta, JTextField nazione) {
+        this.nome = nome;
+        this.sito = sito;
+        this.citta = citta;
+        this.nazione = nazione;
     }
 
     @Override
@@ -203,7 +218,46 @@ public class ManageArticlesListener implements ActionListener {
             CategoriaBusiness categoriaBusiness = CategoriaBusiness.getInstance();
             if (categoriaBusiness.modifyCategory(nomeCategoria, nomeMod, categoriaPadreMod) == 1) {
                 JOptionPane.showMessageDialog(null, "La categoria è stata modificata correttamente");
-                return;
+            }
+        }
+        if (ADD_PRODUCTOR.equals(e.getActionCommand())) {
+            String nomeProduttore = nome.getText();
+            String website = sito.getText();
+            String city = citta.getText();
+            String nation = nazione.getText();
+
+            ProduttoreBusiness produttoreBusiness = ProduttoreBusiness.getInstance();
+            int result = produttoreBusiness.addProduttore(nomeProduttore, website, city, nation);
+
+            switch (result) {
+                case 0:
+                    JOptionPane.showMessageDialog(null , "Sono richiesti tutti i campi");
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Il produttore inserito esiste già");
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Il produttore è stato inserito correttamente");
+            }
+        }
+        if (ADD_SUPPLIER.equals(e.getActionCommand())) {
+            String nomeFornitore = nome.getText();
+            String website = sito.getText();
+            String city = citta.getText();
+            String nation = nazione.getText();
+
+            FornitoreBusiness fornitoreBusiness = FornitoreBusiness.getInstance();
+            int result = fornitoreBusiness.addFornitore(nomeFornitore, website, city, nation);
+
+            switch (result) {
+                case 0:
+                    JOptionPane.showMessageDialog(null , "Sono richiesti tutti i campi");
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Il fornitore inserito esiste già");
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Il fornitore è stato inserito correttamente");
             }
         }
     }

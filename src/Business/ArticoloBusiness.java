@@ -107,7 +107,7 @@ public class ArticoloBusiness {
 
         int idCategoria = categoriaDAO.findId(nomeCategoria);
 
-        Categoria categoria = (Categoria) categoriaDAO.findById(idCategoria);
+        Categoria categoria = categoriaDAO.findById(idCategoria);
 
 
         //VEDO SE è PROD O SERVIZIO E RIEMPIO IL DAO

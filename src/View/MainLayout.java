@@ -274,4 +274,18 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void addProductor() {
+        centre.removeAll();
+        centre.add(new AddProductorPanel(this));
+        repaint();
+        validate();
+    }
+
+    public void addSupplier() {
+        centre.removeAll();
+        centre.add(new AddSupplierPanel(this));
+        repaint();
+        validate();
+    }
 }
