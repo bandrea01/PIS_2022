@@ -6,7 +6,14 @@ import Business.FornitoreBusiness;
 import Business.ProduttoreBusiness;
 import DAO.Articolo.ArticoloDAO;
 import DAO.Categoria.CategoriaDAO;
+import DAO.Fornitore.FornitoreDAO;
+import DAO.Prodotto.ProdottoDAO;
+import DAO.Produttore.ProduttoreDAO;
+import DAO.Servizio.ServizioDAO;
 import Model.ICategoria;
+import Model.Prodotto;
+import Model.Produttore;
+import Model.Servizio;
 import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
@@ -23,7 +30,8 @@ public class ManageArticlesListener implements ActionListener {
     public final static String MODIFY_CATEGORY = "modifycategory-btn";
     public final static String ADD_PRODUCTOR = "addproductor-btn";
     public final static String ADD_SUPPLIER = "addsupplier-btn";
-
+    public final static String DELETE_PRODUCTOR = "deleteproductor-btn";
+    public final static String DELETE_SUPPLIER = "deletesupplier-btn";
 
     private JTextField id;
     private JTextField nome;
@@ -259,6 +267,44 @@ public class ManageArticlesListener implements ActionListener {
                 case 2:
                     JOptionPane.showMessageDialog(null, "Il fornitore è stato inserito correttamente");
             }
+        }
+        if (DELETE_PRODUCTOR.equals(e.getActionCommand())) {
+            String nomeProduttore = articoli.getSelectedItem().toString();
+            if ("Seleziona un produttore".equalsIgnoreCase(nomeProduttore)) {
+                JOptionPane.showMessageDialog(null, "Scegli un produttore");
+                return;
+            }
+            ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+            int idProduttore = produttoreDAO.findByName(nomeProduttore).getId();
+            ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+            ArrayList<Prodotto> prodotti = prodottoDAO.findAll();
+            for (int i = 0; i < prodotti.size(); i++) {
+                if (prodotti.get(i).getProduttore().getNome().equalsIgnoreCase(nomeProduttore)) {
+                    JOptionPane.showMessageDialog(null, "Impossibile cancellare! Eliminare prima i prodotti di " + nomeProduttore );
+                    return;
+                }
+            }
+            produttoreDAO.remove(produttoreDAO.findById(idProduttore));
+            JOptionPane.showMessageDialog(null, "Il produttore è stato eliminato correttamente");
+        }
+        if (DELETE_SUPPLIER.equals(e.getActionCommand())) {
+            String nomeFornitore = articoli.getSelectedItem().toString();
+            if ("Seleziona un fornitore".equalsIgnoreCase(nomeFornitore)) {
+                JOptionPane.showMessageDialog(null, "Scegli un fornitore");
+                return;
+            }
+            FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
+            int idFornitore = fornitoreDAO.findByName(nomeFornitore).getId();
+            ServizioDAO servizioDAO = ServizioDAO.getInstance();
+            ArrayList<Servizio> servizi = servizioDAO.findAll();
+            for (int i = 0; i < servizi.size(); i++) {
+                if (servizi.get(i).getFornitore().getNome().equalsIgnoreCase(nomeFornitore)) {
+                    JOptionPane.showMessageDialog(null, "Impossibile cancellare! Eliminare prima i servizi di " + nomeFornitore );
+                    return;
+                }
+            }
+            fornitoreDAO.remove(fornitoreDAO.findById(idFornitore));
+            JOptionPane.showMessageDialog(null, "Il fornitore è stato eliminato correttamente");
         }
     }
 }

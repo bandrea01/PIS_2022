@@ -21,6 +21,8 @@ public class ManageArticlesPanel extends JPanel {
         buttonsPanel.add(ButtonCreator.createButton("Modify Category", true, ButtonCreator.LILLE, e -> window.modifyCategory(), null));
         buttonsPanel.add(ButtonCreator.createButton("Add Productor", true, ButtonCreator.LILLE, e -> window.addProductor(), null));
         buttonsPanel.add(ButtonCreator.createButton("Add Supplier", true, ButtonCreator.LILLE, e -> window.addSupplier(), null));
+        buttonsPanel.add(ButtonCreator.createButton("Delete Productor", true, ButtonCreator.LILLE, e -> window.deleteProductor(), null));
+        buttonsPanel.add(ButtonCreator.createButton("Delete Supplier", true, ButtonCreator.LILLE, e -> window.deleteSupplier(), null));
 
         this.add(buttonsPanel, BorderLayout.CENTER);
 

@@ -288,4 +288,18 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void deleteProductor() {
+        centre.removeAll();
+        centre.add(new DeleteProductorPanel(this));
+        repaint();
+        validate();
+    }
+
+    public void deleteSupplier() {
+        centre.removeAll();
+        centre.add(new DeleteSupplierPanel(this));
+        repaint();
+        validate();
+    }
 }

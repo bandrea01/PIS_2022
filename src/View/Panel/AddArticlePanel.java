@@ -150,17 +150,3 @@ public class AddArticlePanel extends JPanel {
 
 
 }
-
-
-/* private String[] getSottoCategorie(Object name) {
-         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-         int id = categoriaDAO.findId(name.toString());
-         ArrayList<ICategoria> sottoCategorie = CategoriaDAO.getInstance().findAllSottoCategorie(id);
-         String[] nomiSottoCategorie = new String[sottoCategorie.size()];
-         for (int i = 0; i < sottoCategorie.size(); i++) {
-             nomiSottoCategorie[i] = sottoCategorie.get(i).getName();
-         }
-         return nomiSottoCategorie;
-     }
- */
-
