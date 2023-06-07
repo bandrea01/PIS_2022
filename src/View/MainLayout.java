@@ -267,4 +267,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void modifyCategory() {
+        centre.removeAll();
+        centre.add(new ModifyCategoryPanel(this));
+        repaint();
+        validate();
+    }
 }

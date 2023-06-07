@@ -32,7 +32,7 @@ public class CategoriaDAO implements ICategoriaDAO {
 
 
     @Override
-    public ICategoria findById(int id) {
+    public Categoria findById(int id) {
         executor = new DbOperationExecutor();
         sql = "SELECT idCategoria, nome, idCategoriaPadre FROM categoria WHERE idCategoria = '" + id + "';";
         dbOperation = new ReadOperation(sql);
@@ -196,7 +196,11 @@ public class CategoriaDAO implements ICategoriaDAO {
     @Override
     public int update(ICategoria categoria) {
         executor = new DbOperationExecutor();
-        sql = "UPDATE categoria SET nome = '" + categoria.getName() + "' WHERE idCategoria = '" + categoria.getId() + "';";
+        if (categoria.getCategoriaPadre() == null) {
+            sql = "UPDATE categoria SET nome = '" + categoria.getName() + "', idCategoriaPadre = 0 WHERE idCategoria = '" + categoria.getId() + "';";
+        } else {
+            sql = "UPDATE categoria SET nome = '" + categoria.getName() + "', idCategoriaPadre =" + categoria.getCategoriaPadre().getId() + " WHERE idCategoria = '" + categoria.getId() + "';";
+        }
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

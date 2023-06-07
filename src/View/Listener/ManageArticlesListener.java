@@ -30,6 +30,7 @@ public class ManageArticlesListener implements ActionListener {
 
     private WideComboBox isProdottoServizio;
     private WideComboBox produttoreFornitore;
+    private WideComboBox categoriaPadre;
 
 
     private JPanel panel;
@@ -51,6 +52,13 @@ public class ManageArticlesListener implements ActionListener {
 
     public ManageArticlesListener(WideComboBox articoli) {
         this.articoli = articoli;
+    }
+
+    //modifica categoria
+    public ManageArticlesListener(JTextField nome, WideComboBox categoria, WideComboBox categoriaPadre) {
+        this.nome = nome;
+        this.categoria = categoria;
+        this.categoriaPadre = categoriaPadre;
     }
 
     public ManageArticlesListener(JPanel panel) {
@@ -182,6 +190,20 @@ public class ManageArticlesListener implements ActionListener {
 
             if (articoloBusiness.modifyArticolo(nomeArticolo, name, price, description, category, productorSupplier) == 1) {
                 JOptionPane.showMessageDialog(null, "L'articolo è stato modificato correttamente");
+            }
+        }
+        if (MODIFY_CATEGORY.equals(e.getActionCommand())) {
+            String nomeCategoria = categoria.getSelectedItem().toString();
+            if (nomeCategoria.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Scegli la categoria da modificare");
+                return;
+            }
+            String nomeMod = nome.getText();
+            String categoriaPadreMod = categoriaPadre.getSelectedItem().toString();
+            CategoriaBusiness categoriaBusiness = CategoriaBusiness.getInstance();
+            if (categoriaBusiness.modifyCategory(nomeCategoria, nomeMod, categoriaPadreMod) == 1) {
+                JOptionPane.showMessageDialog(null, "La categoria è stata modificata correttamente");
+                return;
             }
         }
     }

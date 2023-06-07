@@ -40,4 +40,21 @@ public class CategoriaBusiness {
         categoriaDAO.add(categoria);
         return 2;
     }
+
+    public int modifyCategory (String nome, String nomeMod, String categoriaPadreMod) {
+        CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        int idCategoria = categoriaDAO.findId(nome);
+        Categoria categoria = categoriaDAO.findById(idCategoria);
+        if (!nomeMod.isEmpty()) {
+            categoria.setName(nomeMod);
+        }
+        if (!"Nessuna".equalsIgnoreCase(categoriaPadreMod)) {
+            categoria.setCategoriaPadre(categoriaDAO.findByName(categoriaPadreMod));
+        }
+        if ("Nessuna".equalsIgnoreCase(categoriaPadreMod)) {
+            categoria.setCategoriaPadre(null);
+        }
+        categoriaDAO.update(categoria);
+        return 1;
+    }
 }
