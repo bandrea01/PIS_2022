@@ -10,6 +10,7 @@ import Model.*;
 
 import java.awt.event.ActionListener;
 import java.sql.Blob;
+import java.util.ArrayList;
 
 public class ArticoloBusiness {
     private static ArticoloBusiness instance;
@@ -87,7 +88,7 @@ public class ArticoloBusiness {
         return 0;
     }
 
-    public int addArticolo(int id, String nome, float prezzo, String descrizione, String nomeCategoria, String isprodottoServizio, String produttoreFornitore) {
+    public int addArticolo(int id, String nome, float prezzo, String descrizione, String nomeCategoria, String isprodottoServizio, String produttoreFornitore, String sopraProdotto) {
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
 
@@ -117,6 +118,7 @@ public class ArticoloBusiness {
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         Produttore produttore = new Produttore();
 
+
         Servizio servizio = new Servizio();
         ServizioDAO servizioDAO = ServizioDAO.getInstance();
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
@@ -131,6 +133,18 @@ public class ArticoloBusiness {
             produttore = produttoreDAO.findByName(produttoreFornitore);
             prodotto.setProduttore(produttore);
             articoloDAO.addProdotto(prodotto);
+            if (!"Nessuno".equalsIgnoreCase(sopraProdotto)) {
+                Prodotto prodottoPadre = prodottoDAO.findByName(sopraProdotto);
+                if (prodottoPadre.getSottoProdotti() == null) {
+                    ArrayList<Prodotto> sottoProdotti = new ArrayList<>();
+                    sottoProdotti.add(prodotto);
+                    prodottoPadre.setSottoProdotti(sottoProdotti);
+                    prodottoDAO.updateSottoProdotti(prodottoPadre);
+                } else {
+                    prodottoPadre.getSottoProdotti().add(prodotto);
+                    prodottoDAO.updateSottoProdotti(prodottoPadre);
+                }
+            }
             return 2;
         } else if (isServizio.equalsIgnoreCase(isprodottoServizio)) {
             servizio.setName(nome);

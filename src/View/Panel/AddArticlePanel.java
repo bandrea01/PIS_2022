@@ -1,7 +1,9 @@
 package View.Panel;
 
+
 import DAO.Categoria.CategoriaDAO;
 import DAO.Fornitore.FornitoreDAO;
+import DAO.Prodotto.ProdottoDAO;
 import DAO.Produttore.ProduttoreDAO;
 import Model.*;
 import View.Listener.ManageArticlesListener;
@@ -33,6 +35,7 @@ public class AddArticlePanel extends JPanel {
         JLabel categoriaLabel = new JLabel("Category: ");
         JLabel prodottoServizioLabel = new JLabel("Product or Service: ");
         JLabel produttoreFornitoreLabel = new JLabel("");
+        JLabel sopraProdotto = new JLabel("Overproduct: ");
 
 
         JTextField id = new JTextField(15);
@@ -56,6 +59,11 @@ public class AddArticlePanel extends JPanel {
         produttoriFornitorichooses.setPreferredSize(new Dimension(7,7));
         produttoriFornitorichooses.setWide(true);
 
+        String[] prodotti = {""};
+        WideComboBox sopraProdottoChooses = new WideComboBox(prodotti);
+        sopraProdottoChooses.setPreferredSize(new Dimension(7,7));
+        sopraProdottoChooses.setWide(true);
+
         gridPanel.add(idLabel); gridPanel.add(id);
         gridPanel.add(nomeLabel); gridPanel.add(nome);
         gridPanel.add(prezzoLabel); gridPanel.add(prezzo);
@@ -66,13 +74,27 @@ public class AddArticlePanel extends JPanel {
         gridPanel.add(produttoreFornitoreLabel);
         gridPanel.add(produttoriFornitorichooses);
 
+
         isProdottoServizio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                updateProduttoriFornitorichooses();
+                updateProduttoriFornitoriChooses();
+                updateProdottiChooses();
             }
 
-            private void updateProduttoriFornitorichooses() {
+            private void updateProdottiChooses() {
+                String selectedElement = isProdottoServizio.getSelectedItem().toString();
+                sopraProdottoChooses.removeAllItems();
+                String[] updatedElements;
+                if (isProdotto.equals(selectedElement)) {
+                    updatedElements = getProdotti();
+                    for (String element : updatedElements) {
+                        sopraProdottoChooses.addItem(element);
+                    }
+                    gridPanel.add(sopraProdotto); gridPanel.add(sopraProdottoChooses);
+                }
+            }
+            private void updateProduttoriFornitoriChooses() {
                 String selectedElement = isProdottoServizio.getSelectedItem().toString();
                 produttoriFornitorichooses.removeAllItems();
                 String[] updatedElements;
@@ -85,7 +107,8 @@ public class AddArticlePanel extends JPanel {
                         updatedElements = getFornitori();
                         for (String element : updatedElements) {
                             produttoriFornitorichooses.addItem(element);
-                        }                    }
+                        }
+                }
                 }
         });
 
@@ -104,7 +127,7 @@ public class AddArticlePanel extends JPanel {
 
 
 
-        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses);
+        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses, sopraProdottoChooses);
         JButton confirm = ButtonCreator.createButton("Confirm", true, ButtonCreator.LILLE, listener, ManageArticlesListener.ADD_ARTICLE);
         south.add(confirm);
         JButton back = ButtonCreator.createButton("Go Back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null);
@@ -146,6 +169,16 @@ public class AddArticlePanel extends JPanel {
             nomiCategorie[i] = categorie.get(i - 1).getName();
         }
         return nomiCategorie;
+    }
+
+    private String[] getProdotti() {
+        ArrayList<Prodotto> prodotti = ProdottoDAO.getInstance().findAll();
+        String[] nomiProdotti = new String[prodotti.size() + 1];
+        nomiProdotti[0] = "Nessuno";
+        for (int i = 1; i < prodotti.size() + 1; i++) {
+            nomiProdotti[i] = prodotti.get(i-1).getName();
+        }
+        return nomiProdotti;
     }
 
 

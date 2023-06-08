@@ -75,7 +75,7 @@ public class ProdottoDAO implements IProdottoDAO {
     @Override
     public Prodotto findByName(String name) {
         executor = new DbOperationExecutor();
-        sql = "SELECT * FROM prodotto WHERE nome = '" + name + "';";
+        sql = "SELECT * FROM mydb.prodotto JOIN mydb.articolo ON articolo.idArticolo = prodotto.idProdotto WHERE articolo.nome='"+ name +"';";
         dbOperation = new ReadOperation(sql);
         rs = executor.executeOperation(dbOperation).getResultSet();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
@@ -85,7 +85,7 @@ public class ProdottoDAO implements IProdottoDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                prodotto.setId(rs.getInt("idServizio"));
+                prodotto.setId(rs.getInt("idProdotto"));
                 prodotto.setName(articolo.getName());
                 prodotto.setPrezzo(articolo.getPrezzo());
                 prodotto.setDescrizione(articolo.getDescrizione());
@@ -227,7 +227,7 @@ public class ProdottoDAO implements IProdottoDAO {
     public int addSottoProdotti(Prodotto prodotto) {
         int rowCount = 0;
         for (Prodotto p : prodotto.getSottoProdotti()) {
-            sql = "INSERT INTO prodotto_has_prodotto (idProdotto, idSottoProdotto) VALUES ('" + prodotto.getId() + "','" + p.getId() + "');";
+            sql = "INSERT INTO prodotto_has_prodotto (idProdotto, idSottoProdotto) VALUES (" + prodotto.getId() + "," + p.getId() + ");";
             executor = new DbOperationExecutor();
             dbOperation = new WriteOperation(sql);
             rowCount += executor.executeOperation(dbOperation).getRowsAffected();
@@ -259,12 +259,12 @@ public class ProdottoDAO implements IProdottoDAO {
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         ArrayList<Prodotto> prodotti = new ArrayList<>();
-        Prodotto prodotto = new Prodotto();
         try {
             while (rs2.next()) {
                 if (rs2.getRow() == 0){
                     return null;
                 }
+                Prodotto prodotto = new Prodotto();
                 Articolo articolo = articoloDAO.findById(rs2.getInt("idProdotto"));
                 prodotto.setId(rs2.getInt("idProdotto"));
                 prodotto.setName(articolo.getName());

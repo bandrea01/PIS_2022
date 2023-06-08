@@ -38,6 +38,7 @@ public class ManageArticlesListener implements ActionListener {
     private JTextField prezzo;
     private JTextField descrizione;
     private WideComboBox categoria;
+    private WideComboBox sopraProdotto;
     private WideComboBox articoli;
 
     private WideComboBox isProdottoServizio;
@@ -51,7 +52,7 @@ public class ManageArticlesListener implements ActionListener {
 
     private JPanel panel;
 
-    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore) {
+    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore, WideComboBox sopraProdotto) {
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
@@ -59,6 +60,7 @@ public class ManageArticlesListener implements ActionListener {
         this.categoria = categoria;
         this.isProdottoServizio = isProdottoServizio;
         this.produttoreFornitore = produttoreFornitore;
+        this.sopraProdotto = sopraProdotto;
     }
 
     public ManageArticlesListener(JTextField nome, WideComboBox categoria) {
@@ -113,6 +115,7 @@ public class ManageArticlesListener implements ActionListener {
             String category = categoria.getSelectedItem().toString();
             String isProductService = isProdottoServizio.getSelectedItem().toString();
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
+            String overProduct = sopraProdotto.getSelectedItem().toString();
 
             String selection = "Seleziona un elemento";
             ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
@@ -120,7 +123,7 @@ public class ManageArticlesListener implements ActionListener {
                 JOptionPane.showMessageDialog(null ,"Sono richiesti tutti i campi");
                 return;
             }
-            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier);
+            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct);
 
             switch (result) {
                 case 0:
