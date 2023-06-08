@@ -32,7 +32,7 @@ public class PuntoVenditaDAOTest {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
 
         puntoVenditaDAO.remove(myShopLecce);
-        utenteDAO.removeById(1);
+        utenteDAO.removeById(9991);
     }
     @Test
     public void findByNameTest() {
@@ -44,7 +44,7 @@ public class PuntoVenditaDAOTest {
     public void findAllTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         ArrayList<PuntoVendita> punti = puntoVenditaDAO.findAll();
-        Assert.assertEquals(2, punti.size());
+        Assert.assertEquals(1, punti.size());
     }
     @Test
     public void remove() {
@@ -55,11 +55,11 @@ public class PuntoVenditaDAOTest {
     @Test
     public void updateTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        PuntoVendita puntoVendita = new PuntoVendita(1, "MyShopBari", 1);
+        PuntoVendita puntoVendita = new PuntoVendita(9990, "MyShopBari", 9991);
         int rowCount = puntoVenditaDAO.update(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("MyShopBari");
-        Assert.assertEquals(1, puntoVendita.getIdPuntoVendita());
+        Assert.assertEquals(9990, puntoVendita.getIdPuntoVendita());
         Assert.assertEquals("MyShopBari", puntoVendita.getName());
-        Assert.assertEquals(1, puntoVendita.getIdManager());
+        Assert.assertEquals(9991, puntoVendita.getIdManager());
     }
 }

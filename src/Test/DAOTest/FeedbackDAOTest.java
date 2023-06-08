@@ -22,15 +22,15 @@ public class FeedbackDAOTest {
     ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
     FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
 
-    static Utente utente = new Utente(2,"bbb","bbb","bbb","bbb","321","321",1,"bbb","bbb");
-    static PuntoVendita punto = new PuntoVendita(1,"bbb",1);
+    static Utente utente = new Utente(9995,"bbb","bbb","bbb","bbb","321","321",1,"bbb","bbb");
+    static PuntoVendita punto = new PuntoVendita(9999,"bbb",9996);
 
-    static Manager manager = new Manager(1,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa", punto);
-    static ICategoria categoria = new Categoria(1,"Attrezzi", null);
-    static Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-    static Prodotto prodotto = new Prodotto(1, "Prodotto", 200F, "Descrizione", categoria, produttore);
-    static Feedback feedback1 = new Feedback(1,prodotto,utente,"Buono", Feedback.Gradimento.BUONO,"Grazie", manager);
-    static Feedback feedback2 = new Feedback(2,prodotto,utente,"Utile", Feedback.Gradimento.ECCELLENTE,"Grazie", manager);
+    static Manager manager = new Manager(9996,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa", punto);
+    static ICategoria categoria = new Categoria(9999,"Attrezzi", null);
+    static Produttore produttore = new Produttore(9999,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static Prodotto prodotto = new Prodotto(9999, "Prodotto", 200F, "Descrizione", categoria, produttore);
+    static Feedback feedback1 = new Feedback(9998,prodotto,utente,"Buono", Feedback.Gradimento.BUONO,"Grazie", manager);
+    static Feedback feedback2 = new Feedback(9999,prodotto,utente,"Utile", Feedback.Gradimento.ECCELLENTE,"Grazie", manager);
 
     @Before
     public void setUp(){

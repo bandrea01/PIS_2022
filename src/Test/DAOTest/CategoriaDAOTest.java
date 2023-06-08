@@ -12,8 +12,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class CategoriaDAOTest {
-    ICategoria giardino = new Categoria(1, "Giardino", null);
-    ICategoria attrezzi = new Categoria(2,"Attrezzi", giardino);
+    ICategoria giardino = new Categoria(9998, "Giardino", null);
+    ICategoria attrezzi = new Categoria(9999,"Attrezzi", giardino);
     @Before
     public void setUp() {
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
@@ -30,12 +30,12 @@ public class CategoriaDAOTest {
     @Test
     public void findById(){
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        Assert.assertEquals("Giardino", categoriaDAO.findById(1).getName());
+        Assert.assertEquals("Giardino", categoriaDAO.findById(9998).getName());
     }
     @Test
     public void findByName(){
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        Assert.assertEquals(2, categoriaDAO.findByName("Attrezzi").getId());
+        Assert.assertEquals(9999, categoriaDAO.findByName("Attrezzi").getId());
     }
     @Test
     public void findAll() {
@@ -52,8 +52,8 @@ public class CategoriaDAOTest {
     @Test
     public void update() {
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        ICategoria newCategoria = new Categoria(1, "Officina", null);
+        ICategoria newCategoria = new Categoria(9998, "Officina", null);
         categoriaDAO.update(newCategoria);
-        Assert.assertEquals("Officina", categoriaDAO.findById(1).getName());
+        Assert.assertEquals("Officina", categoriaDAO.findById(9998).getName());
     }
 }

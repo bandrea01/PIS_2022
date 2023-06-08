@@ -5,7 +5,6 @@ import DAO.Categoria.CategoriaDAO;
 import DAO.Collocazione.CollocazioneDAO;
 import DAO.Magazzino.MagazzinoDAO;
 import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
-import DAO.Prodotto.ProdottoDAO;
 import DAO.Produttore.ProduttoreDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
@@ -28,15 +27,15 @@ public class ProdottoMagazzinoDAOTest {
     MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
     ProdottiMagazzinoDAO prodottiMagazzinoDAO = ProdottiMagazzinoDAO.getInstance();
 
-    static PuntoVendita punto = new PuntoVendita(1,"bbb",1);
-    static Manager manager = new Manager(1,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa", punto);
-    static Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-    static ICategoria categoria = new Categoria(1,"Attrezzi", null);
-    static Collocazione collocazione = new Collocazione(20,1,1);
-    static Prodotto prodotto = new Prodotto(1, "Chiave inglese", 150F, "un frigorifero", categoria, produttore);
+    static PuntoVendita punto = new PuntoVendita(9999,"bbb",9999);
+    static Manager manager = new Manager(9999,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa", punto);
+    static Produttore produttore = new Produttore(9999,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static ICategoria categoria = new Categoria(9999,"Attrezzi", null);
+    static Collocazione collocazione = new Collocazione(999,999,999);
+    static Prodotto prodotto = new Prodotto(9999, "Chiave inglese", 150F, "un frigorifero", categoria, produttore);
 
-    static Magazzino magazzino = new Magazzino(1,punto);
-    static ProdottiMagazzino prodottoMagazzino = new ProdottiMagazzino(magazzino, collocazione, prodotto, 13);
+    static Magazzino magazzino = new Magazzino(9999,punto);
+    static ProdottiMagazzino prodottoMagazzino = new ProdottiMagazzino(magazzino, collocazione, prodotto, 99);
 
 
     @Before
@@ -59,12 +58,12 @@ public class ProdottoMagazzinoDAOTest {
 
     @Test
     public void findCollocazione(){
-        Assert.assertEquals(20, prodottiMagazzinoDAO.findCollocazioneProdotto(magazzino, prodotto).getIdCollocazione());
+        Assert.assertEquals(999, prodottiMagazzinoDAO.findCollocazioneProdotto(magazzino, prodotto).getIdCollocazione());
     }
 
     @Test
     public void findQuantita(){
-        Assert.assertEquals(13, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
+        Assert.assertEquals(99, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
     }
 
     @Test
@@ -76,14 +75,14 @@ public class ProdottoMagazzinoDAOTest {
 
     @Test
     public void addQuantita(){
-        prodottiMagazzinoDAO.addQuantita(magazzino, prodotto, 3);
-        Assert.assertEquals(16, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
+        prodottiMagazzinoDAO.addQuantita(magazzino, prodotto, 1);
+        Assert.assertEquals(100, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
     }
 
     @Test
     public void reduceQuantita(){
-        prodottiMagazzinoDAO.reduceQuantita(magazzino, prodotto, 3);
-        Assert.assertEquals(10, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
+        prodottiMagazzinoDAO.reduceQuantita(magazzino, prodotto, 1);
+        Assert.assertEquals(98, prodottiMagazzinoDAO.findQuantitaProdotto(magazzino, prodotto));
     }
 
     @After

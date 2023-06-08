@@ -3,7 +3,6 @@ package Test.DAOTest;
 import DAO.Articolo.ArticoloDAO;
 import DAO.ArticoloPuntoVendita.ArticoloPuntoVenditaDAO;
 import DAO.Categoria.CategoriaDAO;
-import DAO.Magazzino.MagazzinoDAO;
 import DAO.Produttore.ProduttoreDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
@@ -21,11 +20,11 @@ public class ArticoliPuntoDAOTest {
     private CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
     private ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
     private ArticoloPuntoVenditaDAO articoloPuntoVenditaDAO = ArticoloPuntoVenditaDAO.getInstance();
-    static Categoria categoria = new Categoria(1, "Cucina",null);
-    static Produttore produttore = new Produttore(1, "Samsung", "aaa", "Tokyo", "Giappone");
-    static Prodotto prodotto = new Prodotto(1,"Forno", 200F, "aaa", categoria, produttore);
-    static PuntoVendita punto = new PuntoVendita(1,"bbb",1);
-    static Manager manager = new Manager(1,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa",punto);
+    static Categoria categoria = new Categoria(9999, "Cucina",null);
+    static Produttore produttore = new Produttore(9999, "Samsung", "aaa", "Tokyo", "Giappone");
+    static Prodotto prodotto = new Prodotto(9999,"Forno", 200F, "aaa", categoria, produttore);
+    static PuntoVendita punto = new PuntoVendita(9999,"bbb",9999);
+    static Manager manager = new Manager(9999,"aaa","aaa","aaa","aaa","123","123",0,"aaa","aaa",punto);
 
     @Before
     public void setUp(){

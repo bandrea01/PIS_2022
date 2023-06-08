@@ -61,7 +61,7 @@ public class UtenteDAOTest {
     public void findAllTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         ArrayList<Utente> utenti = utenteDAO.findAll();
-        Assert.assertEquals(5, utenti.size());
+        Assert.assertEquals(3, utenti.size());
     }
     @Test
     public void updateTest() {

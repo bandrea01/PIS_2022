@@ -22,14 +22,14 @@ public class OrdineDAOTest {
     UtenteDAO utenteDAO = UtenteDAO.getInstance();
     OrdineDAO ordineDAO = OrdineDAO.getInstance();
     ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-    static ICategoria categoria1 = new Categoria(1,"Giardino", null);
-    static ICategoria categoria2 = new Categoria(2,"Attrezzi", categoria1);
-    static Fornitore fornitore = new Fornitore(1,"Amazon","www.amazon.com","Seattle", "USA");
-    static Produttore produttore = new Produttore(1,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-    static Utente utente = new Utente(1,"Cristian","Scarciglia","cristian.scarciglia@gmail.com","cristians","111","11111111", 21, "Nociglia", "Studente");
-    static Prodotto sottoProdotto1 = new Prodotto(1, "Chiave Inglese", 15F, "chiave", categoria2, produttore);
-    static Prodotto sottoProdotto2 = new Prodotto(2, "Cacciavite", 8F, "cacciavite", categoria2, produttore);
-    static Servizio servizio = new Servizio(4,"Montaggio", 300F, "montaggio cucina", categoria2, fornitore);
+    static ICategoria categoria1 = new Categoria(9998,"Giardino", null);
+    static ICategoria categoria2 = new Categoria(9999,"Attrezzi", categoria1);
+    static Fornitore fornitore = new Fornitore(9999,"Amazon","www.amazon.com","Seattle", "USA");
+    static Produttore produttore = new Produttore(9999,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static Utente utente = new Utente(9999,"Cristian","Scarciglia","cristian.scarciglia@gmail.com","cristians","111","11111111", 21, "Nociglia", "Studente");
+    static Prodotto sottoProdotto1 = new Prodotto(9998, "Chiave Inglese", 15F, "chiave", categoria2, produttore);
+    static Prodotto sottoProdotto2 = new Prodotto(9999, "Cacciavite", 8F, "cacciavite", categoria2, produttore);
+    static Servizio servizio = new Servizio(9995,"Montaggio", 300F, "montaggio cucina", categoria2, fornitore);
     static Prodotto prodotto;
     static Ordine ordine;
 
@@ -38,7 +38,7 @@ public class OrdineDAOTest {
         ArrayList<Prodotto> list = new ArrayList<>();
         list.add(sottoProdotto1);
         list.add(sottoProdotto2);
-        prodotto = new Prodotto(3, "Kit", "un kit", categoria2, produttore, list);
+        prodotto = new Prodotto(9996, "Kit", "un kit", categoria2, produttore, list);
 
         ProdottoOrdine prodottoOrdine1 = new ProdottoOrdine(prodotto,1);
         ProdottoOrdine prodottoOrdine2 = new ProdottoOrdine(sottoProdotto1,2);
