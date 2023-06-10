@@ -12,4 +12,6 @@ public interface IMagazzinoDAO {
     int update(Magazzino magazzino);
     int add(Magazzino magazzino);
     int remove(Magazzino magazzino);
+
+    boolean existForPunto(PuntoVendita puntoVendita);
 }

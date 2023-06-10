@@ -82,7 +82,7 @@ public class MagazzinoDAO implements IMagazzinoDAO{
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            executor.close(dbOperation);
+            executor.close(readOp);
         }
         return null;
     }
@@ -145,4 +145,23 @@ public class MagazzinoDAO implements IMagazzinoDAO{
         return rowCount;
     }
 
+    @Override
+    public boolean existForPunto(PuntoVendita puntoVendita) {
+        String sql = "SELECT count(*) AS count FROM mydb.magazzino AS C WHERE C.idPuntoVendita=" + puntoVendita.getIdPuntoVendita() + ";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -57,9 +57,9 @@ public class CatalogTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         switch(columnIndex) {
-            case 0: return "ID prodotto";
+            case 0: return "ID articolo";
             case 1: return "Nome";
-            case 2: return "Produttore";
+            case 2: return "Produttore-Fornitore";
             case 3: return "Categoria";
             case 4: return "Prezzo (€)";
             case 5: return "Seleziona";

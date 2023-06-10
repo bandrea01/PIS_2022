@@ -33,8 +33,6 @@ public class DeleteArticlePanel extends JPanel {
         ManageArticlesListener listener = new ManageArticlesListener(articoliChooses);
         buttonsPanel.add(ButtonCreator.createButton("Confirm",true,ButtonCreator.LILLE, listener, ManageArticlesListener.DELETE_ARTICLE));
         buttonsPanel.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null));
-        buttonsPanel.add(new JLabel("Attenzione, eliminando un prodotto "));
-        buttonsPanel.add(new JLabel("eliminerai anche i suoi sottoprodotti"));
 
 
         this.add(gridPanel, BorderLayout.CENTER);

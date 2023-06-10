@@ -302,4 +302,19 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void addMagazzino() {
+        centre.removeAll();
+        setSize(600,500);
+        centre.add(new AddMagazzinoPanel(this));
+        repaint();
+        validate();
+    }
+
+    public void modifyMagazzino() {
+        centre.removeAll();
+        centre.add(new ModifyMagazzinoPanel(this));
+        repaint();
+        validate();
+    }
 }

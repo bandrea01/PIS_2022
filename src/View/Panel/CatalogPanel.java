@@ -34,7 +34,9 @@ public class CatalogPanel extends JPanel {
                 row.setProduttoreFornitore(p.getProduttore().getNome());
             } else {
                 Servizio s = ServizioDAO.getInstance().findById(a.getId());
-                row.setProduttoreFornitore(s.getFornitore().getNome());
+                if (s.getFornitore() != null) {
+                    row.setProduttoreFornitore(s.getFornitore().getNome());
+                }
             }
             row.setChecked(false);
             row.setImageIcon(getClass().getClassLoader().getResourceAsStream("image/folder.png"));

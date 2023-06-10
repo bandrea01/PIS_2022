@@ -217,14 +217,15 @@ public class UtenteDAO implements IUtenteDAO {
     }
     @Override
     public int addManager(Utente utente) {
-        Manager manager = (Manager) utente;
         executor = new DbOperationExecutor();
-        int rowCount;
-        String sql1 = "INSERT INTO utente (idUtente, nome, cognome, email, username, password, telefono, eta, residenza, professione) VALUES ('" + manager.getId() + "','" + manager.getName() + "', '" + manager.getSurname() + "','" + manager.getEmail() + "','" + manager.getUsername() + "','" + manager.getPassword() + "','" + manager.getPhone() + "','" + manager.getAge() + "','" + manager.getCity() + "','" + manager.getJob() + "');";
-        String sql2 = "INSERT INTO manager (idManager) VALUES ('" + manager.getId() + "');";
-        IDbOperation writeOp1 = new WriteOperation(sql1);
-        rowCount = executor.executeOperation(writeOp1).getRowsAffected();
-        executor.close(writeOp1);
+        int rowCount = 0;
+        String sql1 = "INSERT INTO utente (idUtente, nome, cognome, email, username, password, telefono, eta, residenza, professione) VALUES ('" + utente.getId() + "','" + utente.getName() + "', '" + utente.getSurname() + "','" + utente.getEmail() + "','" + utente.getUsername() + "','" + utente.getPassword() + "','" + utente.getPhone() + "','" + utente.getAge() + "','" + utente.getCity() + "','" + utente.getJob() + "');";
+        String sql2 = "INSERT INTO manager (idManager) VALUES ('" + utente.getId() + "');";
+        if (!userExist(utente.getUsername())) {
+            IDbOperation writeOp1 = new WriteOperation(sql1);
+            rowCount = executor.executeOperation(writeOp1).getRowsAffected();
+            executor.close(writeOp1);
+        }
         IDbOperation writeOp2 = new WriteOperation(sql2);
         rowCount += executor.executeOperation(writeOp2).getRowsAffected();
         executor.close(writeOp2);

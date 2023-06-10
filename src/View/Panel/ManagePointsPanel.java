@@ -41,6 +41,7 @@ public class ManagePointsPanel extends JPanel {
         south.add(ButtonCreator.createButton("Create Manager", true, ButtonCreator.LILLE, e -> utenteBusiness.createManager(), null));
         south.add(ButtonCreator.createButton("Delete Manager", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_MAN_BTN));
         south.add(ButtonCreator.createButton("Delete Point", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_BTN));
+        south.add(ButtonCreator.createButton("Add Warehouse", true, ButtonCreator.LILLE, e -> window.addMagazzino(), null));
 
 
         //Aggiungo al pannello principale
