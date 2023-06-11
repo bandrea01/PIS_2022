@@ -15,4 +15,6 @@ public interface IPuntoVenditaDAO {
     int add(PuntoVendita puntoVendita);
     int remove(PuntoVendita puntoVendita);
     int update(PuntoVendita puntoVendita);
+
+    boolean hasThisManager(int id);
 }

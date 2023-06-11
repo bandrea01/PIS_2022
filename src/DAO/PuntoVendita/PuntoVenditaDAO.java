@@ -196,6 +196,24 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     }
 
 
+    @Override
+    public boolean hasThisManager(int id) {
+        String sql = "SELECT count(*) AS count FROM puntovendita WHERE idManager =" + id + ";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
 
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
 

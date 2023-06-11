@@ -56,8 +56,7 @@ public class CreatePointPanel extends JPanel {
 
         //Buttons panel
         PuntoVenditaBusiness puntoVenditaBusiness = new PuntoVenditaBusiness();
-        String selectedEmail = (String) emailChooses.getSelectedItem();
-        buttonsPanel.add(ButtonCreator.createButton("Conferma", true, ButtonCreator.LILLE, e -> puntoVenditaBusiness.createPuntoVendita(pointNameField.getText(), selectedEmail, getSelectedArticles(articoliPanel), window) , null));
+        buttonsPanel.add(ButtonCreator.createButton("Conferma", true, ButtonCreator.LILLE, e -> puntoVenditaBusiness.createPuntoVendita(pointNameField.getText(), emailChooses, getSelectedArticles(articoliPanel), window) , null));
         buttonsPanel.add(ButtonCreator.createButton("Select all", true, ButtonCreator.LILLE, e -> selectAll(articoliPanel), null));
         buttonsPanel.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.managePoints(), null));
 
