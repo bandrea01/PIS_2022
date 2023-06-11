@@ -8,6 +8,7 @@ import Model.Manager;
 import Model.PuntoVendita;
 import Model.Utente;
 import View.MainLayout;
+import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -44,17 +45,22 @@ public class PuntoVenditaBusiness {
         }
         return string.toString();
     }
-    public void createPuntoVendita (String name, String manager, ArrayList<Articolo> articoli, MainLayout window){
+    public void createPuntoVendita (String name, WideComboBox manager, ArrayList<Articolo> articoli, MainLayout window){
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         ArticoloPuntoVenditaDAO articoloPuntoVenditaDAO = ArticoloPuntoVenditaDAO.getInstance();
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
 
+
         PuntoVendita puntoVendita = new PuntoVendita();
-        if (!utenteDAO.emailExist(manager)){
+        if (!utenteDAO.emailExist(manager.getSelectedItem().toString())){
             JOptionPane.showMessageDialog(null,"Error! Email doesn't exist");
             return;
         }
-        Utente utente = utenteDAO.findByEmail(manager);
+        Utente utente = utenteDAO.findByEmail(manager.getSelectedItem().toString());
+        if (puntoVenditaDAO.hasThisManager(utente.getId())) {
+            JOptionPane.showMessageDialog(null, "L'utente selezionato è già manager di un punto vendita");
+            return;
+        }
         if (!utenteDAO.isManager(utente.getUsername())){
             JOptionPane.showMessageDialog(null,"Error! User selected is not a manager");
             return;
