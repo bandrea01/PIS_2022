@@ -1,16 +1,16 @@
 package DAO.Ordine;
 
-import DAO.Articolo.ArticoloDAO;
-import DAO.Magazzino.MagazzinoDAO;
 import DAO.Prodotto.ProdottoDAO;
-import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Servizio.ServizioDAO;
 import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.*;
+import Model.Ordine;
+import Model.ProdottoOrdine;
+import Model.Servizio;
+import Model.Utente;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -230,6 +230,18 @@ public class OrdineDAO implements IOrdineDAO{
         this.removeProdottiOrdine(ordine.getIdOrdine());
         this.removeServiziOrdine(ordine.getIdOrdine());
         sql = "DELETE FROM ordine WHERE idOrdine = '" + ordine.getIdOrdine() + "';";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+    @Override
+    public int removeById(int id) {
+        executor = new DbOperationExecutor();
+        this.removeProdottiOrdine(id);
+        this.removeServiziOrdine(id);
+        sql = "DELETE FROM ordine WHERE idOrdine = '" + id + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

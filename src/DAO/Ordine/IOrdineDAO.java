@@ -18,4 +18,6 @@ public interface IOrdineDAO {
     int removeServiziOrdine(int idOrdine);
     int remove(Ordine ordine);
 
+    int removeById(int id);
+
 }
