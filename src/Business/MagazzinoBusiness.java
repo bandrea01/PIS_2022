@@ -83,7 +83,12 @@ public class MagazzinoBusiness {
             prodottiMagazzino.setProdotto(prodotto);
             prodottiMagazzino.setQuantita(quantita[i]);
             prodottiMagazzino.setCollocazione(collocazione);
-            prodottiMagazzinoDAO.update(prodottiMagazzino);
+
+            if (prodottiMagazzinoDAO.magazzinoHasProdotto(magazzino, prodotto)) {
+                prodottiMagazzinoDAO.update(prodottiMagazzino);
+            } else {
+                prodottiMagazzinoDAO.add(prodottiMagazzino);
+            }
         }
 
         return 0;
