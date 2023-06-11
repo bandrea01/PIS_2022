@@ -39,7 +39,7 @@ public class AddSupplierPanel extends JPanel {
 
         this.add(gridPanel, BorderLayout.CENTER);
         this.add(south, BorderLayout.SOUTH);
-
+        this.validate(); this.repaint();
         setVisible(true);
     }
 }

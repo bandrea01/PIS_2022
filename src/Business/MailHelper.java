@@ -1,8 +1,15 @@
 package Business;
 
-import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.util.Properties;
 
 public class MailHelper {
 
@@ -16,15 +23,8 @@ public class MailHelper {
             instance = new MailHelper();
         return instance;
     }
-    /** Test */
-    /*
-    public static void main(String args[]) {
 
-        new MailHelper().send("andrea.barone1401@gmail.com", "oggetto", "msg di test");
-    }
-     */
-
-    public void send(String to,String sub,String msg){
+    public void send(String to,String sub,String msg, File allegato){
         //Get properties object
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -43,10 +43,30 @@ public class MailHelper {
                 });
         //compose message
         try {
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            // Crea un oggetto `Message` per comporre l'email
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FROM));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(sub);
-            message.setText(msg);
+
+            // Crea la parte del messaggio testuale
+            MimeBodyPart testo = new MimeBodyPart();
+            testo.setText(msg);
+
+            // Crea la parte dell'allegato
+            MimeBodyPart sezioneAllegato = new MimeBodyPart();
+            DataSource source = new FileDataSource(allegato.getAbsolutePath());
+            sezioneAllegato.setDataHandler(new DataHandler(source));
+            sezioneAllegato.setFileName(allegato.getName());
+
+
+            // Crea il contenitore per le parti del messaggio
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(testo);
+            multipart.addBodyPart(sezioneAllegato);
+
+            // Imposta il contenuto del messaggio come il contenitore multipart
+            message.setContent(multipart);
             //send message
             Transport.send(message);
             System.out.println("message sent successfully");

@@ -1,12 +1,13 @@
 package View.Panel;
 
-import Business.PuntoVenditaBusiness;
-
 import DAO.Magazzino.MagazzinoDAO;
 import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import Model.*;
+import Model.Magazzino;
+import Model.ProdottiMagazzino;
+import Model.Prodotto;
+import Model.PuntoVendita;
 import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
@@ -72,6 +73,7 @@ public class ModifyMagazzinoPanel extends JPanel {
 
         add(infoPanel, BorderLayout.NORTH);
         add(prodottiPanel, BorderLayout.CENTER);
+        this.validate(); this.repaint();
 
         //Buttons panel
 

@@ -41,7 +41,7 @@ public class AddCategoryPanel extends JPanel {
         buttonsPanel.add(ButtonCreator.createButton("Go Back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null));
 
         this.add(buttonsPanel, BorderLayout.SOUTH);
-
+        this.validate(); this.repaint();
         setVisible(true);
 
 

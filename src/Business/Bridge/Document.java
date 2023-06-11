@@ -7,7 +7,5 @@ public abstract class Document {
         this.pdfAPI = pdfAPI;
     }
 
-    public void invia(String indirizzo) {
-        //TODO codice invio per email
-    }
+    public void invia(String indirizzo) {}
 }

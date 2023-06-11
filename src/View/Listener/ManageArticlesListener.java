@@ -12,7 +12,6 @@ import DAO.Produttore.ProduttoreDAO;
 import DAO.Servizio.ServizioDAO;
 import Model.ICategoria;
 import Model.Prodotto;
-import Model.Produttore;
 import Model.Servizio;
 import View.ViewModel.WideComboBox;
 
@@ -115,8 +114,10 @@ public class ManageArticlesListener implements ActionListener {
             String category = categoria.getSelectedItem().toString();
             String isProductService = isProdottoServizio.getSelectedItem().toString();
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
-            String overProduct = sopraProdotto.getSelectedItem().toString();
-
+            String overProduct = null;
+            if (sopraProdotto.getSelectedItem() != null) {
+                overProduct = sopraProdotto.getSelectedItem().toString();
+            }
             String selection = "Seleziona un elemento";
             ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
             if (category.equalsIgnoreCase(selection) || isProductService.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase("Seleziona un fornitore") || productorSupplier.equalsIgnoreCase("Seleziona un produttore")) {

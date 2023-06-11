@@ -1,14 +1,11 @@
 package Business;
 
-import DAO.Articolo.ArticoloDAO;
-import DAO.Categoria.CategoriaDAO;
-import DAO.Fornitore.FornitoreDAO;
-import DAO.Prodotto.ProdottoDAO;
-import DAO.Produttore.ProduttoreDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Servizio.ServizioDAO;
 import DAO.Utente.UtenteDAO;
-import Model.*;
+import Model.Amministratore;
+import Model.Manager;
+import Model.PuntoVendita;
+import Model.Utente;
 
 import javax.swing.*;
 import java.security.SecureRandom;
@@ -44,7 +41,7 @@ public class UtenteBusiness {
             while (!sessione.isScaduta()) {
                 System.out.println("Sessione attiva...");
                 mailHelper.send(email, "Richiesta credenziali", "" +
-                        "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token);
+                        "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token, null);
                 String input = JOptionPane.showInputDialog("Insert the token you recived in your email");
                 String newPassword;
                 if (input.equals(token)){

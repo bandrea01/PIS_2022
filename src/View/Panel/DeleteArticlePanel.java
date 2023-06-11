@@ -37,6 +37,7 @@ public class DeleteArticlePanel extends JPanel {
 
         this.add(gridPanel, BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);
+        this.validate(); this.repaint();
 
         setVisible(true);
     }

@@ -1,6 +1,5 @@
 package View.Panel;
 
-import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
 
@@ -28,5 +27,6 @@ public class ManageArticlesPanel extends JPanel {
 
 
         setVisible(true);
+
     }
 }

@@ -74,6 +74,6 @@ public class CatalogPanel extends JPanel {
 
         buttonsTable.add(cart);
         add(cart, BorderLayout.SOUTH);
-
+        this.validate(); this.repaint();
     }
 }
