@@ -17,5 +17,5 @@ public interface IProdottiMagazzinoDAO {
     int update(ProdottiMagazzino prodottoMagazzino);
     int remove(ProdottiMagazzino prodottoMagazzino);
     int removeProdotto(Prodotto prodotto);
-
+    boolean magazzinoHasProdotto(Magazzino magazzino, Prodotto prodotto);
 }

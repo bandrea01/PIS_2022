@@ -2,10 +2,7 @@ package View;
 
 import Business.SessionManager;
 import Business.UtenteBusiness;
-import Model.Amministratore;
-import Model.Manager;
-import Model.PuntoVendita;
-import Model.Utente;
+import Model.*;
 import View.MenuDecorator.*;
 import View.Listener.LoginListener;
 import View.Panel.*;
@@ -313,6 +310,7 @@ public class MainLayout extends JFrame {
 
     public void modifyMagazzino() {
         centre.removeAll();
+        setSize(600,500);
         centre.add(new ModifyMagazzinoPanel(this));
         repaint();
         validate();

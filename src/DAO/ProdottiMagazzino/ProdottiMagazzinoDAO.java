@@ -67,7 +67,7 @@ public class ProdottiMagazzinoDAO implements IProdottiMagazzinoDAO{
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            executor.close(dbOperation);
+            executor.close(readOp);
         }
         return null;
     }
@@ -187,5 +187,25 @@ public class ProdottiMagazzinoDAO implements IProdottiMagazzinoDAO{
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    @Override
+    public boolean magazzinoHasProdotto(Magazzino magazzino, Prodotto prodotto) {
+        String sql = "SELECT count(*) AS count FROM mydb.magazzino_has_prodotto AS C WHERE C.idMagazzino=" + magazzino.getId() + " and C.idProdotto=" + prodotto.getId() + ";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

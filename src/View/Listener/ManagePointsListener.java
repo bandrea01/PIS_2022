@@ -21,6 +21,7 @@ public class ManagePointsListener implements ActionListener {
     public final static String DELETE_BTN = "delete-btn";
     public final static String DELETE_MAN_BTN = "delete-man-btn";
     public final static String ADD_MAG = "addmagazzino-btn";
+    public final static String MODIFY_MAG = "modifymagazzino-btn";
 
     private MainLayout window;
 
@@ -131,8 +132,69 @@ public class ManagePointsListener implements ActionListener {
                 case 2:
                     JOptionPane.showMessageDialog(null, "Il punto vendita selezionato ha già un magazzino");
                     break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Un prodotto non è disponibile nel punto vendita selezionato");
+                    return;
                 case 0:
                     JOptionPane.showMessageDialog(null, "Il magazzino è stato inserito correttamente");
+                    break;
+            }
+        } else if (MODIFY_MAG.equals(action)) {
+            ArrayList<Integer> selectedIndex = new ArrayList<>();
+            ArrayList<Integer> unselectedIndex = new ArrayList<>();
+            for (int i = 0; i < selectedIndex.size(); i++) {
+                selectedIndex.remove(i);
+            }
+            for (int i = 0; i < unselectedIndex.size(); i++) {
+                unselectedIndex.remove(i);
+            }
+            for (int i = 0; i < prodottiBox.size(); i++) {
+                if (prodottiBox.get(i).isSelected()) {
+                    selectedIndex.add(i);
+                } else {
+                    unselectedIndex.add(i);
+                }
+            }
+
+            if (puntoVendita.getSelectedItem().toString().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Inserisci il punto vendita");
+                return;
+            }
+            String nomePuntoVendita = puntoVendita.getSelectedItem().toString();
+            String[] nomeProdotti = new String[selectedIndex.size()];
+            int[] nCorsia = new int[selectedIndex.size()];
+            int[] nScaffale = new int[selectedIndex.size()];
+            int[] nQuantita = new int[selectedIndex.size()];
+            for (int i = 0; i < selectedIndex.size(); i++) {
+                if (corsia[selectedIndex.get(i)].getText().isEmpty()|| scaffale[selectedIndex.get(i)].getText().isEmpty() || quantita[selectedIndex.get(i)].getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Inserisci numero di corsia, di scaffale e quantità per i prodotti selezionati.");
+                    return;
+                }
+                nomeProdotti[i] = prodottiBox.get(selectedIndex.get(i)).getText();
+                nCorsia[i] = Integer.parseInt(corsia[selectedIndex.get(i)].getText());
+                nScaffale[i] = Integer.parseInt(scaffale[selectedIndex.get(i)].getText());
+                nQuantita[i] = Integer.parseInt(quantita[selectedIndex.get(i)].getText());
+            }
+
+            String[] nomeProdottiUnselected = new String[unselectedIndex.size()];
+            for (int i = 0; i < unselectedIndex.size(); i++) {
+                nomeProdottiUnselected[i] = prodottiBox.get(unselectedIndex.get(i)).getText();
+            }
+
+            MagazzinoBusiness magazzinoBusiness = MagazzinoBusiness.getInstance();
+            int result = magazzinoBusiness.modifyMagazzino(nomePuntoVendita, nomeProdotti, nomeProdottiUnselected, nCorsia, nScaffale, nQuantita);
+            switch (result) {
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Seleziona un punto vendita");
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Il punto vendita selezionato non ha ancora un magazzino");
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Un prodotto non è disponibile nel punto vendita selezionato");
+                    return;
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Il magazzino è stato modificato correttamente");
                     break;
             }
         }

@@ -102,4 +102,24 @@ public class ArticoloPuntoVenditaDAO implements IArticoloPuntoVenditaDAO {
         executor.close(dbOperation);
         return rowCount;
     }
+
+    @Override
+    public boolean hasArticolo(PuntoVendita puntoVendita, Articolo articolo) {
+        String sql = "SELECT count(*) AS count FROM mydb.puntovendita_has_articolo AS C WHERE C.idPuntoVendita=" + puntoVendita.getIdPuntoVendita() + " and C.idArticolo=" + articolo.getId() + ";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

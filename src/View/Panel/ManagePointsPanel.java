@@ -31,18 +31,18 @@ public class ManagePointsPanel extends JPanel {
 
         //Pannello bottoni south
         south = new JPanel();
-        south.setLayout(new GridLayout(2,2));
+        south.setLayout(new GridLayout(6,2));
         south.setAlignmentX(CENTER_ALIGNMENT);
 
         //Bottoni centro: crea, modifica, elimina
         UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
-        south.add(ButtonCreator.createButton("Create new", true, ButtonCreator.LILLE, e -> window.showCreatePointPanel(), null));
-        south.add(ButtonCreator.createButton("Modify", true, ButtonCreator.LILLE, listener, ManagePointsListener.MODIFY_BTN));
+        south.add(ButtonCreator.createButton("Create new Point", true, ButtonCreator.LILLE, e -> window.showCreatePointPanel(), null));
+        south.add(ButtonCreator.createButton("Modify Point", true, ButtonCreator.LILLE, listener, ManagePointsListener.MODIFY_BTN));
         south.add(ButtonCreator.createButton("Create Manager", true, ButtonCreator.LILLE, e -> utenteBusiness.createManager(), null));
         south.add(ButtonCreator.createButton("Delete Manager", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_MAN_BTN));
         south.add(ButtonCreator.createButton("Delete Point", true, ButtonCreator.LILLE, listener, ManagePointsListener.DELETE_BTN));
         south.add(ButtonCreator.createButton("Add Warehouse", true, ButtonCreator.LILLE, e -> window.addMagazzino(), null));
-
+        south.add(ButtonCreator.createButton("Modify Warehouse", true, ButtonCreator.LILLE, e -> window.modifyMagazzino(), null));
 
         //Aggiungo al pannello principale
         this.add(centre, BorderLayout.CENTER);
