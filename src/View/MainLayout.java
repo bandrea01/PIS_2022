@@ -24,6 +24,7 @@ public class MainLayout extends JFrame {
     private JPanel down;
     private JMenuBar menuBar;
 
+
     public MainLayout(){
         //Settaggio finestra principale applicazione
         super ("MyShop");
@@ -152,8 +153,11 @@ public class MainLayout extends JFrame {
 
         //Sessione manager
         if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Manager) {
-            // TODO Decoriamo con ManagerMenuDecorator
-            //Catena di decorator
+            View.MenuDecorator.Menu guestMenu = new GuestMenu(this);
+            ManagerMenuDecorator managerMenu = new ManagerMenu(guestMenu, this);
+            for (JButton b : managerMenu.getButtons()) {
+                left.add(b);
+            }
         }
         //Sessione admin
         else if (SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Amministratore) {
@@ -210,7 +214,10 @@ public class MainLayout extends JFrame {
     }
 
     public void manageStore() {
-        //TODO
+        centre.removeAll();
+        centre.add(new ManageStorePanel(this));
+        repaint();
+        validate();
     }
 
 
@@ -315,4 +322,5 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
 }
