@@ -55,16 +55,18 @@ public class MailHelper {
 
             // Crea la parte dell'allegato
             MimeBodyPart sezioneAllegato = new MimeBodyPart();
-            DataSource source = new FileDataSource(allegato.getAbsolutePath());
-            sezioneAllegato.setDataHandler(new DataHandler(source));
-            sezioneAllegato.setFileName(allegato.getName());
-
+            if (allegato != null) {
+                DataSource source = new FileDataSource(allegato.getAbsolutePath());
+                sezioneAllegato.setDataHandler(new DataHandler(source));
+                sezioneAllegato.setFileName(allegato.getName());
+            }
 
             // Crea il contenitore per le parti del messaggio
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(testo);
-            multipart.addBodyPart(sezioneAllegato);
-
+            if (allegato != null) {
+                multipart.addBodyPart(sezioneAllegato);
+            }
             // Imposta il contenuto del messaggio come il contenitore multipart
             message.setContent(multipart);
             //send message
