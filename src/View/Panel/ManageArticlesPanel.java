@@ -24,7 +24,7 @@ public class ManageArticlesPanel extends JPanel {
         buttonsPanel.add(ButtonCreator.createButton("Delete Supplier", true, ButtonCreator.LILLE, e -> window.deleteSupplier(), null));
 
         this.add(buttonsPanel, BorderLayout.CENTER);
-
+        this.repaint(); this.validate();
 
         setVisible(true);
 

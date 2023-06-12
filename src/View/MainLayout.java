@@ -209,8 +209,11 @@ public class MainLayout extends JFrame {
         validate();
     }
 
-    public void manageCustoms() {
-        //TODO
+    public void manageClienti() {
+        centre.removeAll();
+        centre.add(new ManageClientiPanel(this));
+        repaint();
+        validate();
     }
 
     public void manageStore() {
@@ -323,4 +326,17 @@ public class MainLayout extends JFrame {
         validate();
     }
 
+    public void disabilitaCliente() {
+        centre.removeAll();
+        centre.add(new DisabilitaClientePanel(this));
+        repaint();
+        validate();
+    }
+
+    public void cancellaCliente() {
+        centre.removeAll();
+        centre.add(new CancellaClientePanel(this));
+        repaint();
+        validate();
+    }
 }

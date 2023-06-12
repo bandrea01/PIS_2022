@@ -1,5 +1,7 @@
 package DAO.ClientePuntoVendita;
 
+import DAO.Collocazione.CollocazioneDAO;
+import DAO.Prodotto.ProdottoDAO;
 import DAO.Utente.IUtenteDAO;
 import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
@@ -10,6 +12,7 @@ import Model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     private final static ClientePuntoVenditaDAO instance = new ClientePuntoVenditaDAO();
@@ -29,8 +32,62 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     public static ClientePuntoVenditaDAO getInstance(){
         return instance;
     }
+
     @Override
-    public boolean isClienteBanned(Cliente cliente, PuntoVendita puntoVendita) {
+    public int banCliente(Utente cliente, PuntoVendita puntoVendita) {
+        executor = new DbOperationExecutor();
+        sql = "UPDATE puntovendita_has_cliente SET bannato =1 WHERE idPuntoVendita =" + puntoVendita.getIdPuntoVendita() + " AND idUtente =" + cliente.getId() + ";";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+    @Override
+    public int unbanCliente(Utente cliente, PuntoVendita puntoVendita) {
+        executor = new DbOperationExecutor();
+        sql = "UPDATE puntovendita_has_cliente SET bannato =0 WHERE idPuntoVendita =" + puntoVendita.getIdPuntoVendita() + " AND idUtente =" + cliente.getId() + ";";
+        dbOperation = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        executor.close(dbOperation);
+        return rowCount;
+    }
+
+    @Override
+    public ArrayList<Utente> findAllByPunto(PuntoVendita punto) {
+        String sql = "SELECT * FROM puntovendita_has_cliente WHERE idPuntoVendita = " + punto.getIdPuntoVendita() + ";";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+
+        ArrayList<Utente> listaUtenti = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Utente utente = utenteDAO.findById(rs.getInt("idUtente"));
+
+                listaUtenti.add(utente);
+            }
+            return listaUtenti;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
+    }
+
+
+
+    @Override
+    public boolean isClienteBanned(Utente cliente, PuntoVendita puntoVendita) {
         executor = new DbOperationExecutor();
         sql = "SELECT * FROM puntovendita_has_cliente WHERE idUtente = '" + cliente.getId() + "' AND idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
         dbOperation = new ReadOperation(sql);
@@ -106,6 +163,16 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
         return rowCount;
     }
 
+    @Override
+    public int removeClienteFromPuntoVendita(Utente cliente, PuntoVendita puntoVendita) {
+        executor = new DbOperationExecutor();
+        int rowCount;
+        String sql =  "DELETE FROM puntovendita_has_cliente WHERE idUtente = " + cliente.getId() + " AND idPuntoVendita = " + puntoVendita.getIdPuntoVendita() + ";";
+        IDbOperation writeOp = new WriteOperation(sql);
+        rowCount = executor.executeOperation(writeOp).getRowsAffected();
+        executor.close(writeOp);
+        return rowCount;
+    }
     @Override
     public int remove(Cliente cliente){
         executor = new DbOperationExecutor();

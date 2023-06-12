@@ -20,7 +20,7 @@ public class ManagerMenu extends ManagerMenuDecorator {
         buttons.addAll(this.menu.getButtons());
         //Funzioni manager
         JButton magazzino = ButtonCreator.createButton("Supply products", true, ButtonCreator.LIGHT_BLUE, e -> window.manageStore(), null);
-        JButton clienti = ButtonCreator.createButton("My Customers", true, ButtonCreator.LIGHT_BLUE, e -> window.manageCustoms(), null);
+        JButton clienti = ButtonCreator.createButton("My Customers", true, ButtonCreator.LIGHT_BLUE, e -> window.manageClienti(), null);
 
         buttons.add(magazzino);
         buttons.add(clienti);

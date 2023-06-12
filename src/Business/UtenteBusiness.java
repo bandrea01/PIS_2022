@@ -1,11 +1,9 @@
 package Business;
 
+import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
-import Model.Amministratore;
-import Model.Manager;
-import Model.PuntoVendita;
-import Model.Utente;
+import Model.*;
 
 import javax.swing.*;
 import java.security.SecureRandom;
@@ -227,6 +225,73 @@ public class UtenteBusiness {
         utenteDAO.addManager(utente);
     }
 
+    public int removeClient(String nomeCliente, String punto) {
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(punto);
+        //utente esiste?
+        if (!utenteDAO.userExist(nomeCliente)) {
+            return 1;
+        }
+        //utente è cliente?
+        if (!utenteDAO.isCliente(nomeCliente)) {
+            return 2;
+        }
 
+        ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
+        Utente utente = utenteDAO.findByUsername(nomeCliente);
 
+        clientePuntoVenditaDAO.removeClienteFromPuntoVendita(utente, puntoVendita);
+        return 0;
+    }
+
+    public int unbanClient(String nomeCliente, String punto) {
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        //utente esiste?
+        if (!utenteDAO.userExist(nomeCliente)) {
+            return 1;
+        }
+        //utente è cliente?
+        if (!utenteDAO.isCliente(nomeCliente)) {
+            return 2;
+        }
+
+        ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
+        Utente utente = utenteDAO.findByUsername(nomeCliente);
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(punto);
+
+        //cliente è già bannato?
+        if (!clientePuntoVenditaDAO.isClienteBanned(utente, puntoVendita)) {
+            return 3;
+        }
+
+        clientePuntoVenditaDAO.unbanCliente(utente, puntoVendita);
+        return 0;
+    }
+
+    public int banClient(String nomeCliente, String punto) {
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        //utente esiste?
+        if (!utenteDAO.userExist(nomeCliente)) {
+            return 1;
+        }
+        //utente è cliente?
+        if (!utenteDAO.isCliente(nomeCliente)) {
+            return 2;
+        }
+
+        ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
+        Utente utente = utenteDAO.findByUsername(nomeCliente);
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(punto);
+
+        //cliente è già bannato?
+        if (clientePuntoVenditaDAO.isClienteBanned(utente, puntoVendita)) {
+            return 3;
+        }
+
+        clientePuntoVenditaDAO.banCliente(utente, puntoVendita);
+        return 0;
+    }
 }
