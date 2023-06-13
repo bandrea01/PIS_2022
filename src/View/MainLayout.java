@@ -189,6 +189,10 @@ public class MainLayout extends JFrame {
     public void showOrders() {
     }
     public void showProfile() {
+        centre.removeAll();
+        centre.add(new ManageProfilePanel(this));
+        repaint();
+        validate();
     }
     public void managePoints() {
         centre.removeAll();
@@ -343,6 +347,13 @@ public class MainLayout extends JFrame {
     public void inviaEmailCliente() {
         centre.removeAll();
         centre.add(new InviaEmailClientePanel(this));
+        repaint();
+        validate();
+    }
+
+    public void registraCliente() {
+        centre.removeAll();
+        centre.add(new RegistraClientePanel(this));
         repaint();
         validate();
     }

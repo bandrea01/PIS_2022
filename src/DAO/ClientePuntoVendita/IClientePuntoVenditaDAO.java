@@ -17,4 +17,8 @@ public interface IClientePuntoVenditaDAO {
     int banCliente(Utente cliente, PuntoVendita puntoVendita);
     int unbanCliente(Utente cliente, PuntoVendita puntoVendita);
     int removeClienteFromPuntoVendita(Utente cliente, PuntoVendita puntoVendita);
+
+    boolean isCliente(Cliente cliente);
+
+    ArrayList<Utente> findAllClienti();
 }

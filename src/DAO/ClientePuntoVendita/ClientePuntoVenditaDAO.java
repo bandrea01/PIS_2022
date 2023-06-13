@@ -54,6 +54,33 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     }
 
     @Override
+    public ArrayList<Utente> findAllClienti() {
+        String sql = "SELECT * FROM cliente";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+        ArrayList<Utente> clienti = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Utente utente = UtenteDAO.getInstance().findById(rs.getInt("idUtente"));
+                clienti.add(utente);
+            }
+            return clienti;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Utente> findAllByPunto(PuntoVendita punto) {
         String sql = "SELECT * FROM puntovendita_has_cliente WHERE idPuntoVendita = " + punto.getIdPuntoVendita() + ";";
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -135,20 +162,47 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
     }
 
     @Override
+    public boolean isCliente(Cliente cliente) {
+        String sql = "SELECT count(*) AS count FROM cliente AS U WHERE U.idUtente='" + cliente.getId() + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+        try {
+            rs.next();
+            if (rs.getRow() == 1){
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public int add(Cliente cliente) {
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        utenteDAO.addUtente(cliente);
         executor = new DbOperationExecutor();
         int rowCount;
         String sql1 = "INSERT INTO cliente (idUtente) VALUES ('" + cliente.getId() + "');";
         String sql2 = "INSERT INTO puntovendita_has_cliente (idPuntoVendita, idUtente, canalePreferito, bannato) VALUES ('" + cliente.getPuntoVenditaRegistrato().getIdPuntoVendita() + "','" + cliente.getId() + "','" + cliente.getCanalePreferito() + "','0');";
-        IDbOperation writeOp1 = new WriteOperation(sql1);
+        if (!ClientePuntoVenditaDAO.getInstance().isCliente(cliente)) {
+            IDbOperation writeOp1 = new WriteOperation(sql1);
+            IDbOperation writeOp2 = new WriteOperation(sql2);
+
+            rowCount = executor.executeOperation(writeOp1).getRowsAffected();
+            rowCount += executor.executeOperation(writeOp2).getRowsAffected();
+
+            executor.close(writeOp1);
+            executor.close(writeOp2);
+            return rowCount;
+        }
         IDbOperation writeOp2 = new WriteOperation(sql2);
 
-        rowCount = executor.executeOperation(writeOp1).getRowsAffected();
-        rowCount += executor.executeOperation(writeOp2).getRowsAffected();
 
-        executor.close(writeOp1);
+        rowCount = executor.executeOperation(writeOp2).getRowsAffected();
+
+
         executor.close(writeOp2);
         return rowCount;
     }

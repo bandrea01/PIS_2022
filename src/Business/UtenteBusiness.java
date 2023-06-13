@@ -1,5 +1,6 @@
 package Business;
 
+import Business.FactoryMethod.NotificationFactory;
 import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
@@ -7,6 +8,7 @@ import Model.*;
 
 import javax.swing.*;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -292,6 +294,36 @@ public class UtenteBusiness {
         }
 
         clientePuntoVenditaDAO.banCliente(utente, puntoVendita);
+        return 0;
+    }
+
+    public int registraCliente(String username, String punto, String canalePreferito) {
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(punto);
+
+        ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
+        Cliente cliente = new Cliente();
+        ArrayList<Utente> clienti = clientePuntoVenditaDAO.findAllClienti();
+        for (int i = 0; i < clienti.size(); i++) {
+            if (clienti.get(i).getUsername().equals(username) ) {
+                cliente.setId(clienti.get(i).getId());
+            }
+        }
+        if (cliente.getId() == 0) {
+            cliente.setId(clienti.size() + 1);
+        }
+        if ("EMAIL".equalsIgnoreCase(canalePreferito)) {
+            cliente.setCanalePreferito(NotificationFactory.TipoNotifica.EMAIL);
+        } else if ("SMS".equalsIgnoreCase(canalePreferito)) {
+            cliente.setCanalePreferito(NotificationFactory.TipoNotifica.SMS);
+        } else if ("PUSH".equalsIgnoreCase(canalePreferito)) {
+            cliente.setCanalePreferito(NotificationFactory.TipoNotifica.PUSH);
+        }
+        cliente.setPuntoVenditaRegistrato(puntoVendita);
+        if (clientePuntoVenditaDAO.isClienteRegistred(cliente, puntoVendita)) {
+            return 1;
+        }
+        clientePuntoVenditaDAO.add(cliente);
         return 0;
     }
 }

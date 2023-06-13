@@ -16,11 +16,21 @@ public class ManageClientiListener implements ActionListener {
     public final static String UNBAN_BTN = "unban_btn";
     public final static String REMOVE_BTN = "remove_cliente_btn";
     public final static String SEND_EMAIL_BTN = "send_email_btn";
+    public final static String SIGN_IN_BTN = "sign-in-client-btn";
 
     private WideComboBox utente;
     private String puntoVendita;
     private JTextField oggetto;
     private JTextField testo;
+    private String username;
+    private WideComboBox puntiVendita;
+    private WideComboBox canalePreferito;
+
+    public ManageClientiListener(String username, WideComboBox puntiVendita, WideComboBox canalePreferito) {
+        this.username = username;
+        this.puntiVendita = puntiVendita;
+        this.canalePreferito = canalePreferito;
+    }
 
     public ManageClientiListener(WideComboBox utente, String puntoVendita) {
         this.utente = utente;
@@ -110,6 +120,23 @@ public class ManageClientiListener implements ActionListener {
             String text = testo.getText();
             mailHelper.send(email, object, text, null);
             JOptionPane.showMessageDialog(null, "L'email è stata inviata correttamente al cliente " + cliente.getUsername());
+        } else if (SIGN_IN_BTN.equals(e.getActionCommand())) {
+            if (puntiVendita.getSelectedItem().toString().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Seleziona un punto vendita");
+                return;
+            }
+            UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
+            String punto = puntiVendita.getSelectedItem().toString();
+            String favouriteChannel = canalePreferito.getSelectedItem().toString();
+            int result = utenteBusiness.registraCliente(username, punto, favouriteChannel);
+            switch (result) {
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Sei già registrato nel punto vendita: " + punto);
+                    break;
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Registrazione al punto vendita " + punto + " avvenuta correttamente");
+                    break;
+            }
         }
     }
 }
