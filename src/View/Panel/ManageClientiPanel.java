@@ -20,10 +20,11 @@ public class ManageClientiPanel extends JPanel {
         } else {
             JPanel buttonsPanel = new JPanel();
             this.setLayout(new BorderLayout());
-            buttonsPanel.setLayout(new GridLayout(6, 10));
+            buttonsPanel.setLayout(new GridLayout(2, 10));
 
             buttonsPanel.add(ButtonCreator.createButton("Disabilita cliente", true, ButtonCreator.LILLE, e -> window.disabilitaCliente(), null));
             buttonsPanel.add(ButtonCreator.createButton("Cancella cliente", true, ButtonCreator.LILLE, e -> window.cancellaCliente(), null));
+            buttonsPanel.add(ButtonCreator.createButton("Invia email al cliente", true, ButtonCreator.LILLE, e -> window.inviaEmailCliente(), null));
 
             this.add(buttonsPanel, BorderLayout.CENTER);
             this.repaint();

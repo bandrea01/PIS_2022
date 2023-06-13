@@ -339,4 +339,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void inviaEmailCliente() {
+        centre.removeAll();
+        centre.add(new InviaEmailClientePanel(this));
+        repaint();
+        validate();
+    }
 }

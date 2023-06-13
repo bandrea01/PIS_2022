@@ -40,9 +40,9 @@ public class UtenteBusiness {
                 System.out.println("Sessione attiva...");
                 mailHelper.send(email, "Richiesta credenziali", "" +
                         "Ecco il codice per accedere alla procedura per il recupero delle credenziali:\n" + token, null);
-                String input = JOptionPane.showInputDialog("Insert the token you recived in your email");
+                String input = JOptionPane.showInputDialog("Insert the token you received in your email");
                 String newPassword;
-                if (input.equals(token)){
+                if (token.equals(input)){
                     while(true) {
                         newPassword = JOptionPane.showInputDialog("Insert a password (at least 8 alphanumeric characters)");
 

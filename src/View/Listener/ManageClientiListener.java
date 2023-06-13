@@ -1,6 +1,9 @@
 package View.Listener;
 
+import Business.MailHelper;
 import Business.UtenteBusiness;
+import DAO.Utente.UtenteDAO;
+import Model.Utente;
 import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
@@ -12,13 +15,22 @@ public class ManageClientiListener implements ActionListener {
     public final static String BAN_BTN = "ban_btn";
     public final static String UNBAN_BTN = "unban_btn";
     public final static String REMOVE_BTN = "remove_cliente_btn";
+    public final static String SEND_EMAIL_BTN = "send_email_btn";
 
     private WideComboBox utente;
     private String puntoVendita;
+    private JTextField oggetto;
+    private JTextField testo;
 
     public ManageClientiListener(WideComboBox utente, String puntoVendita) {
         this.utente = utente;
         this.puntoVendita = puntoVendita;
+    }
+
+    public ManageClientiListener(WideComboBox utente, JTextField oggetto, JTextField testo) {
+        this.utente = utente;
+        this.oggetto = oggetto;
+        this.testo = testo;
     }
 
     @Override
@@ -86,6 +98,18 @@ public class ManageClientiListener implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Il cliente " + cliente + " è stato cancellato correttamente");
                     break;
             }
+        } else if (SEND_EMAIL_BTN.equals(e.getActionCommand())) {
+            if (utente.getSelectedItem().toString().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Seleziona un cliente");
+                return;
+            }
+            MailHelper mailHelper = MailHelper.getInstance();
+            Utente cliente = UtenteDAO.getInstance().findByUsername(utente.getSelectedItem().toString());
+            String email = cliente.getEmail();
+            String object = oggetto.getText();
+            String text = testo.getText();
+            mailHelper.send(email, object, text, null);
+            JOptionPane.showMessageDialog(null, "L'email è stata inviata correttamente al cliente " + cliente.getUsername());
         }
     }
 }
