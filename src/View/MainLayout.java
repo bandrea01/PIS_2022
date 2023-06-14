@@ -357,4 +357,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void acquista() {
+        centre.removeAll();
+        centre.add(new AcquistaPanel(this));
+        repaint();
+        validate();
+    }
 }
