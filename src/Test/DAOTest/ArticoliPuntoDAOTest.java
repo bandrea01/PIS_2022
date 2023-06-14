@@ -39,6 +39,10 @@ public class ArticoliPuntoDAOTest {
     public void findByPunto(){
         Assert.assertEquals(1, articoloPuntoVenditaDAO.findByPunto(punto).size());
     }
+    @Test
+    public void hasArticolo(){
+        Assert.assertEquals(true, articoloPuntoVenditaDAO.hasArticolo(punto, prodotto));
+    }
     @After
     public void tearDown(){
         articoloPuntoVenditaDAO.remove(prodotto, punto);

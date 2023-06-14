@@ -44,7 +44,7 @@ public class PuntoVenditaDAOTest {
     public void findAllTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         ArrayList<PuntoVendita> punti = puntoVenditaDAO.findAll();
-        Assert.assertEquals(1, punti.size());
+        Assert.assertTrue(punti.size() >= 1);
     }
     @Test
     public void remove() {

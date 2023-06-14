@@ -20,7 +20,14 @@ public class Cliente extends Utente{
         canalePreferito = null;
         banned = false;
     }
-
+    public Cliente (Utente utente, ArrayList<Ordine> ordini, ArrayList<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned ){
+        super(utente.getId(), utente.getName(), utente.getSurname(), utente.getEmail(), utente.getUsername(), utente.getPassword(), utente.getPhone(), utente.getAge(), utente.getCity(), utente.getJob());
+        this.ordini = ordini;
+        this.prenotazioni = prenotazioni;
+        this.puntoVenditaRegistrato = puntoVenditaRegistrato;
+        this.canalePreferito = canalePreferito;
+        this.banned = banned;
+    }
     public Cliente(int id, String name, String surname, String email, String username, String password, String phone, int age, String city, String job, ArrayList<Ordine> ordini, ArrayList<Prenotazione> prenotazioni, PuntoVendita puntoVenditaRegistrato, NotificationFactory.TipoNotifica canalePreferito, boolean banned) {
         super(id, name, surname, email, username, password, phone, age, city, job);
         this.ordini = ordini;

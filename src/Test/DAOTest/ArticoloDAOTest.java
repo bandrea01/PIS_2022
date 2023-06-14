@@ -15,15 +15,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ArticoloDAOTest {
-    static Categoria categoria = new Categoria(1001, "Cucina", null);
-    static Fornitore fornitore = new Fornitore(1001,"Amazon", "www.amazon.com", "Seattle", "USA");
-    static Produttore produttore1 = new Produttore(1001,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
-    static Prodotto prodotto = new Prodotto(1000, "Frigorifero", 150F, "un frigorifero", categoria, produttore1);
-    static Prodotto sottoProdotto1 = new Prodotto(1001, "Fornelli", 75F, "dei fornelli", categoria, produttore1);
-    static Prodotto sottoProdotto2 = new Prodotto(1002, "Griglia", 10F, "una griglia", categoria, produttore1);
+    static Categoria categoria = new Categoria(9999, "Cucina", null);
+    static Fornitore fornitore = new Fornitore(9999,"Amazon", "www.amazon.com", "Seattle", "USA");
+    static Produttore produttore1 = new Produttore(9999,"Gazprom","www.gazprom.com","San Pietroburgo", "Russia");
+    static Prodotto prodotto = new Prodotto(9995, "Frigorifero", 150F, "un frigorifero", categoria, produttore1);
+    static Prodotto sottoProdotto1 = new Prodotto(9996, "Fornelli", 75F, "dei fornelli", categoria, produttore1);
+    static Prodotto sottoProdotto2 = new Prodotto(9997, "Griglia", 10F, "una griglia", categoria, produttore1);
     public ArrayList<Prodotto> array = new ArrayList<>(2);
     static Prodotto prodotto2;
-    static Servizio servizio = new Servizio(2000,"Montaggio", 300F, "montaggio cucina", categoria, fornitore);
+    static Servizio servizio = new Servizio(9998,"Montaggio", 300F, "montaggio cucina", categoria, fornitore);
+
 
     @Before
     public void setUp () throws IOException {
@@ -34,7 +35,7 @@ public class ArticoloDAOTest {
 
         array.add(sottoProdotto1);
         array.add(sottoProdotto2);
-        prodotto2 = new Prodotto(1003, "Piano cottura", "un piano cottura", categoria, produttore1, array);
+        prodotto2 = new Prodotto(9999, "Piano cottura", "un piano cottura", categoria, produttore1, array);
 
         categoriaDAO.add(categoria);
         produttoreDAO.add(produttore1);
@@ -50,11 +51,11 @@ public class ArticoloDAOTest {
     public void findById(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Articolo a1 = articoloDAO.findById(1000);
+        Articolo a1 = articoloDAO.findById(9995);
         Assert.assertEquals("un frigorifero", a1.getDescrizione());
-        Articolo a2 = articoloDAO.findById(2000);
+        Articolo a2 = articoloDAO.findById(9998);
         Assert.assertEquals("montaggio cucina", a2.getDescrizione());
-        Articolo a3 = articoloDAO.findById(1003);
+        Articolo a3 = articoloDAO.findById(9999);
         Assert.assertEquals("un piano cottura", a3.getDescrizione());
     }
 
@@ -89,7 +90,7 @@ public class ArticoloDAOTest {
     public void updateProdotto(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Prodotto p = new Prodotto(1000, "Frigorifero","un frigorifero", categoria, produttore1, array);
+        Prodotto p = new Prodotto(9995, "Frigorifero","un frigorifero", categoria, produttore1, array);
 
         articoloDAO.updateProdotto(p);
         Assert.assertEquals(0, Float.compare(85F, articoloDAO.findById(p.getId()).getPrezzo()));
@@ -99,7 +100,7 @@ public class ArticoloDAOTest {
     public void updateServizio(){
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Servizio s = new Servizio(2000,"Montaggio cucina", 300F, "montaggio cucina", categoria, fornitore);
+        Servizio s = new Servizio(9998,"Montaggio cucina", 300F, "montaggio cucina", categoria, fornitore);
 
         articoloDAO.updateServizio(s);
         Assert.assertEquals("Montaggio cucina", articoloDAO.findById(s.getId()).getName());

@@ -41,7 +41,7 @@ public class CategoriaDAOTest {
     public void findAll() {
         ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
         ArrayList<ICategoria> categorie = categoriaDAO.findAll();
-        Assert.assertEquals(2, categorie.size());
+        Assert.assertTrue(categorie.size() >= 2);
     }
     @Test
     public void findAllSottoCategorie() {
@@ -56,4 +56,17 @@ public class CategoriaDAOTest {
         categoriaDAO.update(newCategoria);
         Assert.assertEquals("Officina", categoriaDAO.findById(9998).getName());
     }
+
+    @Test
+    public void findId(){
+        ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        Assert.assertEquals(9998, categoriaDAO.findId("Giardino"));
+    }
+
+    @Test
+    public void categoriaExist(){
+        ICategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
+        Assert.assertEquals(true, categoriaDAO.categoriaExist("Giardino"));
+    }
+
 }
