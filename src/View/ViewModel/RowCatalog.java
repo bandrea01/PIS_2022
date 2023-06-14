@@ -12,6 +12,7 @@ public class RowCatalog {
     private String produttoreFornitore;
     private Float prezzo;
     private String categoria;
+    private int quantita;
     private JCheckBox checkBox;
     private JButton viewImageButton;
 
@@ -64,5 +65,13 @@ public class RowCatalog {
     }
     public ImageIcon getImageIcon(){
         return (ImageIcon) viewImageButton.getIcon();
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 }

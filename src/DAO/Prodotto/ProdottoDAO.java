@@ -57,6 +57,7 @@ public class ProdottoDAO implements IProdottoDAO {
                 prodotto.setImmagini(articolo.getImmagini());
                 prodotto.setProduttore(produttoreDAO.findById(rs.getInt("idProduttore")));
                 prodotto.setSottoProdotti(this.getAllSottoProdotti(prodotto));
+                prodotto.setCategoria(articolo.getCategoria());
             }
             return prodotto;
         } catch (SQLException e) {

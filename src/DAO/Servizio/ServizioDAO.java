@@ -55,6 +55,7 @@ public class ServizioDAO implements IServizioDAO {
                 servizio.setDescrizione(articolo.getDescrizione());
                 servizio.setImmagini(articolo.getImmagini());
                 servizio.setFornitore(fornitoreDAO.findById(rs.getInt("idFornitore")));
+                servizio.setCategoria(articolo.getCategoria());
             }
             return servizio;
         } catch (SQLException e) {
