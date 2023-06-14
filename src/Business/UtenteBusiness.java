@@ -300,18 +300,11 @@ public class UtenteBusiness {
     public int registraCliente(String username, String punto, String canalePreferito) {
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         PuntoVendita puntoVendita = puntoVenditaDAO.findByName(punto);
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
 
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
         Cliente cliente = new Cliente();
-        ArrayList<Utente> clienti = clientePuntoVenditaDAO.findAllClienti();
-        for (int i = 0; i < clienti.size(); i++) {
-            if (clienti.get(i).getUsername().equals(username) ) {
-                cliente.setId(clienti.get(i).getId());
-            }
-        }
-        if (cliente.getId() == 0) {
-            cliente.setId(clienti.size() + 1);
-        }
+        cliente.setId(utenteDAO.findByUsername(username).getId());
         if ("EMAIL".equalsIgnoreCase(canalePreferito)) {
             cliente.setCanalePreferito(NotificationFactory.TipoNotifica.EMAIL);
         } else if ("SMS".equalsIgnoreCase(canalePreferito)) {

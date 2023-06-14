@@ -21,4 +21,6 @@ public interface IClientePuntoVenditaDAO {
     boolean isCliente(Cliente cliente);
 
     ArrayList<Utente> findAllClienti();
+
+    ArrayList<PuntoVendita> findAllbyCliente(Utente cliente);
 }

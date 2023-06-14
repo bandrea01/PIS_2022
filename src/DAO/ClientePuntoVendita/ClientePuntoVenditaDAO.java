@@ -2,6 +2,7 @@ package DAO.ClientePuntoVendita;
 
 import DAO.Collocazione.CollocazioneDAO;
 import DAO.Prodotto.ProdottoDAO;
+import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.IUtenteDAO;
 import DAO.Utente.UtenteDAO;
 import DbInterface.Command.DbOperationExecutor;
@@ -191,6 +192,8 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
             IDbOperation writeOp2 = new WriteOperation(sql2);
 
             rowCount = executor.executeOperation(writeOp1).getRowsAffected();
+
+
             rowCount += executor.executeOperation(writeOp2).getRowsAffected();
 
             executor.close(writeOp1);
@@ -198,7 +201,6 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
             return rowCount;
         }
         IDbOperation writeOp2 = new WriteOperation(sql2);
-
 
         rowCount = executor.executeOperation(writeOp2).getRowsAffected();
 
@@ -245,5 +247,36 @@ public class ClientePuntoVenditaDAO implements IClientePuntoVenditaDAO {
         executor.close(writeOp1);
         executor.close(writeOp2);
         return rowCount;
+    }
+
+    @Override
+    public ArrayList<PuntoVendita> findAllbyCliente(Utente cliente) {
+        String sql = "SELECT * FROM puntovendita_has_cliente WHERE idUtente = " + cliente.getId() + ";";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+
+        ArrayList<PuntoVendita> listaPuntiVendita = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                PuntoVendita puntoVendita = PuntoVenditaDAO.getInstance().findById(rs.getInt("idPuntoVendita"));
+
+                listaPuntiVendita.add(puntoVendita);
+            }
+            return listaPuntiVendita;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
     }
 }
