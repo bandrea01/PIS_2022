@@ -20,4 +20,5 @@ public interface IOrdineDAO {
 
     int removeById(int id);
 
+    ArrayList<Ordine> findAll();
 }

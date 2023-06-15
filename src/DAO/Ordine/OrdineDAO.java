@@ -7,12 +7,10 @@ import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.Ordine;
-import Model.ProdottoOrdine;
-import Model.Servizio;
-import Model.Utente;
+import Model.*;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +31,33 @@ public class OrdineDAO implements IOrdineDAO{
 
     public static OrdineDAO getInstance() {
         return instance;
+    }
+
+    @Override
+    public ArrayList<Ordine> findAll() {
+        String sql = "SELECT * FROM ordine";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
+        ArrayList<Ordine> ordini = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Ordine ordine = findOrdineById(rs.getInt("idOrdine"));
+                ordini.add(ordine);
+            }
+            return ordini;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
     }
 
     @Override
@@ -189,7 +214,8 @@ public class OrdineDAO implements IOrdineDAO{
     public int add(Ordine ordine) {
         executor = new DbOperationExecutor();
         int rowCount;
-        sql = "INSERT INTO ordine (idOrdine, idUtente, date, pagato) VALUES ('" + ordine.getIdOrdine() + "','" + ordine.getUtente().getId() + "','" + ordine.getDataCreazione() + "','" + ordine.getStatoOrdine() + "');";
+        Date date = new java.sql.Date(ordine.getDataCreazione().getTime());
+        sql = "INSERT INTO ordine (idOrdine, idUtente, date, pagato) VALUES ('" + ordine.getIdOrdine() + "','" + ordine.getUtente().getId() + "','" + date + "','" + ordine.getStatoOrdine() + "');";
         dbOperation = new WriteOperation(sql);
         rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
