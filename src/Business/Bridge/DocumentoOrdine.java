@@ -1,6 +1,8 @@
 package Business.Bridge;
 
 import Business.MailHelper;
+import DAO.Magazzino.MagazzinoDAO;
+import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
 import Model.*;
 
 import java.io.File;
@@ -11,20 +13,29 @@ import java.util.List;
 public class DocumentoOrdine extends Document{
 
     private Ordine ordine;
+    private PuntoVendita punto;
     public DocumentoOrdine(Ordine ordine, PdfAPI pdfAPI) {
         super(pdfAPI);
         this.ordine = ordine;
+    }
+
+    public DocumentoOrdine(Ordine ordine, PdfAPI pdfAPI, PuntoVendita punto) {
+        super(pdfAPI);
+        this.ordine = ordine;
+        this.punto = punto;
     }
 
     @Override
     public void invia(String indirizzo) {
         ArrayList<ProdottoOrdine> prodottiOrdine = ordine.getProdotti();
         ArrayList<Servizio> serviziOrdine = ordine.getServizi();
+        ProdottiMagazzinoDAO prodottiMagazzinoDAO = ProdottiMagazzinoDAO.getInstance();
+        Magazzino magazzino = MagazzinoDAO.getInstance().findMagazzinoByPunto(punto);
 
         //Intestazione
         String riga = "";
         List<String> testoMail = new ArrayList<>();
-        riga = "Lista d'Acquisto #" + ordine.getIdOrdine() + " | Cliente: " + ordine.getUtente().getName() + " " + ordine.getUtente().getSurname();
+        riga = "Lista d'Acquisto #" + ordine.getIdOrdine() + " | Cliente: " + ordine.getUtente().getName() + " " + ordine.getUtente().getSurname() + " | Punto Vendita: " + punto.getName();
         testoMail.add(riga);
 
         //Elenco prodotti
@@ -34,7 +45,9 @@ public class DocumentoOrdine extends Document{
         for(ProdottoOrdine p : prodottiOrdine){
             Float costoTotaleRiga = p.getProdotto().getPrezzo() * p.getQuantita();
             costoTotaleProdotti += costoTotaleRiga;
-            riga = "* " + p.getProdotto().getName() + " (Quantità: " + p.getQuantita() + ")" + " | (Costo: " + costoTotaleRiga + "€);";
+            int corsia = prodottiMagazzinoDAO.findCollocazioneProdotto(magazzino, p.getProdotto()).getCorsia();
+            int scaffale = prodottiMagazzinoDAO.findCollocazioneProdotto(magazzino, p.getProdotto()).getScaffale();
+            riga = "* " + p.getProdotto().getName() + " (Quantità: " + p.getQuantita() + ")" + " | (Costo: " + costoTotaleRiga + "€)" + " | (Corsia: " + corsia + ") | (Scaffale: " + scaffale + ");";
             testoMail.add(riga);
         }
         //Elenco servizi

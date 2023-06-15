@@ -46,10 +46,10 @@ public class ModifyMagazzinoPanel extends JPanel {
 
         //Prodotti panel
 
-        JLabel prodottiLabel = new JLabel("Prodotti: ");
-        JLabel corsiaLabel = new JLabel("Corsia: ");
-        JLabel scaffaleLabel = new JLabel("Scaffale: ");
-        JLabel quantitaLabel = new JLabel("Quantità: ");
+        JLabel prodottiLabel = new JLabel("Products: ");
+        JLabel corsiaLabel = new JLabel("Ward: ");
+        JLabel scaffaleLabel = new JLabel("Shelf: ");
+        JLabel quantitaLabel = new JLabel("Quantity: ");
 
         prodottiPanel.add(prodottiLabel); prodottiPanel.add(corsiaLabel); prodottiPanel.add(scaffaleLabel); prodottiPanel.add(quantitaLabel);
 

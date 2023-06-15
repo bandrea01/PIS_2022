@@ -95,14 +95,14 @@ public class OrdineDAO implements IOrdineDAO{
 
     @Override
     public ArrayList<Ordine> findAllOfUtente(Utente utente) {
-        String sql = "SELECT * FROM ordine WHERE idUtente = '" + utente.getId() + "';";
+        String sql = "SELECT * FROM mydb.ordine WHERE idUtente = " + utente.getId() + ";";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
         ArrayList<Ordine> ordini = new ArrayList<>();
         try {
             while (rs.next()) {
-                Ordine ordine = this.findOrdineById(rs.getInt("idOrdine"));
+                Ordine ordine = findOrdineById(rs.getInt("idOrdine"));
                 ordini.add(ordine);
             }
             return ordini;

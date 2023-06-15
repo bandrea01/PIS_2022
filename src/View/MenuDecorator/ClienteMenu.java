@@ -19,7 +19,7 @@ public class ClienteMenu extends ClienteMenuDecorator {
         //Funzioni guest
         buttons.addAll(this.menu.getButtons());
         //Funzioni cliente
-        JButton order = ButtonCreator.createButton("My Orders", true, 100,149,237, e -> window.showOrders(), null);
+        JButton order = ButtonCreator.createButton("My Orders", true, 100,149,237, e -> window.manageOrders(), null);
         JButton profile = ButtonCreator.createButton("My Profile", true, 100,149,237, e -> window.showProfile(), null);
         JButton acquista = ButtonCreator.createButton("Buy", true, 100,149,237, e -> window.acquista(), null);
 

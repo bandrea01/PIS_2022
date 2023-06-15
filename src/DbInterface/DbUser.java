@@ -9,7 +9,7 @@ public class DbUser {
     private DbUser() {
         schemaName = "mydb";
         userName = "root"; //My username for Local instance 3306
-        pwd = "140701"; //My password for Local instance 3306
+        pwd = "progettoPIS"; //My password for Local instance 3306
     }
 
     public static DbUser getInstance(){

@@ -64,7 +64,7 @@ public class ManageClientiListener implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Selected user is alredy banned");
                     break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Client " + cliente + " is now unbanned");
+                    JOptionPane.showMessageDialog(null, "Client " + cliente + " is now banned");
                     break;
             }
         } else if (UNBAN_BTN.equals(e.getActionCommand())) {

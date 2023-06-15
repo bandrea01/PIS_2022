@@ -1,7 +1,11 @@
 package View.Listener;
 
+
+import Business.Bridge.DocumentoOrdine;
+import Business.Bridge.PdfBoxAPI;
 import Business.SessionManager;
 import DAO.Articolo.ArticoloDAO;
+import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.Magazzino.MagazzinoDAO;
 import DAO.Ordine.OrdineDAO;
 import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
@@ -20,15 +24,21 @@ import java.util.Date;
 public class ManageOrdersListener implements ActionListener {
 
     public final static String BUY_BTN = "acquista-btn";
+    public final static String PAY_BTN = "payorder-btn";
 
     private ArrayList<JCheckBox> articoliBox;
     private WideComboBox[] quantita;
     private WideComboBox puntoVendita;
+    private WideComboBox ordine;
 
     public ManageOrdersListener(ArrayList<JCheckBox> articoliBox, WideComboBox[] quantita, WideComboBox puntoVendita) {
         this.articoliBox = articoliBox;
         this.quantita = quantita;
         this.puntoVendita = puntoVendita;
+    }
+
+    public ManageOrdersListener(WideComboBox ordine) {
+        this.ordine = ordine;
     }
 
     @Override
@@ -38,6 +48,10 @@ public class ManageOrdersListener implements ActionListener {
             String nomePunto = puntoVendita.getSelectedItem().toString();
             PuntoVendita salePoint = PuntoVenditaDAO.getInstance().findByName(nomePunto);
 
+            if (ClientePuntoVenditaDAO.getInstance().isClienteBanned(cliente, salePoint)) {
+                JOptionPane.showMessageDialog(null, "You cannot buy in the sale point " + nomePunto + ", you have been banned");
+                return;
+            }
 
             ArrayList<Integer> selectedIndex = new ArrayList<>();
             for (int i = 0; i < selectedIndex.size(); i++) {
@@ -81,7 +95,21 @@ public class ManageOrdersListener implements ActionListener {
 
 
             ordineDAO.add(ordine);
-            JOptionPane.showMessageDialog(null, "Ordine eseguito correttamente");
+
+            DocumentoOrdine documentoOrdine = new DocumentoOrdine(ordine, new PdfBoxAPI(), PuntoVenditaDAO.getInstance().findByName(nomePunto));
+            documentoOrdine.invia(cliente.getEmail());
+
+            JOptionPane.showMessageDialog(null, "Order executed correctly. We have sent you an email with the purchase list attached. Pay in \"My orders\" section.");
+        } else if (PAY_BTN.equals(e.getActionCommand())) {
+            int nOrdine = Integer.parseInt(ordine.getSelectedItem().toString());
+            OrdineDAO ordineDAO = OrdineDAO.getInstance();
+            Ordine order = ordineDAO.findOrdineById(nOrdine);
+            if (ordineDAO.isPagato(order)) {
+                JOptionPane.showMessageDialog(null, "This order is already paid");
+                return;
+            }
+            ordineDAO.paga(order);
+            JOptionPane.showMessageDialog(null, "The order #" + nOrdine + " has been paid");
         }
     }
 }
