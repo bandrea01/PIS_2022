@@ -21,7 +21,7 @@ public class DeleteArticlePanel extends JPanel {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(4, 10));
 
-        JLabel seleziona = new JLabel("Seleziona l'articolo da eliminare");
+        JLabel seleziona = new JLabel("Select the article you want to delete");
 
         String[] articoli = getArticoli();
         WideComboBox articoliChooses = new WideComboBox(articoli);

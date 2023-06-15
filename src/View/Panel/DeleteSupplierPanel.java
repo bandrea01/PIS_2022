@@ -19,7 +19,7 @@ public class DeleteSupplierPanel extends JPanel {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
-        JLabel seleziona = new JLabel("Seleziona il fornitore da eliminare");
+        JLabel seleziona = new JLabel("Select supplier you want to delete");
 
         String[] fornitori = getFornitori();
         WideComboBox fornitoriChooses = new WideComboBox(fornitori);
@@ -42,7 +42,7 @@ public class DeleteSupplierPanel extends JPanel {
     private String[] getFornitori() {
         ArrayList<Fornitore> fornitori = FornitoreDAO.getInstance().findAll();
         String[] nomiFornitori = new String[fornitori.size() + 1];
-        nomiFornitori[0] = "Seleziona un fornitore";
+        nomiFornitori[0] = "Select a supplier";
         for (int i = 1; i < fornitori.size() + 1; i++) {
             nomiFornitori[i] = fornitori.get(i - 1).getNome();
         }

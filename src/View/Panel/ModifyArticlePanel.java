@@ -28,7 +28,7 @@ public class ModifyArticlePanel extends JPanel {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
-        JLabel seleziona = new JLabel("Articolo da modificare");
+        JLabel seleziona = new JLabel("Article:");
 
         String[] articoli = getArticoli();
         WideComboBox articoliChooses = new WideComboBox(articoli);
@@ -52,7 +52,7 @@ public class ModifyArticlePanel extends JPanel {
         categorieChooses.setPreferredSize(new Dimension(7,7));
         categorieChooses.setWide(true);
 
-        String[] produttoriFornitori = {"Seleziona un elemento"};
+        String[] produttoriFornitori = {"Select an element"};
         WideComboBox produttoriFornitorichooses = new WideComboBox(produttoriFornitori);
         produttoriFornitorichooses.setPreferredSize(new Dimension(7,7));
         produttoriFornitorichooses.setWide(true);
@@ -120,7 +120,7 @@ public class ModifyArticlePanel extends JPanel {
     private String[] getProduttori() {
         ArrayList<Produttore> produttori = ProduttoreDAO.getInstance().findAll();
         String[] nomiProduttori = new String[produttori.size() + 1];
-        nomiProduttori[0] = "Seleziona un produttore";
+        nomiProduttori[0] = "Select a productor";
         for (int i = 1; i < produttori.size() + 1; i++) {
             nomiProduttori[i] = produttori.get(i - 1).getNome();
         }
@@ -130,7 +130,7 @@ public class ModifyArticlePanel extends JPanel {
     private String[] getFornitori() {
         ArrayList<Fornitore> fornitori = FornitoreDAO.getInstance().findAll();
         String[] nomiFornitori = new String[fornitori.size() + 1];
-        nomiFornitori[0] = "Seleziona un fornitore";
+        nomiFornitori[0] = "Select a supplier";
         for (int i = 1; i < fornitori.size() + 1; i++) {
             nomiFornitori[i] = fornitori.get(i - 1).getNome();
         }
@@ -140,7 +140,7 @@ public class ModifyArticlePanel extends JPanel {
     private String[] getCategorie() {
         ArrayList<ICategoria> categorie = CategoriaDAO.getInstance().findAll();
         String[] nomiCategorie = new String[categorie.size() + 1];
-        nomiCategorie[0] = "Seleziona un elemento";
+        nomiCategorie[0] = "Select an element";
         for (int i = 1; i < categorie.size() + 1; i++){
             nomiCategorie[i] = categorie.get(i - 1).getName();
         }

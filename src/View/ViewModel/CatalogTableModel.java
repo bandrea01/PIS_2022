@@ -57,13 +57,13 @@ public class CatalogTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         switch(columnIndex) {
-            case 0: return "ID articolo";
-            case 1: return "Nome";
-            case 2: return "Produttore-Fornitore";
-            case 3: return "Categoria";
-            case 4: return "Prezzo (€)";
-            case 5: return "Seleziona";
-            case 6: return "Immagini";
+            case 0: return "ID";
+            case 1: return "Name";
+            case 2: return "Productor/Supplier";
+            case 3: return "Category";
+            case 4: return "Price (€)";
+            case 5: return "Select";
+            case 6: return "Images";
         }
         return null;
     }
@@ -88,6 +88,7 @@ public class CatalogTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        //TODO da vedere perchè è editabile
         return columnIndex == 4;
     }
 }

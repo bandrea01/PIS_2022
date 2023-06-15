@@ -26,7 +26,7 @@ public class DisabilitaClientePanel extends JPanel {
         gridPanel.setLayout(new GridLayout(10, 1));
         south.setLayout(new GridLayout(2, 0));
 
-        JLabel utenteLabel = new JLabel("Seleziona il cliente da disabilitare");
+        JLabel utenteLabel = new JLabel("Select the customer you want to ban");
 
         String[] clienti = getClienti(punto);
         WideComboBox utentiChooses = new WideComboBox(clienti);
@@ -37,8 +37,8 @@ public class DisabilitaClientePanel extends JPanel {
 
 
         ManageClientiListener listener = new ManageClientiListener(utentiChooses, punto.getName());
-        south.add(ButtonCreator.createButton("Disabilita", true, ButtonCreator.LILLE, listener, ManageClientiListener.BAN_BTN));
-        south.add(ButtonCreator.createButton("Abilita", true, ButtonCreator.LILLE, listener, ManageClientiListener.UNBAN_BTN));
+        south.add(ButtonCreator.createButton("Ban", true, ButtonCreator.LILLE, listener, ManageClientiListener.BAN_BTN));
+        south.add(ButtonCreator.createButton("Unban", true, ButtonCreator.LILLE, listener, ManageClientiListener.UNBAN_BTN));
         south.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.manageClienti(), null));
 
         this.add(gridPanel, BorderLayout.CENTER);

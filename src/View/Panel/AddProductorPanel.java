@@ -17,10 +17,10 @@ public class AddProductorPanel extends JPanel {
         south.setLayout(new GridLayout(2, 0));
 
 
-        JLabel nomeLabel = new JLabel("Nome: ");
-        JLabel sitoLabel = new JLabel("Sito: ");
-        JLabel cittaLabel = new JLabel("Città: ");
-        JLabel nazioneLabel = new JLabel("Nazione: ");
+        JLabel nomeLabel = new JLabel("Name: ");
+        JLabel sitoLabel = new JLabel("Website: ");
+        JLabel cittaLabel = new JLabel("City: ");
+        JLabel nazioneLabel = new JLabel("Country: ");
 
         JTextField nome = new JTextField(15);
         JTextField sito = new JTextField();

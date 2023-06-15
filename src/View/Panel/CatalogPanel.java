@@ -1,18 +1,13 @@
 package View.Panel;
 
-import Business.SessionManager;
 import DAO.Articolo.ArticoloDAO;
-import DAO.ArticoloPuntoVendita.ArticoloPuntoVenditaDAO;
-import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
-import DAO.Magazzino.MagazzinoDAO;
-import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
 import DAO.Prodotto.ProdottoDAO;
-import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Servizio.ServizioDAO;
-import Model.*;
+import Model.Articolo;
+import Model.Prodotto;
+import Model.Servizio;
 import View.ViewModel.CatalogTableModel;
 import View.ViewModel.RowCatalog;
-import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,7 +73,7 @@ public class CatalogPanel extends JPanel {
 
                 for (int row : selectedRows) {
                     RowCatalog selectedRow = tModel.getRows().get(row);
-                    System.out.println("Id Prodotto selezionato: " + selectedRow.getIdArticolo());
+                    System.out.println("Select ID product: " + selectedRow.getIdArticolo());
                 }
             }
         });

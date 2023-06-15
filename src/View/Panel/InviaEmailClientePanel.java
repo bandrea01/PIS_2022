@@ -1,10 +1,8 @@
 package View.Panel;
 
-import Business.MailHelper;
 import Business.SessionManager;
 import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Utente.UtenteDAO;
 import Model.Manager;
 import Model.PuntoVendita;
 import Model.Utente;
@@ -28,17 +26,17 @@ public class InviaEmailClientePanel extends JPanel {
         gridPanel.setLayout(new GridLayout(10, 1));
         south.setLayout(new GridLayout(5, 0));
 
-        JLabel utenteLabel = new JLabel("Seleziona il cliente a cui inviare l'email: ");
+        JLabel utenteLabel = new JLabel("Select user to mail: ");
 
         String[] clienti = getClienti(punto);
         WideComboBox utentiChooses = new WideComboBox(clienti);
         utentiChooses.setPreferredSize(new Dimension(7,7));
         utentiChooses.setWide(true);
 
-        JLabel oggettoLabel = new JLabel("Oggetto: ");
+        JLabel oggettoLabel = new JLabel("Subject: ");
         JTextField oggetto = new JTextField();
 
-        JLabel testoLabel = new JLabel("Testo: ");
+        JLabel testoLabel = new JLabel("Text: ");
         JTextField testo = new JTextField();
 
 
@@ -47,7 +45,7 @@ public class InviaEmailClientePanel extends JPanel {
         gridPanel.add(testoLabel); gridPanel.add(testo);
 
         ManageClientiListener listener = new ManageClientiListener(utentiChooses, oggetto, testo);
-        south.add(ButtonCreator.createButton("Invia email", true, ButtonCreator.LILLE, listener, ManageClientiListener.SEND_EMAIL_BTN));
+        south.add(ButtonCreator.createButton("Send", true, ButtonCreator.LILLE, listener, ManageClientiListener.SEND_EMAIL_BTN));
         south.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.manageClienti(), null));
 
         this.add(gridPanel, BorderLayout.CENTER);

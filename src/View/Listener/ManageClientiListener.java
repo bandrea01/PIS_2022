@@ -47,7 +47,7 @@ public class ManageClientiListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (BAN_BTN.equals(e.getActionCommand())) {
             if (utente.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Seleziona un cliente");
+                JOptionPane.showMessageDialog(null, "Select a customer");
                 return;
             }
             UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
@@ -55,21 +55,21 @@ public class ManageClientiListener implements ActionListener {
             int result = utenteBusiness.banClient(cliente, puntoVendita);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non esiste");
+                    JOptionPane.showMessageDialog(null, "Selected user doesn't exist");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non è un cliente");
+                    JOptionPane.showMessageDialog(null, "Selected user is not your customer");
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Il cliente selezionato è gia disabilitato");
+                    JOptionPane.showMessageDialog(null, "Selected user is alredy banned");
                     break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Il cliente " + cliente + " è stato disabilitato");
+                    JOptionPane.showMessageDialog(null, "Client " + cliente + " is now unbanned");
                     break;
             }
         } else if (UNBAN_BTN.equals(e.getActionCommand())) {
             if (utente.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Seleziona un cliente");
+                JOptionPane.showMessageDialog(null, "Select a customer");
                 return;
             }
             UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
@@ -77,21 +77,21 @@ public class ManageClientiListener implements ActionListener {
             int result = utenteBusiness.unbanClient(cliente, puntoVendita);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non esiste");
+                    JOptionPane.showMessageDialog(null, "Selected user doesn't exist");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non è un cliente");
+                    JOptionPane.showMessageDialog(null, "Selected user is not your customer");
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Il cliente selezionato è gia abilitato");
+                    JOptionPane.showMessageDialog(null, "Selected customer is not banned");
                     break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Il cliente " + cliente + " è stato abilitato");
+                    JOptionPane.showMessageDialog(null, "Customer " + cliente + " is now unbanned");
                     break;
             }
         } else if (REMOVE_BTN.equals(e.getActionCommand())) {
             if (utente.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Seleziona un cliente");
+                JOptionPane.showMessageDialog(null, "Select a customer");
                 return;
             }
             UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
@@ -99,18 +99,18 @@ public class ManageClientiListener implements ActionListener {
             int result = utenteBusiness.removeClient(cliente, puntoVendita);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non esiste");
+                    JOptionPane.showMessageDialog(null, "Selected user doesn't exist");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "L'utente selezionato non è un cliente");
+                    JOptionPane.showMessageDialog(null, "Selected user is not your customer");
                     break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Il cliente " + cliente + " è stato cancellato correttamente");
+                    JOptionPane.showMessageDialog(null, "Customer " + cliente + " canceled correctly");
                     break;
             }
         } else if (SEND_EMAIL_BTN.equals(e.getActionCommand())) {
             if (utente.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Seleziona un cliente");
+                JOptionPane.showMessageDialog(null, "Select a customer");
                 return;
             }
             MailHelper mailHelper = MailHelper.getInstance();
@@ -119,10 +119,10 @@ public class ManageClientiListener implements ActionListener {
             String object = oggetto.getText();
             String text = testo.getText();
             mailHelper.send(email, object, text, null);
-            JOptionPane.showMessageDialog(null, "L'email è stata inviata correttamente al cliente " + cliente.getUsername());
+            JOptionPane.showMessageDialog(null, "Email send correctly to : " + cliente.getUsername());
         } else if (SIGN_IN_BTN.equals(e.getActionCommand())) {
             if (puntiVendita.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Seleziona un punto vendita");
+                JOptionPane.showMessageDialog(null, "Select a sale point");
                 return;
             }
             UtenteBusiness utenteBusiness = UtenteBusiness.getInstance();
@@ -131,10 +131,10 @@ public class ManageClientiListener implements ActionListener {
             int result = utenteBusiness.registraCliente(username, punto, favouriteChannel);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Sei già registrato nel punto vendita: " + punto);
+                    JOptionPane.showMessageDialog(null, "You alredy signed in sale point: " + punto);
                     break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Registrazione al punto vendita " + punto + " avvenuta correttamente");
+                    JOptionPane.showMessageDialog(null, "You are now signed in:  " + punto + " !");
                     break;
             }
         }

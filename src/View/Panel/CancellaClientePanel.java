@@ -3,12 +3,9 @@ package View.Panel;
 import Business.SessionManager;
 import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Utente.UtenteDAO;
-import Model.Cliente;
 import Model.Manager;
 import Model.PuntoVendita;
 import Model.Utente;
-import Test.DAOTest.ClienteDAOTest;
 import View.Listener.ManageClientiListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
@@ -29,7 +26,7 @@ public class CancellaClientePanel extends JPanel {
         gridPanel.setLayout(new GridLayout(10, 1));
         south.setLayout(new GridLayout(2, 0));
 
-        JLabel utenteLabel = new JLabel("Seleziona il cliente da cancellare");
+        JLabel utenteLabel = new JLabel("Select a customer you want to ca");
 
         String[] clienti = getClienti(punto);
         WideComboBox utentiChooses = new WideComboBox(clienti);

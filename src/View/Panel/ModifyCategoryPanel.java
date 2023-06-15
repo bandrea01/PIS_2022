@@ -19,7 +19,7 @@ public class ModifyCategoryPanel extends JPanel {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
-        JLabel seleziona = new JLabel("Categoria da modificare:");
+        JLabel seleziona = new JLabel("Category you want to modify:");
 
         String[] categorie = getCategorie();
         WideComboBox categorieChooses = new WideComboBox(categorie);
@@ -28,10 +28,10 @@ public class ModifyCategoryPanel extends JPanel {
 
         gridPanel.add(seleziona); gridPanel.add(categorieChooses);
 
-        JLabel nomeLabel = new JLabel("Nome:");
+        JLabel nomeLabel = new JLabel("Name:");
         JTextField nome = new JTextField();
 
-        JLabel categoriePadreLabel = new JLabel("Categoria Padre");
+        JLabel categoriePadreLabel = new JLabel("Super-Category");
         String[] categoriePadre = getCategoriePadre();
         WideComboBox categoriePadreChooses = new WideComboBox(categoriePadre);
         categoriePadreChooses.setPreferredSize(new Dimension(7,7));
@@ -54,7 +54,7 @@ public class ModifyCategoryPanel extends JPanel {
     private String[] getCategoriePadre() {
         ArrayList<ICategoria> categorie = CategoriaDAO.getInstance().findAll();
         String[] nomiCategorie = new String[categorie.size() + 1];
-        nomiCategorie[0] = "Nessuna";
+        nomiCategorie[0] = "Nothing";
         for (int i = 1; i < categorie.size() + 1; i++){
             nomiCategorie[i] = categorie.get(i - 1).getName();
         }

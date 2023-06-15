@@ -21,8 +21,8 @@ public class AddCategoryPanel extends JPanel {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
-        JLabel nomeLabel = new JLabel("Nome:");
-        JLabel sottoCategoriaLabel = new JLabel("Categoria padre: ");
+        JLabel nomeLabel = new JLabel("Name:");
+        JLabel sottoCategoriaLabel = new JLabel("Super-Category: ");
 
         JTextField nome = new JTextField(15);
 
@@ -51,7 +51,7 @@ public class AddCategoryPanel extends JPanel {
     private String[] getCategorie() {
         ArrayList<ICategoria> categorie = CategoriaDAO.getInstance().findAll();
         String[] nomiCategorie = new String[categorie.size() + 1];
-        nomiCategorie[0] = "Nessuna";
+        nomiCategorie[0] = "Nothing";
         for (int i = 1; i < categorie.size() + 1; i++){
             nomiCategorie[i] = categorie.get(i - 1).getName();
         }

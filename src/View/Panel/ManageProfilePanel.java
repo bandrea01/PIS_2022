@@ -1,7 +1,5 @@
 package View.Panel;
 
-import Business.SessionManager;
-import Model.Utente;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
 
@@ -15,7 +13,7 @@ public class ManageProfilePanel extends JPanel {
         this.setLayout(new BorderLayout());
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
-        buttonsPanel.add(ButtonCreator.createButton("Registrati in un Punto Vendita", true, ButtonCreator.LILLE, e ->window.registraCliente(), null));
+        buttonsPanel.add(ButtonCreator.createButton("Sign in a sale point", true, ButtonCreator.LILLE, e ->window.registraCliente(), null));
 
         this.add(buttonsPanel, BorderLayout.CENTER);
         this.repaint();

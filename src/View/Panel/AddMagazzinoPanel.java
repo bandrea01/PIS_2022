@@ -1,12 +1,9 @@
 package View.Panel;
 
-import Business.PuntoVenditaBusiness;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.PuntoVendita.PuntoVenditaDAO;
-import DAO.Servizio.ServizioDAO;
 import Model.Prodotto;
 import Model.PuntoVendita;
-import Model.Servizio;
 import View.Listener.ManagePointsListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
@@ -14,8 +11,6 @@ import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AddMagazzinoPanel extends JPanel {
@@ -35,7 +30,7 @@ public class AddMagazzinoPanel extends JPanel {
 
 
         //Info panel
-        JLabel puntoVenditaLabel = new JLabel("Seleziona il punto vendita: ");
+        JLabel puntoVenditaLabel = new JLabel("Select a customer you want to delete:: ");
 
 
 
@@ -49,10 +44,10 @@ public class AddMagazzinoPanel extends JPanel {
 
         //Prodotti panel
 
-        JLabel prodottiLabel = new JLabel("Prodotti: ");
-        JLabel corsiaLabel = new JLabel("Corsia: ");
-        JLabel scaffaleLabel = new JLabel("Scaffale: ");
-        JLabel quantitaLabel = new JLabel("Quantità: ");
+        JLabel prodottiLabel = new JLabel("Products: ");
+        JLabel corsiaLabel = new JLabel("Ward: ");
+        JLabel scaffaleLabel = new JLabel("Shelf: ");
+        JLabel quantitaLabel = new JLabel("Quantity: ");
 
         prodottiPanel.add(prodottiLabel); prodottiPanel.add(corsiaLabel); prodottiPanel.add(scaffaleLabel); prodottiPanel.add(quantitaLabel);
 
@@ -80,7 +75,7 @@ public class AddMagazzinoPanel extends JPanel {
 
         //Buttons panel
         ManagePointsListener listener = new ManagePointsListener(puntiVenditaChooses, prodottiBox, corsia, scaffale, quantita);
-        buttonsPanel.add(ButtonCreator.createButton("Conferma", true, ButtonCreator.LILLE, listener, ManagePointsListener.ADD_MAG));
+        buttonsPanel.add(ButtonCreator.createButton("Confirm", true, ButtonCreator.LILLE, listener, ManagePointsListener.ADD_MAG));
         buttonsPanel.add(ButtonCreator.createButton("Select all", true, ButtonCreator.LILLE, e -> selectAll(prodottiPanel), null));
         buttonsPanel.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.managePoints(), null));
 

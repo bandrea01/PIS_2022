@@ -28,16 +28,16 @@ public class ManageStorePanel extends JPanel {
             gridPanel.setLayout(new GridLayout(10, 1));
             south.setLayout(new GridLayout(2, 0));
 
-            JLabel puntoVenditaLabel = new JLabel("Rifornisci i prodotti del Punto Vendita: " + punto.getName());
+            JLabel puntoVenditaLabel = new JLabel("Supply products in : " + punto.getName());
 
-            JLabel prodottoLabel = new JLabel("Seleziona il prodotto da rifornire");
+            JLabel prodottoLabel = new JLabel("Select the product you want to supply");
 
             String[] prodotti = getProdottibyManager(punto);
             WideComboBox prodottiChooses = new WideComboBox(prodotti);
             prodottiChooses.setPreferredSize(new Dimension(7, 7));
             prodottiChooses.setWide(true);
 
-            JLabel quantitaLabel = new JLabel("Quantità (da aggiungere)");
+            JLabel quantitaLabel = new JLabel("Quantity (to add)");
 
             String[] numeri = new String[30];
             for (int i = 0; i < numeri.length; i++) {

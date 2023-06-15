@@ -9,7 +9,6 @@ import DAO.PuntoVendita.PuntoVenditaDAO;
 import Model.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class MagazzinoBusiness {
     private static MagazzinoBusiness instance;
@@ -26,7 +25,7 @@ public class MagazzinoBusiness {
         PuntoVendita punto = PuntoVenditaDAO.getInstance().findByIdManager(manager.getId());
         Magazzino magazzino = MagazzinoDAO.getInstance().findMagazzinoByPunto(punto);
         ProdottiMagazzinoDAO.getInstance().addQuantita(magazzino, prodotto, quantita);
-        JOptionPane.showMessageDialog(null, "Il prodotto "+ nomeProdotto + " è stato rifornito correttamente");
+        JOptionPane.showMessageDialog(null, "Product '"+ nomeProdotto + "' supplied correctly");
     }
 
     public int modifyMagazzino(String nomePuntoVendita, String[] prodotti,String[] prodottiUnselected, int[] corsia, int[] scaffale, int[] quantita) {
@@ -39,7 +38,7 @@ public class MagazzinoBusiness {
         if (nomePuntoVendita.isEmpty()) {
             return 1;
         }
-        if ("Seleziona punto vendita".equalsIgnoreCase(nomePuntoVendita)) {
+        if ("Select a sale point".equalsIgnoreCase(nomePuntoVendita)) {
             return 1;
         }
 

@@ -48,13 +48,13 @@ public class AddArticlePanel extends JPanel {
         categorieChooses.setPreferredSize(new Dimension(7,7));
         categorieChooses.setWide(true);
 
-        String isProdotto = "Prodotto"; String isServizio = "Servizio";
-        String[] prodottoServizio = {"Seleziona un elemento", isProdotto, isServizio};
+        String isProdotto = "Product"; String isServizio = "Service";
+        String[] prodottoServizio = {"Select an element", isProdotto, isServizio};
         WideComboBox isProdottoServizio = new WideComboBox(prodottoServizio);
         isProdottoServizio.setPreferredSize(new Dimension(7,7));
         isProdottoServizio.setWide(true);
 
-        String[] produttoriFornitori = {"Seleziona un elemento"};
+        String[] produttoriFornitori = {"Select an element"};
         WideComboBox produttoriFornitorichooses = new WideComboBox(produttoriFornitori);
         produttoriFornitorichooses.setPreferredSize(new Dimension(7,7));
         produttoriFornitorichooses.setWide(true);
@@ -143,7 +143,7 @@ public class AddArticlePanel extends JPanel {
     private String[] getProduttori() {
         ArrayList<Produttore> produttori = ProduttoreDAO.getInstance().findAll();
         String[] nomiProduttori = new String[produttori.size() + 1];
-        nomiProduttori[0] = "Seleziona un produttore";
+        nomiProduttori[0] = "Select a productor";
         for (int i = 1; i < produttori.size() + 1; i++) {
             nomiProduttori[i] = produttori.get(i - 1).getNome();
         }
@@ -153,7 +153,7 @@ public class AddArticlePanel extends JPanel {
     private String[] getFornitori() {
         ArrayList<Fornitore> fornitori = FornitoreDAO.getInstance().findAll();
         String[] nomiFornitori = new String[fornitori.size() + 1];
-        nomiFornitori[0] = "Seleziona un fornitore";
+        nomiFornitori[0] = "Select a supplier";
         for (int i = 1; i < fornitori.size() + 1; i++) {
             nomiFornitori[i] = fornitori.get(i - 1).getNome();
         }
@@ -164,7 +164,7 @@ public class AddArticlePanel extends JPanel {
     private String[] getCategorie() {
         ArrayList<ICategoria> categorie = CategoriaDAO.getInstance().findAll();
         String[] nomiCategorie = new String[categorie.size() + 1];
-        nomiCategorie[0] = "Seleziona un elemento";
+        nomiCategorie[0] = "Select an element";
         for (int i = 1; i < categorie.size() + 1; i++){
             nomiCategorie[i] = categorie.get(i - 1).getName();
         }
@@ -174,7 +174,7 @@ public class AddArticlePanel extends JPanel {
     private String[] getProdotti() {
         ArrayList<Prodotto> prodotti = ProdottoDAO.getInstance().findAll();
         String[] nomiProdotti = new String[prodotti.size() + 1];
-        nomiProdotti[0] = "Nessuno";
+        nomiProdotti[0] = "Nothing";
         for (int i = 1; i < prodotti.size() + 1; i++) {
             nomiProdotti[i] = prodotti.get(i-1).getName();
         }

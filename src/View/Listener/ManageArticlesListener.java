@@ -104,7 +104,7 @@ public class ManageArticlesListener implements ActionListener {
 
         if (ADD_ARTICLE.equalsIgnoreCase(action)) {
             if (id.getText().isEmpty() || prezzo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null ,"Sono richiesti tutti i campi");
+                JOptionPane.showMessageDialog(null ,"All field are requested");
                 return;
             }
             int idInt =Integer.parseInt(id.getText());
@@ -118,90 +118,90 @@ public class ManageArticlesListener implements ActionListener {
             if (sopraProdotto.getSelectedItem() != null) {
                 overProduct = sopraProdotto.getSelectedItem().toString();
             }
-            String selection = "Seleziona un elemento";
+            String selection = "Select an element";
             ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
-            if (category.equalsIgnoreCase(selection) || isProductService.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase("Seleziona un fornitore") || productorSupplier.equalsIgnoreCase("Seleziona un produttore")) {
-                JOptionPane.showMessageDialog(null ,"Sono richiesti tutti i campi");
+            if (category.equalsIgnoreCase(selection) || isProductService.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase(selection) || productorSupplier.equalsIgnoreCase("Select a supplier") || productorSupplier.equalsIgnoreCase("Select a productor")) {
+                JOptionPane.showMessageDialog(null ,"All field are requested");
                 return;
             }
             int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct);
 
             switch (result) {
                 case 0:
-                    JOptionPane.showMessageDialog(null ,"Sono richiesti tutti i campi");
+                    JOptionPane.showMessageDialog(null ,"All fields are requested");
                     break;
                 case 1:
-                    JOptionPane.showMessageDialog(null, "L'articolo esiste già");
+                    JOptionPane.showMessageDialog(null, "Article alredy exists");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Il prodotto è stato caricato correttamente");
+                    JOptionPane.showMessageDialog(null, "Product correctly inserted");
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Il servizio è stato caricato correttamente");
+                    JOptionPane.showMessageDialog(null, "Service correctly inserted");
                     break;
                 case -1:
-                    JOptionPane.showMessageDialog(null, "Errore");
+                    JOptionPane.showMessageDialog(null, "Error!");
                     break;
             }
         }
         if (ADD_CATEGORY.equals(e.getActionCommand())) {
             if (nome.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null ,"Sono richiesti tutti i campi");
+                JOptionPane.showMessageDialog(null ,"All fields are requested");
                 return;
             }
             CategoriaBusiness categoriaBusiness = CategoriaBusiness.getInstance();
             String name = nome.getText();
             CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-            String nessunaCategoriaPadre = "Nessuna";
+            String nessunaCategoriaPadre = "Nothing";
 
             if (nessunaCategoriaPadre.equalsIgnoreCase(categoria.getSelectedItem().toString())) {
                 int idCategoriaPadre = 0;
                 if (categoriaBusiness.addCategory(name, idCategoriaPadre) == 1) {
-                    JOptionPane.showMessageDialog(null, "La categoria esiste già");
+                    JOptionPane.showMessageDialog(null, "Category alredy exist");
                     return;
                 }
-                JOptionPane.showMessageDialog(null, "La categoria è stata inserita correttamente");
+                JOptionPane.showMessageDialog(null, "Category correctly inserted");
                 return;
             }
 
             int idCategoriaPadre = categoriaDAO.findId(categoria.getSelectedItem().toString());
             if (categoriaBusiness.addCategory(name, idCategoriaPadre) == 1) {
-                JOptionPane.showMessageDialog(null, "La categoria esiste già");
+                JOptionPane.showMessageDialog(null, "Category alredy exist");
                 return;
             }
-            JOptionPane.showMessageDialog(null, "La categoria è stata inserita correttamente");
+            JOptionPane.showMessageDialog(null, "Category correctly inserted");
         }
         if (DELETE_ARTICLE.equals(e.getActionCommand())) {
             String nomeArticolo = articoli.getSelectedItem().toString();
             if (nomeArticolo.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Scegli un articolo");
+                JOptionPane.showMessageDialog(null, "Seelct an article");
                 return;
             }
             ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
             int idArticolo = articoloDAO.findByName(nomeArticolo).getId();
             articoloDAO.removeById(idArticolo);
-            JOptionPane.showMessageDialog(null, "L'articolo è stato cancellato correttamente");
+            JOptionPane.showMessageDialog(null, "Article correctly deleted");
         }
         if (DELETE_CATEGORY.equals(e.getActionCommand())) {
             String nomeCategoria = articoli.getSelectedItem().toString();
             if (nomeCategoria.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Scegli una categoria");
+                JOptionPane.showMessageDialog(null, "Select a category");
                 return;
             }
             CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
             int idCategoria = categoriaDAO.findByName(nomeCategoria).getId();
             ArrayList<ICategoria> sottoCategorie = categoriaDAO.findAllSottoCategorie(idCategoria);
             if (sottoCategorie.size() != 0) {
-                JOptionPane.showMessageDialog(null, "Cancella prima le sottocategorie");
+                JOptionPane.showMessageDialog(null, "First you have to delete a subcategory!");
                 return;
             }
             categoriaDAO.remove(categoriaDAO.findById(idCategoria));
-            JOptionPane.showMessageDialog(null, "La categoria è stata eliminata correttamente");
+            JOptionPane.showMessageDialog(null, "Category correctly deleted");
         }
         if (MODIFY_ARTICLE.equals(e.getActionCommand())) {
             String nomeArticolo = articoli.getSelectedItem().toString();
             if (nomeArticolo.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Scegli l'articolo da modificare");
+                JOptionPane.showMessageDialog(null, "Select the article you want to modify");
                 return;
             }
             ArticoloBusiness articoloBusiness = new ArticoloBusiness();
@@ -216,20 +216,20 @@ public class ManageArticlesListener implements ActionListener {
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
 
             if (articoloBusiness.modifyArticolo(nomeArticolo, name, price, description, category, productorSupplier) == 1) {
-                JOptionPane.showMessageDialog(null, "L'articolo è stato modificato correttamente");
+                JOptionPane.showMessageDialog(null, "Article correctly modified");
             }
         }
         if (MODIFY_CATEGORY.equals(e.getActionCommand())) {
             String nomeCategoria = categoria.getSelectedItem().toString();
             if (nomeCategoria.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Scegli la categoria da modificare");
+                JOptionPane.showMessageDialog(null, "Select the category you want to modify");
                 return;
             }
             String nomeMod = nome.getText();
             String categoriaPadreMod = categoriaPadre.getSelectedItem().toString();
             CategoriaBusiness categoriaBusiness = CategoriaBusiness.getInstance();
             if (categoriaBusiness.modifyCategory(nomeCategoria, nomeMod, categoriaPadreMod) == 1) {
-                JOptionPane.showMessageDialog(null, "La categoria è stata modificata correttamente");
+                JOptionPane.showMessageDialog(null, "Category correctly modified");
             }
         }
         if (ADD_PRODUCTOR.equals(e.getActionCommand())) {
@@ -243,13 +243,13 @@ public class ManageArticlesListener implements ActionListener {
 
             switch (result) {
                 case 0:
-                    JOptionPane.showMessageDialog(null , "Sono richiesti tutti i campi");
+                    JOptionPane.showMessageDialog(null , "All fields are requested");
                     break;
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Il produttore inserito esiste già");
+                    JOptionPane.showMessageDialog(null, "Inserted productor alredy exists");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Il produttore è stato inserito correttamente");
+                    JOptionPane.showMessageDialog(null, "Productor correctly inserted");
             }
         }
         if (ADD_SUPPLIER.equals(e.getActionCommand())) {
@@ -263,19 +263,19 @@ public class ManageArticlesListener implements ActionListener {
 
             switch (result) {
                 case 0:
-                    JOptionPane.showMessageDialog(null , "Sono richiesti tutti i campi");
+                    JOptionPane.showMessageDialog(null , "All fields are requested");
                     break;
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Il fornitore inserito esiste già");
+                    JOptionPane.showMessageDialog(null, "Inserted supplier alredy exists");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Il fornitore è stato inserito correttamente");
+                    JOptionPane.showMessageDialog(null, "Supplier correctly inserted");
             }
         }
         if (DELETE_PRODUCTOR.equals(e.getActionCommand())) {
             String nomeProduttore = articoli.getSelectedItem().toString();
-            if ("Seleziona un produttore".equalsIgnoreCase(nomeProduttore)) {
-                JOptionPane.showMessageDialog(null, "Scegli un produttore");
+            if ("Select a productor".equalsIgnoreCase(nomeProduttore)) {
+                JOptionPane.showMessageDialog(null, "Select a productor");
                 return;
             }
             ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
@@ -284,17 +284,17 @@ public class ManageArticlesListener implements ActionListener {
             ArrayList<Prodotto> prodotti = prodottoDAO.findAll();
             for (int i = 0; i < prodotti.size(); i++) {
                 if (prodotti.get(i).getProduttore().getNome().equalsIgnoreCase(nomeProduttore)) {
-                    JOptionPane.showMessageDialog(null, "Impossibile cancellare! Eliminare prima i prodotti di " + nomeProduttore );
+                    JOptionPane.showMessageDialog(null, "Error! You have to delete all products of: " + nomeProduttore );
                     return;
                 }
             }
             produttoreDAO.remove(produttoreDAO.findById(idProduttore));
-            JOptionPane.showMessageDialog(null, "Il produttore è stato eliminato correttamente");
+            JOptionPane.showMessageDialog(null, "Productor correctly deleted");
         }
         if (DELETE_SUPPLIER.equals(e.getActionCommand())) {
             String nomeFornitore = articoli.getSelectedItem().toString();
-            if ("Seleziona un fornitore".equalsIgnoreCase(nomeFornitore)) {
-                JOptionPane.showMessageDialog(null, "Scegli un fornitore");
+            if ("Select a supplier".equalsIgnoreCase(nomeFornitore)) {
+                JOptionPane.showMessageDialog(null, "Select a supplier");
                 return;
             }
             FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
@@ -303,12 +303,12 @@ public class ManageArticlesListener implements ActionListener {
             ArrayList<Servizio> servizi = servizioDAO.findAll();
             for (int i = 0; i < servizi.size(); i++) {
                 if (servizi.get(i).getFornitore().getNome().equalsIgnoreCase(nomeFornitore)) {
-                    JOptionPane.showMessageDialog(null, "Impossibile cancellare! Eliminare prima i servizi di " + nomeFornitore );
+                    JOptionPane.showMessageDialog(null, "Error! You have to delete all services of: " + nomeFornitore );
                     return;
                 }
             }
             fornitoreDAO.remove(fornitoreDAO.findById(idFornitore));
-            JOptionPane.showMessageDialog(null, "Il fornitore è stato eliminato correttamente");
+            JOptionPane.showMessageDialog(null, "Supplier correctly deleted");
         }
     }
 }

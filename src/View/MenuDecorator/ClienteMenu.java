@@ -21,7 +21,7 @@ public class ClienteMenu extends ClienteMenuDecorator {
         //Funzioni cliente
         JButton order = ButtonCreator.createButton("My Orders", true, 100,149,237, e -> window.showOrders(), null);
         JButton profile = ButtonCreator.createButton("My Profile", true, 100,149,237, e -> window.showProfile(), null);
-        JButton acquista = ButtonCreator.createButton("Acquista", true, 100,149,237, e -> window.acquista(), null);
+        JButton acquista = ButtonCreator.createButton("Buy", true, 100,149,237, e -> window.acquista(), null);
 
         buttons.add(order);
         buttons.add(profile);

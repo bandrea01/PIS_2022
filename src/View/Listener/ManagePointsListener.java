@@ -7,7 +7,6 @@ import DAO.PuntoVendita.PuntoVenditaDAO;
 import DAO.Utente.UtenteDAO;
 import Model.Manager;
 import Model.PuntoVendita;
-import Model.Utente;
 import View.MainLayout;
 import View.ViewModel.WideComboBox;
 
@@ -104,7 +103,7 @@ public class ManagePointsListener implements ActionListener {
             }
 
             if (puntoVendita.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null,"Inserisci il punto vendita");
+                JOptionPane.showMessageDialog(null,"Insert sale point");
                 return;
             }
             String nomePuntoVendita = puntoVendita.getSelectedItem().toString();
@@ -114,7 +113,7 @@ public class ManagePointsListener implements ActionListener {
             int[] nQuantita = new int[selectedIndex.size()];
             for (int i = 0; i < selectedIndex.size(); i++) {
                 if (corsia[selectedIndex.get(i)].getText().isEmpty()|| scaffale[selectedIndex.get(i)].getText().isEmpty() || quantita[selectedIndex.get(i)].getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Inserisci numero di corsia, di scaffale e quantità per i prodotti selezionati.");
+                    JOptionPane.showMessageDialog(null, "Insert number of ward, shelf and quantity for selected products.");
                     return;
                 }
                 nomeProdotti[i] = prodottiBox.get(selectedIndex.get(i)).getText();
@@ -127,16 +126,16 @@ public class ManagePointsListener implements ActionListener {
             int result = magazzinoBusiness.addMagazzino(nomePuntoVendita, nomeProdotti, nCorsia, nScaffale, nQuantita);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Inserisci numero di corsia, di scaffale e quantità per i prodotti selezionati.");
+                    JOptionPane.showMessageDialog(null, "Insert number of ward, shelf and quantity for selected products");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Il punto vendita selezionato ha già un magazzino");
+                    JOptionPane.showMessageDialog(null, "Sale point selected has alredy a store");
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Un prodotto non è disponibile nel punto vendita selezionato");
+                    JOptionPane.showMessageDialog(null, "This product is not in this sale point");
                     return;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Il magazzino è stato inserito correttamente");
+                    JOptionPane.showMessageDialog(null, "Store correctly inserted");
                     break;
             }
         } else if (MODIFY_MAG.equals(action)) {
@@ -157,7 +156,7 @@ public class ManagePointsListener implements ActionListener {
             }
 
             if (puntoVendita.getSelectedItem().toString().isEmpty()) {
-                JOptionPane.showMessageDialog(null,"Inserisci il punto vendita");
+                JOptionPane.showMessageDialog(null,"Insert sale point");
                 return;
             }
             String nomePuntoVendita = puntoVendita.getSelectedItem().toString();
@@ -167,7 +166,7 @@ public class ManagePointsListener implements ActionListener {
             int[] nQuantita = new int[selectedIndex.size()];
             for (int i = 0; i < selectedIndex.size(); i++) {
                 if (corsia[selectedIndex.get(i)].getText().isEmpty()|| scaffale[selectedIndex.get(i)].getText().isEmpty() || quantita[selectedIndex.get(i)].getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Inserisci numero di corsia, di scaffale e quantità per i prodotti selezionati.");
+                    JOptionPane.showMessageDialog(null, "Insert number of ward, shelf and quantity for selected products");
                     return;
                 }
                 nomeProdotti[i] = prodottiBox.get(selectedIndex.get(i)).getText();
@@ -185,16 +184,16 @@ public class ManagePointsListener implements ActionListener {
             int result = magazzinoBusiness.modifyMagazzino(nomePuntoVendita, nomeProdotti, nomeProdottiUnselected, nCorsia, nScaffale, nQuantita);
             switch (result) {
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Seleziona un punto vendita");
+                    JOptionPane.showMessageDialog(null, "Select a sale point");
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Il punto vendita selezionato non ha ancora un magazzino");
+                    JOptionPane.showMessageDialog(null, "Sale point salected has not a store yet");
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Un prodotto non è disponibile nel punto vendita selezionato");
+                    JOptionPane.showMessageDialog(null, "This product is not in this sale point");
                     return;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Il magazzino è stato modificato correttamente");
+                    JOptionPane.showMessageDialog(null, "Store modified correctly");
                     break;
             }
         }

@@ -13,7 +13,6 @@ import Model.*;
 import View.Listener.ManageOrdersListener;
 import View.MainLayout;
 import View.ViewModel.ButtonCreator;
-import View.ViewModel.RowCatalog;
 import View.ViewModel.WideComboBox;
 
 import javax.swing.*;
@@ -36,7 +35,7 @@ public class AcquistaPanel extends JPanel {
         gridPanel.setLayout(new GridLayout(0, 2));
         south.setLayout(new GridLayout(2, 0));
 
-        JLabel puntiVenditaLabel = new JLabel("Seleziona il punto vendita da cui acquistare: ");
+        JLabel puntiVenditaLabel = new JLabel("Select the sale point you want to buy in: ");
 
         String[] nomiPuntiVendita = getPuntiVendita(utente);
         WideComboBox puntiVenditaChooses = new WideComboBox(nomiPuntiVendita);
@@ -52,7 +51,7 @@ public class AcquistaPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String nomePunto = puntiVenditaChooses.getSelectedItem().toString();
-                if (!"Seleziona un punto vendita".equalsIgnoreCase(nomePunto)) {
+                if (!"Select a sale point".equalsIgnoreCase(nomePunto)) {
 
                     gridPanel.removeAll();
 
@@ -60,7 +59,7 @@ public class AcquistaPanel extends JPanel {
 
 
                     if (!MagazzinoDAO.getInstance().existForPunto(PuntoVenditaDAO.getInstance().findByName(nomePunto))) {
-                        JOptionPane.showMessageDialog(null, "Il magazzino del punto vendita " + nomePunto + " è vuoto");
+                        JOptionPane.showMessageDialog(null, "Store in " + nomePunto + " is empty!");
                         return;
                     }
 
@@ -70,13 +69,13 @@ public class AcquistaPanel extends JPanel {
                     WideComboBox[] quantitaChooses = new WideComboBox[quantitaProdotti.length];
                     for (int i = 0; i < quantitaChooses.length; i++) {
                         if (quantitaProdotti[i] == -1) {
-                            JTextField servizioLabel = new JTextField("Tale articolo è un servizio");
+                            JTextField servizioLabel = new JTextField("This article is a service");
                             servizioLabel.setEditable(false);
                             servizioLabel.setSize(new Dimension(1, 1));
                             gridPanel.add(articoliBox.get(i));
                             gridPanel.add(servizioLabel);
                         } else if (quantitaProdotti[i] == 0) {
-                            JTextField prodottoEsaurito = new JTextField("Tale prodotto è esaurito");
+                            JTextField prodottoEsaurito = new JTextField("Out of stock!");
                             prodottoEsaurito.setEditable(false);
                             prodottoEsaurito.setSize(new Dimension(1, 1));
                             articoliBox.get(i).setEnabled(false);
@@ -96,7 +95,7 @@ public class AcquistaPanel extends JPanel {
                     }
 
                     ManageOrdersListener listener = new ManageOrdersListener(articoliBox, quantitaChooses, puntiVenditaChooses);
-                    south.add(ButtonCreator.createButton("Acquista", true, ButtonCreator.LILLE, listener, ManageOrdersListener.BUY_BTN));
+                    south.add(ButtonCreator.createButton("Buy", true, ButtonCreator.LILLE, listener, ManageOrdersListener.BUY_BTN));
                     south.add(ButtonCreator.createButton("Select all", true, ButtonCreator.LILLE, e -> selectAll(gridPanel), null));
 
                     window.repaint();
@@ -170,7 +169,7 @@ public class AcquistaPanel extends JPanel {
         ClientePuntoVenditaDAO clientePuntoVenditaDAO = ClientePuntoVenditaDAO.getInstance();
         ArrayList<PuntoVendita> puntiVendita = clientePuntoVenditaDAO.findAllbyCliente(utente);
         String[] nomiPuntiVendita = new String[puntiVendita.size() + 1];
-        nomiPuntiVendita[0] = "Seleziona un punto vendita";
+        nomiPuntiVendita[0] = "Select a sale point";
         for (int i = 1; i < puntiVendita.size() + 1; i++) {
             nomiPuntiVendita[i] = puntiVendita.get(i-1).getName();
         }

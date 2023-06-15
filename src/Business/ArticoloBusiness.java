@@ -9,7 +9,6 @@ import DAO.Servizio.ServizioDAO;
 import Model.*;
 
 import java.awt.event.ActionListener;
-import java.sql.Blob;
 import java.util.ArrayList;
 
 public class ArticoloBusiness {
@@ -44,13 +43,13 @@ public class ArticoloBusiness {
                 prodotto.setDescrizione(descrizioneMod);
             }
             if (!categoriaMod.isEmpty()) {
-                if ("Seleziona un elemento".equals(categoriaMod)) {
+                if ("Select a element".equals(categoriaMod)) {
                     categoriaMod = categoriaDAO.findById(idArticolo).getName();
                 }
                 prodotto.setCategoria(categoriaDAO.findByName(categoriaMod));
             }
             if (!produttoreFornitoreMod.isEmpty()) {
-                if ("Seleziona un produttore".equals(produttoreFornitoreMod)) {
+                if ("Select a productor".equals(produttoreFornitoreMod)) {
                     produttoreFornitoreMod = prodottoDAO.findById(idArticolo).getProduttore().getNome();
                 }
                 prodotto.setProduttore(produttoreDAO.findByName(produttoreFornitoreMod));
@@ -71,13 +70,13 @@ public class ArticoloBusiness {
                 servizio.setDescrizione(descrizioneMod);
             }
             if (!categoriaMod.isEmpty()) {
-                if ("Seleziona un elemento".equals(categoriaMod)) {
+                if ("Select an element".equals(categoriaMod)) {
                     categoriaMod = articoloDAO.findById(idArticolo).getCategoria().getName();
                 }
                 servizio.setCategoria(categoriaDAO.findByName(categoriaMod));
             }
             if (!produttoreFornitoreMod.isEmpty()) {
-                if ("Seleziona un fornitore".equals(produttoreFornitoreMod)) {
+                if ("Select a supplier".equals(produttoreFornitoreMod)) {
                     produttoreFornitoreMod = servizioDAO.findById(idArticolo).getFornitore().getNome();
                 }
                 servizio.setFornitore(fornitoreDAO.findByName(produttoreFornitoreMod));
@@ -112,7 +111,7 @@ public class ArticoloBusiness {
 
 
         //VEDO SE è PROD O SERVIZIO E RIEMPIO IL DAO
-        String isProdotto = "Prodotto"; String isServizio = "Servizio";
+        String isProdotto = "Product"; String isServizio = "Service";
         Prodotto prodotto = new Prodotto();
         ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
@@ -133,7 +132,7 @@ public class ArticoloBusiness {
             produttore = produttoreDAO.findByName(produttoreFornitore);
             prodotto.setProduttore(produttore);
             articoloDAO.addProdotto(prodotto);
-            if (!"Nessuno".equalsIgnoreCase(sopraProdotto)) {
+            if (!"Nothing".equalsIgnoreCase(sopraProdotto)) {
                 Prodotto prodottoPadre = prodottoDAO.findByName(sopraProdotto);
                 if (prodottoPadre.getSottoProdotti() == null) {
                     ArrayList<Prodotto> sottoProdotti = new ArrayList<>();

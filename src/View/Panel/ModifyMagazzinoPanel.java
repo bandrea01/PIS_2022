@@ -145,7 +145,7 @@ public class ModifyMagazzinoPanel extends JPanel {
     public String[] getPuntiVendita() {
         ArrayList<PuntoVendita> puntiVendita = PuntoVenditaDAO.getInstance().findAll();
         String[] nomiPuntiVendita = new String[puntiVendita.size() + 1];
-        nomiPuntiVendita[0] = "Seleziona punto vendita";
+        nomiPuntiVendita[0] = "Select the sale point";
         for (int i = 1; i < puntiVendita.size() + 1; i++) {
             nomiPuntiVendita[i] = puntiVendita.get(i-1).getName();
         }

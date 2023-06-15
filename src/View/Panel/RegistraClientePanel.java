@@ -24,14 +24,14 @@ public class RegistraClientePanel extends JPanel {
         gridPanel.setLayout(new GridLayout(10, 1));
         south.setLayout(new GridLayout(2, 0));
 
-        JLabel puntoVenditaLabel = new JLabel("Seleziona il punto vendita: ");
+        JLabel puntoVenditaLabel = new JLabel("Select the sale point: ");
 
         String[] puntiVendita = getPuntiVendita();
         WideComboBox puntiVenditaChooses = new WideComboBox(puntiVendita);
         puntiVenditaChooses.setPreferredSize(new Dimension(7,7));
         puntiVenditaChooses.setWide(true);
 
-        JLabel canalePreferitoLabel = new JLabel("Canale preferito: ");
+        JLabel canalePreferitoLabel = new JLabel("Notification preferences: ");
 
         String[] canalePreferito = {"EMAIL", "SMS", "PUSH"};
         WideComboBox canalePreferitoChooses = new WideComboBox(canalePreferito);
@@ -42,7 +42,7 @@ public class RegistraClientePanel extends JPanel {
         gridPanel.add(canalePreferitoLabel); gridPanel.add(canalePreferitoChooses);
 
         ManageClientiListener listener = new ManageClientiListener(username, puntiVenditaChooses, canalePreferitoChooses);
-        south.add(ButtonCreator.createButton("Registrati", true, ButtonCreator.LILLE, listener, ManageClientiListener.SIGN_IN_BTN));
+        south.add(ButtonCreator.createButton("Sign in", true, ButtonCreator.LILLE, listener, ManageClientiListener.SIGN_IN_BTN));
         south.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.showProfile(), null));
 
         this.add(gridPanel, BorderLayout.CENTER);

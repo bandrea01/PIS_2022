@@ -58,7 +58,7 @@ public class PuntoVenditaBusiness {
         }
         Utente utente = utenteDAO.findByEmail(manager.getSelectedItem().toString());
         if (puntoVenditaDAO.hasThisManager(utente.getId())) {
-            JOptionPane.showMessageDialog(null, "L'utente selezionato è già manager di un punto vendita");
+            JOptionPane.showMessageDialog(null, "User select is alredy a manager of a sale point");
             return;
         }
         if (!utenteDAO.isManager(utente.getUsername())){
