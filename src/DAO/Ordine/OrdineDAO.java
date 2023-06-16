@@ -94,6 +94,26 @@ public class OrdineDAO implements IOrdineDAO{
     }
 
     @Override
+    public boolean utenteHasBought(Utente utente) {
+        String sql = "SELECT count(*) AS count FROM mydb.ordine AS C WHERE C.idUtente=" + utente.getId() + ";";
+        IDbOperation readOp = new ReadOperation(sql);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() != 0){
+                int count = rs.getInt("count");
+                return count != 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public ArrayList<Ordine> findAllOfUtente(Utente utente) {
         String sql = "SELECT * FROM mydb.ordine WHERE idUtente = " + utente.getId() + ";";
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -292,5 +312,61 @@ public class OrdineDAO implements IOrdineDAO{
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
         return rowCount;
+    }
+
+    @Override
+    public ArrayList<Servizio> findAllServicesBoughtFromUtente(Utente utente) {
+        String sql = "SELECT DISTINCT mydb.ordine_has_servizio.idServizio FROM mydb.ordine_has_servizio JOIN mydb.ordine ON mydb.ordine.idOrdine = mydb.ordine_has_servizio.idOrdine where ordine.idUtente =" + utente.getId() + ";";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
+        ServizioDAO servizioDAO = ServizioDAO.getInstance();
+        ArrayList<Servizio> servizi = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Servizio servizio = servizioDAO.findById(rs.getInt("idServizio"));
+                servizi.add(servizio);
+            }
+            return servizi;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Prodotto> findAllProductsBoughtFromUtente(Utente utente) {
+        String sql = "SELECT DISTINCT mydb.ordine_has_prodotto.idProdotto FROM mydb.ordine_has_prodotto JOIN mydb.ordine ON mydb.ordine.idOrdine = mydb.ordine_has_prodotto.idOrdine where ordine.idUtente =" + utente.getId() + ";";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
+        ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Prodotto prodotto = prodottoDAO.findById(rs.getInt("idProdotto"));
+                prodotti.add(prodotto);
+            }
+            return prodotti;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(readOp);
+        }
+        return null;
     }
 }

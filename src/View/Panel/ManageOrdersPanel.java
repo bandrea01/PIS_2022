@@ -13,7 +13,7 @@ public class ManageOrdersPanel extends JPanel {
         buttonsPanel.setLayout(new GridLayout(2, 10));
 
         buttonsPanel.add(ButtonCreator.createButton("Pay orders", true, ButtonCreator.LILLE, e ->window.pagaOrdine(), null));
-        //bottone per i feedback
+        buttonsPanel.add(ButtonCreator.createButton("Feedback", true, ButtonCreator.LILLE, e -> window.commentaArticoli(), null));
 
         this.add(buttonsPanel, BorderLayout.CENTER);
         this.repaint();

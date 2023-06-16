@@ -43,7 +43,7 @@ public class RegistraClientePanel extends JPanel {
 
         ManageClientiListener listener = new ManageClientiListener(username, puntiVenditaChooses, canalePreferitoChooses);
         south.add(ButtonCreator.createButton("Sign in", true, ButtonCreator.LILLE, listener, ManageClientiListener.SIGN_IN_BTN));
-        south.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.showProfile(), null));
+        south.add(ButtonCreator.createButton("Go back", true, ButtonCreator.LILLE, e -> window.registraCliente(), null));
 
         this.add(gridPanel, BorderLayout.CENTER);
         this.add(south, BorderLayout.SOUTH);

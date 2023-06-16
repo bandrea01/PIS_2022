@@ -6,7 +6,9 @@ import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
+import Model.Manager;
 import Model.PuntoVendita;
+import Model.Utente;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -195,6 +197,42 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         return rowCount;
     }
 
+    @Override
+    public Manager findManagerOfPunto(PuntoVendita puntoVendita) {
+        executor = new DbOperationExecutor();
+        sql = "SELECT idManager FROM puntovendita WHERE idPuntoVendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+        dbOperation = new ReadOperation(sql);
+        rs = executor.executeOperation(dbOperation).getResultSet();
+        Manager manager = new Manager();
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                Utente utente = UtenteDAO.getInstance().findById(rs.getInt("idManager"));
+                manager.setId(utente.getId());
+                manager.setName(utente.getName());
+                manager.setSurname(utente.getSurname());
+                manager.setEmail(utente.getEmail());
+                manager.setUsername(utente.getUsername());
+                manager.setPassword(utente.getPassword());
+                manager.setPhone(utente.getPhone());
+                manager.setAge(utente.getAge());
+                manager.setCity(utente.getCity());
+                manager.setJob(utente.getJob());
+                manager.setPuntoVendita(puntoVendita);
+            }
+            return manager;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            executor.close(dbOperation);
+        }
+        return null;
+    }
 
     @Override
     public boolean hasThisManager(int id) {

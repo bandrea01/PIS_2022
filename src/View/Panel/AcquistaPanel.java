@@ -27,6 +27,7 @@ public class AcquistaPanel extends JPanel {
 
         Utente utente = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
+
         JPanel infoPanel = new JPanel();
         JPanel gridPanel = new JPanel();
         JPanel south = new JPanel();
@@ -60,6 +61,11 @@ public class AcquistaPanel extends JPanel {
 
                     if (!MagazzinoDAO.getInstance().existForPunto(PuntoVenditaDAO.getInstance().findByName(nomePunto))) {
                         JOptionPane.showMessageDialog(null, "Store in " + nomePunto + " is empty!");
+                        return;
+                    }
+
+                    if (ClientePuntoVenditaDAO.getInstance().isClienteBanned(utente, PuntoVenditaDAO.getInstance().findByName(nomePunto))) {
+                        JOptionPane.showMessageDialog(null, "You cannot buy in this sale point. You have been banned!");
                         return;
                     }
 

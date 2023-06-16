@@ -38,6 +38,39 @@ public class FeedbackDAO implements IFeedbackDAO{
     }
 
     @Override
+    public ArrayList<Feedback> findAll() {
+        String sql = "SELECT * FROM feedback;";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ArrayList<Feedback> feedbacks = new ArrayList<>();
+        try {
+            while(rs.next()){
+                Feedback feedback = new Feedback();
+                feedback.setIdFeedback(rs.getInt("idFeedback"));
+                feedback.setArticolo(articoloDAO.findById(rs.getInt("idArticolo")));
+                feedback.setUtente(utenteDAO.findById(rs.getInt("idUtente")));
+                feedback.setCommento(rs.getString("commento"));
+                feedback.setGradimento(Feedback.Gradimento.valueOf(rs.getString("gradimento")));
+                feedback.setRisposta(rs.getString("risposta"));
+                feedback.setManager(utenteDAO.getManagerById(rs.getInt("idManager")));
+                feedbacks.add(feedback);
+            }
+            return feedbacks;
+        } catch (SQLException e) {
+
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Feedback> findAllOfArticolo (Articolo articolo) {
         String sql = "SELECT * FROM feedback WHERE idArticolo = '" + articolo.getId() + "';";
         DbOperationExecutor executor = new DbOperationExecutor();

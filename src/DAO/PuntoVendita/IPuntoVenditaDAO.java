@@ -17,4 +17,6 @@ public interface IPuntoVenditaDAO {
     int update(PuntoVendita puntoVendita);
 
     boolean hasThisManager(int id);
+
+    Manager findManagerOfPunto(PuntoVendita puntoVendita);
 }

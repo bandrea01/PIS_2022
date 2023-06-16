@@ -16,8 +16,9 @@ import java.util.ArrayList;
 public class PagaOrdinePanel extends JPanel {
     public PagaOrdinePanel(MainLayout window) {
         Utente utente = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-        if (OrdineDAO.getInstance().findAllOfUtente(utente).size() == 0) {
+        if (!OrdineDAO.getInstance().utenteHasBought(utente)) {
             JOptionPane.showMessageDialog(null, "You have not created a shopping list yet");
+            window.acquista();
             return;
         }
         JPanel gridPanel = new JPanel();

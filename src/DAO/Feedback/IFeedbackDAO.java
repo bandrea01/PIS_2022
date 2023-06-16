@@ -13,4 +13,6 @@ public interface IFeedbackDAO {
     int add (Feedback feedback);
     int update (Feedback feedback);
     int remove (Feedback feedback);
+
+    ArrayList<Feedback> findAll();
 }

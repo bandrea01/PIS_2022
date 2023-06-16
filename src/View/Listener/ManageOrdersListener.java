@@ -3,9 +3,11 @@ package View.Listener;
 
 import Business.Bridge.DocumentoOrdine;
 import Business.Bridge.PdfBoxAPI;
+import Business.MailHelper;
 import Business.SessionManager;
 import DAO.Articolo.ArticoloDAO;
 import DAO.ClientePuntoVendita.ClientePuntoVenditaDAO;
+import DAO.Feedback.FeedbackDAO;
 import DAO.Magazzino.MagazzinoDAO;
 import DAO.Ordine.OrdineDAO;
 import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
@@ -25,11 +27,22 @@ public class ManageOrdersListener implements ActionListener {
 
     public final static String BUY_BTN = "acquista-btn";
     public final static String PAY_BTN = "payorder-btn";
+    public final static String FEEDBACK = "feedback-btn";
 
     private ArrayList<JCheckBox> articoliBox;
     private WideComboBox[] quantita;
     private WideComboBox puntoVendita;
     private WideComboBox ordine;
+    private WideComboBox articolo;
+    private JTextField commento;
+    private WideComboBox gradimento;
+
+    public ManageOrdersListener(WideComboBox puntoVendita, WideComboBox articolo, JTextField commento, WideComboBox gradimento) {
+        this.puntoVendita = puntoVendita;
+        this.articolo = articolo;
+        this.commento = commento;
+        this.gradimento = gradimento;
+    }
 
     public ManageOrdersListener(ArrayList<JCheckBox> articoliBox, WideComboBox[] quantita, WideComboBox puntoVendita) {
         this.articoliBox = articoliBox;
@@ -110,6 +123,47 @@ public class ManageOrdersListener implements ActionListener {
             }
             ordineDAO.paga(order);
             JOptionPane.showMessageDialog(null, "The order #" + nOrdine + " has been paid");
+        } else if (FEEDBACK.equals(e.getActionCommand())) {
+            String nomePunto = puntoVendita.getSelectedItem().toString();
+            if ("Select a sale point".equalsIgnoreCase(nomePunto)) {
+                JOptionPane.showMessageDialog(null, "Please, select a sale point");
+                return;
+            }
+            Utente cliente = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+            String article = articolo.getSelectedItem().toString();
+            String text = commento.getText();
+            String rating = gradimento.getSelectedItem().toString();
+            Manager manager = PuntoVenditaDAO.getInstance().findManagerOfPunto(PuntoVenditaDAO.getInstance().findByName(nomePunto));
+
+            Feedback feedback = new Feedback();
+            FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
+            ArrayList<Feedback> feedbacks = feedbackDAO.findAll();
+
+
+            feedback.setIdFeedback(feedbacks.size() + 1);
+            feedback.setArticolo(ArticoloDAO.getInstance().findByName(article));
+            feedback.setCommento(text);
+            feedback.setRisposta(" ");
+            feedback.setManager(manager);
+            feedback.setUtente(cliente);
+            if ("VERY BAD".equalsIgnoreCase(rating)) {
+                feedback.setGradimento(Feedback.Gradimento.PESSIMO);
+            } else if ("SCARCE".equalsIgnoreCase(rating)) {
+                feedback.setGradimento(Feedback.Gradimento.SCARSO);
+            } else if ("NORMAL".equalsIgnoreCase(rating)) {
+                feedback.setGradimento(Feedback.Gradimento.NORMALE);
+            } else if ("GOOD".equalsIgnoreCase(rating)) {
+                feedback.setGradimento(Feedback.Gradimento.BUONO);
+            } else if ("EXCELLENT".equalsIgnoreCase(rating)) {
+                feedback.setGradimento(Feedback.Gradimento.ECCELLENTE);
+            }
+
+            feedbackDAO.add(feedback);
+
+            String commentoMail = "idFeedback: " + feedback.getIdFeedback() + "\nCommento: " + text + "\nGradimento: " + rating + ".";
+            MailHelper.getInstance().send(manager.getEmail(), "FEEDBACK ARTICOLO: " + article, commentoMail, null);
+
+            JOptionPane.showMessageDialog(null, "Your feedback has been successfully added and sent to the " + nomePunto + "'s manager");
         }
     }
 }

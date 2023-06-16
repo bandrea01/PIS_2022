@@ -21,4 +21,10 @@ public interface IOrdineDAO {
     int removeById(int id);
 
     ArrayList<Ordine> findAll();
+
+    ArrayList<Prodotto> findAllProductsBoughtFromUtente(Utente utente);
+
+    ArrayList<Servizio> findAllServicesBoughtFromUtente(Utente utente);
+
+    boolean utenteHasBought(Utente utente);
 }

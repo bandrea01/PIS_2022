@@ -192,9 +192,9 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
-    public void showProfile() {
+    public void registraCliente() {
         centre.removeAll();
-        centre.add(new ManageProfilePanel(this));
+        centre.add(new RegistraClientePanel(this));
         repaint();
         validate();
     }
@@ -355,12 +355,7 @@ public class MainLayout extends JFrame {
         validate();
     }
 
-    public void registraCliente() {
-        centre.removeAll();
-        centre.add(new RegistraClientePanel(this));
-        repaint();
-        validate();
-    }
+
 
     public void acquista() {
         centre.removeAll();
@@ -372,6 +367,13 @@ public class MainLayout extends JFrame {
     public void pagaOrdine() {
         centre.removeAll();
         centre.add(new PagaOrdinePanel(this));
+        repaint();
+        validate();
+    }
+
+    public void commentaArticoli() {
+        centre.removeAll();
+        centre.add(new CommentaArticoliPanel(this));
         repaint();
         validate();
     }
