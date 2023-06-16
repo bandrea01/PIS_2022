@@ -98,7 +98,7 @@ public class OrdineDAO implements IOrdineDAO{
         String sql = "SELECT * FROM mydb.ordine WHERE idUtente = " + utente.getId() + ";";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
+        ResultSet rs = executor.executeOperation(readOp).getResultSet();
         ArrayList<Ordine> ordini = new ArrayList<>();
         try {
             while (rs.next()) {
