@@ -232,9 +232,11 @@ public class MainLayout extends JFrame {
     }
 
 
-
-    public void manageCatalog() {
-        //TODO
+    public  void mostraFeedback() {
+        centre.removeAll();
+        centre.add(new MostraFeedbackPanel(this));
+        repaint();
+        validate();
     }
     public void resizeFrame(){
         this.setSize(new Dimension(500,500));

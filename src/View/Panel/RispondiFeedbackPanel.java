@@ -18,7 +18,7 @@ public class RispondiFeedbackPanel extends JPanel {
         Utente manager = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
         if (!FeedbackDAO.getInstance().managerHasFeedback(manager)) {
-            JOptionPane.showMessageDialog(null, "None of your customers have posted feedbacks");
+            JOptionPane.showMessageDialog(null, "None of your customers have posted feedbacks yet");
             window.manageClienti();
             return;
         }
