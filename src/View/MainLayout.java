@@ -377,4 +377,11 @@ public class MainLayout extends JFrame {
         repaint();
         validate();
     }
+
+    public void rispondiFeedback() {
+        centre.removeAll();
+        centre.add(new RispondiFeedbackPanel(this));
+        repaint();
+        validate();
+    }
 }

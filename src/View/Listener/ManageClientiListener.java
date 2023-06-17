@@ -2,7 +2,9 @@ package View.Listener;
 
 import Business.MailHelper;
 import Business.UtenteBusiness;
+import DAO.Feedback.FeedbackDAO;
 import DAO.Utente.UtenteDAO;
+import Model.Feedback;
 import Model.Utente;
 import View.ViewModel.WideComboBox;
 
@@ -17,6 +19,7 @@ public class ManageClientiListener implements ActionListener {
     public final static String REMOVE_BTN = "remove_cliente_btn";
     public final static String SEND_EMAIL_BTN = "send_email_btn";
     public final static String SIGN_IN_BTN = "sign-in-client-btn";
+    public final static String REPLY_FEEDBACK_BTN = "reply-btn";
 
     private WideComboBox utente;
     private String puntoVendita;
@@ -25,6 +28,12 @@ public class ManageClientiListener implements ActionListener {
     private String username;
     private WideComboBox puntiVendita;
     private WideComboBox canalePreferito;
+    private WideComboBox id;
+
+    public ManageClientiListener(JTextField testo, WideComboBox id) {
+        this.testo = testo;
+        this.id = id;
+    }
 
     public ManageClientiListener(String username, WideComboBox puntiVendita, WideComboBox canalePreferito) {
         this.username = username;
@@ -137,6 +146,17 @@ public class ManageClientiListener implements ActionListener {
                     JOptionPane.showMessageDialog(null, "You are now signed in:  " + punto + " !");
                     break;
             }
+        } else if (REPLY_FEEDBACK_BTN.equals(e.getActionCommand())) {
+            int idFeedback = Integer.parseInt(id.getSelectedItem().toString());
+            FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
+            Feedback feedback = feedbackDAO.findById(idFeedback);
+            feedback.setRisposta(testo.getText());
+            feedbackDAO.update(feedback);
+
+            MailHelper mailHelper = MailHelper.getInstance();
+            String text = "Commento: \"" + feedback.getCommento() + "\"\nRisposta: \"" + feedback.getRisposta() + "\"";
+            mailHelper.send(feedback.getUtente().getEmail(), "RISPOSTA AL FEEDBACK SULL'ARTICOLO: " + feedback.getArticolo().getName(), text, null);
+            JOptionPane.showMessageDialog(null, "Your reply has been successfully sent to the user " + feedback.getUtente().getUsername());
         }
     }
 }

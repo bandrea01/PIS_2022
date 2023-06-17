@@ -160,7 +160,7 @@ public class ManageOrdersListener implements ActionListener {
 
             feedbackDAO.add(feedback);
 
-            String commentoMail = "idFeedback: " + feedback.getIdFeedback() + "\nCommento: " + text + "\nGradimento: " + rating + ".";
+            String commentoMail = "idFeedback: " + feedback.getIdFeedback() + "\nCliente: " + cliente.getUsername() + "\nCommento: " + text + "\nGradimento: " + rating + ".";
             MailHelper.getInstance().send(manager.getEmail(), "FEEDBACK ARTICOLO: " + article, commentoMail, null);
 
             JOptionPane.showMessageDialog(null, "Your feedback has been successfully added and sent to the " + nomePunto + "'s manager");

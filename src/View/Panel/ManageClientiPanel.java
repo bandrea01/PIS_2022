@@ -25,6 +25,7 @@ public class ManageClientiPanel extends JPanel {
             buttonsPanel.add(ButtonCreator.createButton("Ban customer", true, ButtonCreator.LILLE, e -> window.disabilitaCliente(), null));
             buttonsPanel.add(ButtonCreator.createButton("Delete customer", true, ButtonCreator.LILLE, e -> window.cancellaCliente(), null));
             buttonsPanel.add(ButtonCreator.createButton("Send email to a customer", true, ButtonCreator.LILLE, e -> window.inviaEmailCliente(), null));
+            buttonsPanel.add(ButtonCreator.createButton("Reply to feedback", true, ButtonCreator.LILLE, e -> window.rispondiFeedback(), null));
 
             this.add(buttonsPanel, BorderLayout.CENTER);
             this.repaint();

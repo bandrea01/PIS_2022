@@ -15,4 +15,10 @@ public interface IFeedbackDAO {
     int remove (Feedback feedback);
 
     ArrayList<Feedback> findAll();
+
+    ArrayList<Feedback> findAllOfManager(Utente manager);
+
+    Feedback findById(int idFeedback);
+
+    boolean managerHasFeedback(Utente manager);
 }
