@@ -47,12 +47,12 @@ public class ManageArticlesListener implements ActionListener {
     private JTextField sito;
     private JTextField citta;
     private JTextField nazione;
-    private String pathImmagine;
+    private JTextField pathImmagine;
 
 
     private JPanel panel;
 
-    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore, WideComboBox sopraProdotto, String pathImmagine) {
+    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore, WideComboBox sopraProdotto, JTextField pathImmagine) {
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
@@ -116,6 +116,7 @@ public class ManageArticlesListener implements ActionListener {
             String category = categoria.getSelectedItem().toString();
             String isProductService = isProdottoServizio.getSelectedItem().toString();
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
+            String nomeImmagine = pathImmagine.getText();
             String overProduct = null;
             if (sopraProdotto.getSelectedItem() != null) {
                 overProduct = sopraProdotto.getSelectedItem().toString();
@@ -126,7 +127,7 @@ public class ManageArticlesListener implements ActionListener {
                 JOptionPane.showMessageDialog(null ,"All field are requested");
                 return;
             }
-            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct, pathImmagine);
+            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct, nomeImmagine);
 
             switch (result) {
                 case 0:

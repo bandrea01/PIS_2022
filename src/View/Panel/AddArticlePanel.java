@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class AddArticlePanel extends JPanel {
 
-    private String selectedImagePath = "";
+    public String selectedImagePath = "";
     private String destinationFolderPath = "C:\\Users\\giova\\" + "IdeaProjects\\PIS_2022\\resources";
     public AddArticlePanel(MainLayout window) {
         JPanel gridPanel = new JPanel();
@@ -75,6 +75,7 @@ public class AddArticlePanel extends JPanel {
         sopraProdottoChooses.setWide(true);
 
         JButton sfoglia = ButtonCreator.createButton("Browse", true, ButtonCreator.LIGHT_BLUE, null, null);
+        JTextField nomeFile = new JTextField();
 
         gridPanel.add(idLabel); gridPanel.add(id);
         gridPanel.add(nomeLabel); gridPanel.add(nome);
@@ -94,22 +95,10 @@ public class AddArticlePanel extends JPanel {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     selectedImagePath = selectedFile.getName();
-                    String path = selectedFile.getAbsolutePath();
-                    // Copia l'immagine nella cartella di destinazione
-                    if (destinationFolderPath != null) {
-                        try {
-                            File sourceFile = new File(path);
-                            File destinationFolder = new File(destinationFolderPath);
-                            String fileName = sourceFile.getName();
-                            Path destinationPath = Path.of(destinationFolderPath, fileName);
-                            Files.copy(sourceFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                            JOptionPane.showMessageDialog(null, "Image copied successfully!");
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(null, "An error occurred while copying the image.");
-                        }
+                    nomeFile.setText(selectedImagePath);
+                    JOptionPane.showMessageDialog(window, "Image inserted correctly");
                     }
                 }
-            }
             });
 
 
@@ -130,7 +119,7 @@ public class AddArticlePanel extends JPanel {
                         sopraProdottoChooses.addItem(element);
                     }
                     gridPanel.add(sopraProdotto); gridPanel.add(sopraProdottoChooses);
-                    gridPanel.add(immagineLabel); gridPanel.add(sfoglia);
+                    gridPanel.add(immagineLabel); gridPanel.add(sfoglia); gridPanel.add(nomeFile);
                 }
             }
             private void updateProduttoriFornitoriChooses() {
@@ -166,7 +155,7 @@ public class AddArticlePanel extends JPanel {
 
 
 
-        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses, sopraProdottoChooses, selectedImagePath);
+        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses, sopraProdottoChooses, nomeFile);
         JButton confirm = ButtonCreator.createButton("Confirm", true, ButtonCreator.LILLE, listener, ManageArticlesListener.ADD_ARTICLE);
         south.add(confirm);
         JButton back = ButtonCreator.createButton("Go Back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null);
