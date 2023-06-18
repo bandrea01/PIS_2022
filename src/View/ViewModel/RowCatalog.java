@@ -12,9 +12,9 @@ public class RowCatalog {
     private String produttoreFornitore;
     private Float prezzo;
     private String categoria;
-    private int quantita;
     private JCheckBox checkBox;
     private JButton viewImageButton;
+    private String pathImage;
 
     public RowCatalog(){
         ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
@@ -67,11 +67,11 @@ public class RowCatalog {
         return (ImageIcon) viewImageButton.getIcon();
     }
 
-    public int getQuantita() {
-        return quantita;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
     }
 }

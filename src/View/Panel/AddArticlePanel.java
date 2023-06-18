@@ -16,10 +16,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 
 public class AddArticlePanel extends JPanel {
+
+    private String selectedImagePath = "";
+    private String destinationFolderPath = "C:\\Users\\giova\\" + "IdeaProjects\\PIS_2022\\resources";
     public AddArticlePanel(MainLayout window) {
         JPanel gridPanel = new JPanel();
         JPanel south = new JPanel();
@@ -36,6 +44,8 @@ public class AddArticlePanel extends JPanel {
         JLabel prodottoServizioLabel = new JLabel("Product or Service: ");
         JLabel produttoreFornitoreLabel = new JLabel("");
         JLabel sopraProdotto = new JLabel("Overproduct: ");
+        JLabel immagineLabel = new JLabel("Image: ");
+
 
 
         JTextField id = new JTextField(15);
@@ -64,6 +74,8 @@ public class AddArticlePanel extends JPanel {
         sopraProdottoChooses.setPreferredSize(new Dimension(7,7));
         sopraProdottoChooses.setWide(true);
 
+        JButton sfoglia = ButtonCreator.createButton("Browse", true, ButtonCreator.LIGHT_BLUE, null, null);
+
         gridPanel.add(idLabel); gridPanel.add(id);
         gridPanel.add(nomeLabel); gridPanel.add(nome);
         gridPanel.add(prezzoLabel); gridPanel.add(prezzo);
@@ -73,6 +85,32 @@ public class AddArticlePanel extends JPanel {
 
         gridPanel.add(produttoreFornitoreLabel);
         gridPanel.add(produttoriFornitorichooses);
+
+        sfoglia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(window);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    selectedImagePath = selectedFile.getName();
+                    String path = selectedFile.getAbsolutePath();
+                    // Copia l'immagine nella cartella di destinazione
+                    if (destinationFolderPath != null) {
+                        try {
+                            File sourceFile = new File(path);
+                            File destinationFolder = new File(destinationFolderPath);
+                            String fileName = sourceFile.getName();
+                            Path destinationPath = Path.of(destinationFolderPath, fileName);
+                            Files.copy(sourceFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                            JOptionPane.showMessageDialog(null, "Image copied successfully!");
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, "An error occurred while copying the image.");
+                        }
+                    }
+                }
+            }
+            });
 
 
         isProdottoServizio.addActionListener(new ActionListener() {
@@ -92,6 +130,7 @@ public class AddArticlePanel extends JPanel {
                         sopraProdottoChooses.addItem(element);
                     }
                     gridPanel.add(sopraProdotto); gridPanel.add(sopraProdottoChooses);
+                    gridPanel.add(immagineLabel); gridPanel.add(sfoglia);
                 }
             }
             private void updateProduttoriFornitoriChooses() {
@@ -127,7 +166,7 @@ public class AddArticlePanel extends JPanel {
 
 
 
-        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses, sopraProdottoChooses);
+        ManageArticlesListener listener = new ManageArticlesListener(id, nome, prezzo, descrizione, categorieChooses, isProdottoServizio, produttoriFornitorichooses, sopraProdottoChooses, selectedImagePath);
         JButton confirm = ButtonCreator.createButton("Confirm", true, ButtonCreator.LILLE, listener, ManageArticlesListener.ADD_ARTICLE);
         south.add(confirm);
         JButton back = ButtonCreator.createButton("Go Back", true, ButtonCreator.LILLE, e -> window.manageArticles(), null);

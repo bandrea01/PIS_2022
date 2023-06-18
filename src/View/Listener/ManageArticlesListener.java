@@ -47,11 +47,12 @@ public class ManageArticlesListener implements ActionListener {
     private JTextField sito;
     private JTextField citta;
     private JTextField nazione;
+    private String pathImmagine;
 
 
     private JPanel panel;
 
-    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore, WideComboBox sopraProdotto) {
+    public ManageArticlesListener(JTextField id, JTextField nome, JTextField prezzo, JTextField descrizione, WideComboBox categoria, WideComboBox isProdottoServizio, WideComboBox produttoreFornitore, WideComboBox sopraProdotto, String pathImmagine) {
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
@@ -60,6 +61,7 @@ public class ManageArticlesListener implements ActionListener {
         this.isProdottoServizio = isProdottoServizio;
         this.produttoreFornitore = produttoreFornitore;
         this.sopraProdotto = sopraProdotto;
+        this.pathImmagine = pathImmagine;
     }
 
     public ManageArticlesListener(JTextField nome, WideComboBox categoria) {
@@ -124,7 +126,7 @@ public class ManageArticlesListener implements ActionListener {
                 JOptionPane.showMessageDialog(null ,"All field are requested");
                 return;
             }
-            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct);
+            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct, pathImmagine);
 
             switch (result) {
                 case 0:
@@ -139,6 +141,9 @@ public class ManageArticlesListener implements ActionListener {
                 case 3:
                     JOptionPane.showMessageDialog(null, "Service correctly inserted");
                     break;
+                case 5:
+                    JOptionPane.showMessageDialog(null, "Please select an image");
+                    return;
                 case -1:
                     JOptionPane.showMessageDialog(null, "Error!");
                     break;

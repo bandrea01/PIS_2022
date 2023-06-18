@@ -8,6 +8,9 @@ public class Prodotto extends Articolo implements IArticolo {
     private Produttore produttore;
     ArrayList<Prodotto> sottoProdotti;
 
+
+
+
     public Prodotto() {
         super();
         this.produttore = null;
@@ -69,4 +72,5 @@ public class Prodotto extends Articolo implements IArticolo {
     public void setSottoProdotti(ArrayList<Prodotto> sottoProdotti) {
         this.sottoProdotti = sottoProdotti;
     }
+
 }

@@ -14,4 +14,8 @@ public interface IImmagineDAO {
     Immagine findImageById(int idImmagine);
     ArrayList<Immagine> findImagesByArticoloId (int id);
     int removeSingleImageById (int idImmagine);
+
+    ArrayList<Immagine> findAll();
+
+    String getPathByIdArticolo(int idArticolo);
 }

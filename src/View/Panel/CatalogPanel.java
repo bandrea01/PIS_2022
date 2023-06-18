@@ -36,10 +36,12 @@ public class CatalogPanel extends JPanel {
             if (articoloDAO.isProdotto(a.getId())) {
                 Prodotto p = ProdottoDAO.getInstance().findById(a.getId());
                 row.setProduttoreFornitore(p.getProduttore().getNome());
+                row.setPathImage(a.getPathImmagine());
             } else {
                 Servizio s = ServizioDAO.getInstance().findById(a.getId());
                 if (s.getFornitore() != null) {
                     row.setProduttoreFornitore(s.getFornitore().getNome());
+                    row.setPathImage("servizio.png");
                 }
             }
             row.setChecked(false);
@@ -51,13 +53,12 @@ public class CatalogPanel extends JPanel {
         tableModel = new CatalogTableModel(rows);
         table = new JTable(tableModel);
 
-        table.setRowHeight(20);
+        table.setRowHeight(200);
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane);
 
-        JScrollBar bar = new JScrollBar();
-        this.add(bar, BorderLayout.EAST);
+
 
 
         JPanel buttonsTable = new JPanel();
@@ -78,8 +79,8 @@ public class CatalogPanel extends JPanel {
             }
         });
 
-        buttonsTable.add(cart);
-        add(cart, BorderLayout.SOUTH);
+        //buttonsTable.add(cart);
+        //add(cart, BorderLayout.SOUTH);
         this.validate(); this.repaint();
     }
 

@@ -6,11 +6,18 @@ public class Immagine {
     private int idImmagine;
     private int idArticolo;
     private Image image;
+    private String pathImmagine;
 
     public Immagine(){
         this.idImmagine = 0;
         this.idArticolo = 0;
         this.image = null;
+    }
+
+    public Immagine(int idImmagine, int idArticolo, String pathImmagine) {
+        this.idImmagine = idImmagine;
+        this.idArticolo = idArticolo;
+        this.pathImmagine = pathImmagine;
     }
 
     public Immagine(int idArticolo, int idImmagine, Image image){
@@ -41,5 +48,13 @@ public class Immagine {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public String getPathImmagine() {
+        return pathImmagine;
+    }
+
+    public void setPathImmagine(String pathImmagine) {
+        this.pathImmagine = pathImmagine;
     }
 }

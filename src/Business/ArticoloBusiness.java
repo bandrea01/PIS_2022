@@ -1,6 +1,7 @@
 package Business;
 
 import DAO.Articolo.ArticoloDAO;
+import DAO.Articolo.ImmagineDAO;
 import DAO.Categoria.CategoriaDAO;
 import DAO.Fornitore.FornitoreDAO;
 import DAO.Prodotto.ProdottoDAO;
@@ -87,7 +88,7 @@ public class ArticoloBusiness {
         return 0;
     }
 
-    public int addArticolo(int id, String nome, float prezzo, String descrizione, String nomeCategoria, String isprodottoServizio, String produttoreFornitore, String sopraProdotto) {
+    public int addArticolo(int id, String nome, float prezzo, String descrizione, String nomeCategoria, String isprodottoServizio, String produttoreFornitore, String sopraProdotto, String pathImmagine) {
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
 
@@ -122,16 +123,25 @@ public class ArticoloBusiness {
         ServizioDAO servizioDAO = ServizioDAO.getInstance();
         FornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         Fornitore fornitore = new Fornitore();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+        ArrayList<Immagine> immagini = immagineDAO.findAll();
+        int idImmagine = immagini.size();
 
         if (isProdotto.equalsIgnoreCase(isprodottoServizio)) {
+            if (pathImmagine.isEmpty()) {
+                return 4;
+            }
             prodotto.setName(nome);
             prodotto.setPrezzo(prezzo);
             prodotto.setId(id);
             prodotto.setCategoria(categoria);
             prodotto.setDescrizione(descrizione);
+            prodotto.setPathImmagine(pathImmagine);
             produttore = produttoreDAO.findByName(produttoreFornitore);
             prodotto.setProduttore(produttore);
+            Immagine immagine = new Immagine(idImmagine + 1, prodotto.getId(), pathImmagine);
             articoloDAO.addProdotto(prodotto);
+            immagineDAO.add(immagine);
             if (!"Nothing".equalsIgnoreCase(sopraProdotto)) {
                 Prodotto prodottoPadre = prodottoDAO.findByName(sopraProdotto);
                 if (prodottoPadre.getSottoProdotti() == null) {
@@ -153,6 +163,7 @@ public class ArticoloBusiness {
             servizio.setDescrizione(descrizione);
             fornitore = fornitoreDAO.findByName(produttoreFornitore);
             servizio.setFornitore(fornitore);
+            servizio.setPathImmagine("servizio.png");
             articoloDAO.addServizio(servizio);
             return 3;
         }

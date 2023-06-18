@@ -29,7 +29,7 @@ public class CatalogTableModel extends AbstractTableModel {
     }
     @Override
     public int getColumnCount() {
-        return 6;
+        return 7;
     }
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -43,7 +43,7 @@ public class CatalogTableModel extends AbstractTableModel {
             case 4: return row.getPrezzo();
             case 5: return row.getChecked();
             case 6:
-                InputStream stream = getClass().getResourceAsStream("/chad png.jpg");
+                InputStream stream = getClass().getResourceAsStream("/" + row.getPathImage());
                 try {
                     ImageIcon icon = new ImageIcon(ImageIO.read(stream));
                     return icon;
@@ -88,7 +88,6 @@ public class CatalogTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        //TODO da vedere perchè è editabile
         return columnIndex == 4;
     }
 }

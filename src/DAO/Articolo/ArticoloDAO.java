@@ -43,7 +43,6 @@ public class ArticoloDAO implements IArticoloDAO {
         ResultSet rs = executor.executeOperation(dbOperation).getResultSet();
         Articolo articolo = new Articolo();
         CategoriaDAO categoriaDAO = CategoriaDAO.getInstance();
-        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         try {
             rs.next();
             if (rs.getRow() == 1) {
@@ -52,7 +51,11 @@ public class ArticoloDAO implements IArticoloDAO {
                 articolo.setPrezzo(rs.getFloat("prezzo"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setCategoria(categoriaDAO.findById(rs.getInt("idCategoria")));
-                articolo.setImmagini(immagineDAO.findImagesByArticoloId(rs.getInt("idArticolo")));
+                if (isProdotto(articolo.getId())) {
+                    articolo.setPathImmagine(ImmagineDAO.getInstance().getPathByIdArticolo(articolo.getId()));
+                } else {
+                    articolo.setPathImmagine("servizio.png");
+                }
             }
             return articolo;
         } catch (SQLException e) {

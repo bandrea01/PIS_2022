@@ -15,6 +15,8 @@ public class Articolo implements IArticolo {
     protected ICategoria categoria;
     protected ArrayList<Immagine> immagini;
 
+    protected String pathImmagine;
+
     public Articolo() {
     }
 
@@ -71,5 +73,13 @@ public class Articolo implements IArticolo {
     @Override
     public void setCategoria(ICategoria categoria) {
         this.categoria = categoria;
+    }
+
+    public String getPathImmagine() {
+        return pathImmagine;
+    }
+
+    public void setPathImmagine(String pathImmagine) {
+        this.pathImmagine = pathImmagine;
     }
 }
