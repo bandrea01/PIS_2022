@@ -140,8 +140,8 @@ public class ArticoloBusiness {
             prodotto.setPathImmagine(pathImmagine);
             produttore = produttoreDAO.findByName(produttoreFornitore);
             prodotto.setProduttore(produttore);
-            Random random = new Random(10);
-            Immagine immagine = new Immagine(idImmagine + random.nextInt(), prodotto.getId(), pathImmagine);
+            Random random = new Random();
+            Immagine immagine = new Immagine(idImmagine + random.nextInt(10), prodotto.getId(), pathImmagine);
             articoloDAO.addProdotto(prodotto);
             immagineDAO.add(immagine);
             if (!"Nothing".equalsIgnoreCase(sopraProdotto)) {
