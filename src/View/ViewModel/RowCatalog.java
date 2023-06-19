@@ -4,7 +4,6 @@ import Business.ArticoloBusiness;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
 
 public class RowCatalog {
     private int idArticolo;
@@ -12,13 +11,11 @@ public class RowCatalog {
     private String produttoreFornitore;
     private Float prezzo;
     private String categoria;
-    private JCheckBox checkBox;
     private JButton viewImageButton;
     private String pathImage;
 
     public RowCatalog(){
         ArticoloBusiness articoloBusiness = ArticoloBusiness.getInstance();
-        this.checkBox = new JCheckBox();
         this.viewImageButton = ButtonCreator.createButton("", true, Color.WHITE, articoloBusiness.showImagePopup(), null);
         this.viewImageButton.setIcon(new ImageIcon("resources/unisalento_jpeg.jpeg"));
     }
@@ -52,19 +49,6 @@ public class RowCatalog {
     }
     public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }
-    public boolean getChecked() {
-        return checkBox.isSelected();
-    }
-    public void setChecked(boolean state) {
-        this.checkBox.setSelected(state);
-    }
-
-    public void setImageIcon(InputStream imageIcon) {
-        //this.viewImageButton.setIcon(imageIcon);
-    }
-    public ImageIcon getImageIcon(){
-        return (ImageIcon) viewImageButton.getIcon();
     }
 
     public String getPathImage() {

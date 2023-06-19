@@ -3,6 +3,8 @@ package View.ViewModel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -29,7 +31,7 @@ public class CatalogTableModel extends AbstractTableModel {
     }
     @Override
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -41,12 +43,14 @@ public class CatalogTableModel extends AbstractTableModel {
             case 2: return row.getProduttoreFornitore();
             case 3: return row.getCategoria();
             case 4: return row.getPrezzo();
-            case 5: return row.getChecked();
-            case 6:
+            case 5:
                 InputStream stream = getClass().getResourceAsStream("/" + row.getPathImage());
                 try {
-                    ImageIcon icon = new ImageIcon(ImageIO.read(stream));
-                    return icon;
+                    BufferedImage image = ImageIO.read(stream);
+                    int desiredWidth = 100;
+                    int desiredHeight = 100;
+                    Image scaledImage = image.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+                    return new ImageIcon(scaledImage);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return new ImageIcon();
@@ -62,8 +66,7 @@ public class CatalogTableModel extends AbstractTableModel {
             case 2: return "Productor/Supplier";
             case 3: return "Category";
             case 4: return "Price (€)";
-            case 5: return "Select";
-            case 6: return "Images";
+            case 5: return "Images";
         }
         return null;
     }
@@ -76,18 +79,11 @@ public class CatalogTableModel extends AbstractTableModel {
             case 2: row.setProduttoreFornitore(value.toString());
             case 3: row.setCategoria(value.toString());
             case 4: row.setPrezzo(Float.parseFloat(value.toString()));
-            case 5: row.setChecked(Boolean.parseBoolean(value.toString()));
         }
     }
     @Override
     public Class getColumnClass(int columnIndex) {
-        if (columnIndex == 5) return Boolean.class;
-        if (columnIndex == 6) return ImageIcon.class;
+        if (columnIndex == 5) return ImageIcon.class;
         return Object.class;
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 4;
     }
 }

@@ -5,10 +5,12 @@ import DAO.Categoria.CategoriaDAO;
 import DAO.Fornitore.FornitoreDAO;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.Produttore.ProduttoreDAO;
-import Model.*;
+import Model.Fornitore;
+import Model.ICategoria;
+import Model.Prodotto;
+import Model.Produttore;
 import View.Listener.ManageArticlesListener;
 import View.MainLayout;
-
 import View.ViewModel.ButtonCreator;
 import View.ViewModel.WideComboBox;
 
@@ -87,19 +89,25 @@ public class AddArticlePanel extends JPanel {
         gridPanel.add(produttoreFornitoreLabel);
         gridPanel.add(produttoriFornitorichooses);
 
+
         sfoglia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JFileChooser fileChooser = new JFileChooser();
+                String path1 = System.getProperty("user.dir");
+                File specificFolder = new File(path1 + "\\resources");
+                fileChooser.setCurrentDirectory(specificFolder);
                 int result = fileChooser.showOpenDialog(window);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     selectedImagePath = selectedFile.getName();
                     nomeFile.setText(selectedImagePath);
                     JOptionPane.showMessageDialog(window, "Image inserted correctly");
+                    copyImageInResources(selectedFile);
                     }
                 }
             });
+
 
 
         isProdottoServizio.addActionListener(new ActionListener() {
@@ -209,5 +217,23 @@ public class AddArticlePanel extends JPanel {
         return nomiProdotti;
     }
 
+    public void copyImageInResources(File file){
+        String imagePath = file.getAbsolutePath();
+        String destinationPath = System.getProperty("user.dir") + "\\resources";
+        try {
+            File imageFile = new File(imagePath);
+            File destinationFolder = new File(destinationPath);
 
+            if (imageFile.exists() && imageFile.isFile() && destinationFolder.isDirectory()) {
+                Path destination = Path.of(destinationPath, imageFile.getName());
+                Files.move(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Immagine spostata.");
+            } else {
+                System.out.println("Immagine o cartella di destinazione non valide.");
+            }
+        } catch (IOException e) {
+            System.out.println("Si è verificato un errore durante lo spostamento dell'immagine: " + e.getMessage());
+        }
+    }
 }
+

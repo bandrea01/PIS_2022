@@ -5,13 +5,11 @@ import java.awt.*;
 public class Immagine {
     private int idImmagine;
     private int idArticolo;
-    private Image image;
     private String pathImmagine;
 
     public Immagine(){
         this.idImmagine = 0;
         this.idArticolo = 0;
-        this.image = null;
     }
 
     public Immagine(int idImmagine, int idArticolo, String pathImmagine) {
@@ -23,7 +21,6 @@ public class Immagine {
     public Immagine(int idArticolo, int idImmagine, Image image){
         this.idImmagine = idImmagine;
         this.idArticolo = idArticolo;
-        this.image = image;
     }
 
     public int getIdImmagine() {
@@ -42,13 +39,6 @@ public class Immagine {
         this.idArticolo = idArticolo;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
 
     public String getPathImmagine() {
         return pathImmagine;

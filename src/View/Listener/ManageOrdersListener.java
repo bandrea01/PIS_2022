@@ -76,6 +76,11 @@ public class ManageOrdersListener implements ActionListener {
                 }
             }
 
+            if (selectedIndex.size() == 0){
+                JOptionPane.showMessageDialog(null, "Select an article first!");
+                return;
+            }
+
             ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
             ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
             ServizioDAO servizioDAO = ServizioDAO.getInstance();
@@ -130,6 +135,10 @@ public class ManageOrdersListener implements ActionListener {
                 return;
             }
             Utente cliente = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+            if (articolo.getSelectedItem() == null || commento.getText() == ""){
+                JOptionPane.showMessageDialog(null, "Invalid fields!");
+                return;
+            }
             String article = articolo.getSelectedItem().toString();
             String text = commento.getText();
             String rating = gradimento.getSelectedItem().toString();

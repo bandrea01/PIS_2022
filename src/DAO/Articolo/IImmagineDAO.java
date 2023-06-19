@@ -1,11 +1,7 @@
 package DAO.Articolo;
 
-import Model.Articolo;
 import Model.Immagine;
 
-import java.awt.*;
-import java.io.File;
-import java.sql.Blob;
 import java.util.ArrayList;
 
 public interface IImmagineDAO {
@@ -14,6 +10,8 @@ public interface IImmagineDAO {
     Immagine findImageById(int idImmagine);
     ArrayList<Immagine> findImagesByArticoloId (int id);
     int removeSingleImageById (int idImmagine);
+
+    int removeImagesByArticleId(int idArticle);
 
     ArrayList<Immagine> findAll();
 

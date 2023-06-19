@@ -44,8 +44,6 @@ public class CatalogPanel extends JPanel {
                     row.setPathImage("servizio.png");
                 }
             }
-            row.setChecked(false);
-            row.setImageIcon(getClass().getClassLoader().getResourceAsStream("image/folder.png"));
             rows.add(row);
         }
 
@@ -53,6 +51,7 @@ public class CatalogPanel extends JPanel {
         tableModel = new CatalogTableModel(rows);
         table = new JTable(tableModel);
 
+        table.setPreferredScrollableViewportSize(new Dimension(500,500));
         table.setRowHeight(200);
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -78,9 +77,6 @@ public class CatalogPanel extends JPanel {
                 }
             }
         });
-
-        //buttonsTable.add(cart);
-        //add(cart, BorderLayout.SOUTH);
         this.validate(); this.repaint();
     }
 

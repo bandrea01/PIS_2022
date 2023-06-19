@@ -10,7 +10,6 @@ import DbInterface.Command.WriteOperation;
 import Model.*;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -295,9 +294,9 @@ public class OrdineDAO implements IOrdineDAO{
     }
 
     @Override
-    public int removeProdottiOrdine(int idOrdine) {
+    public int removeProdottiOrdine(int idProdotto) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM ordine_has_prodotto WHERE idOrdine = '" + idOrdine + "';";
+        sql = "DELETE FROM ordine_has_prodotto WHERE idProdotto = '" + idProdotto + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
@@ -305,9 +304,9 @@ public class OrdineDAO implements IOrdineDAO{
     }
 
     @Override
-    public int removeServiziOrdine(int idOrdine) {
+    public int removeServiziOrdine(int idServizio) {
         executor = new DbOperationExecutor();
-        sql = "DELETE FROM ordine_has_servizio WHERE idOrdine = '" + idOrdine + "';";
+        sql = "DELETE FROM ordine_has_servizio WHERE idServizio = '" + idServizio + "';";
         dbOperation = new WriteOperation(sql);
         int rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);

@@ -1,14 +1,11 @@
 package DAO.Articolo;
 
-import Business.ImmagineBusiness;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.Articolo;
 import Model.Immagine;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,7 +75,7 @@ public class ImmagineDAO implements IImmagineDAO{
     public int add(ArrayList<Immagine> immagini) {
         int rowCount = 0;
         for (Immagine i : immagini) {
-            sql = "INSERT INTO immagine (idImmagine, idArticolo, immagine) VALUES ('" + i.getIdImmagine() + "','" + i.getIdArticolo() + "','" + ImmagineBusiness.getInstance().getBlobByImage(i.getImage(), "png") + "');";
+            sql = "INSERT INTO immagine (idImmagine, idArticolo, immagine) VALUES ('" + i.getIdImmagine() + "','" + i.getIdArticolo() + "','" + i.getPathImmagine() + "';";
             executor = new DbOperationExecutor();
             dbOperation = new WriteOperation(sql);
             rowCount += executor.executeOperation(dbOperation).getRowsAffected();
@@ -155,7 +152,7 @@ public class ImmagineDAO implements IImmagineDAO{
                 Immagine immagine = new Immagine();
                 immagine.setIdImmagine(rs.getInt("idImmagine"));
                 immagine.setIdArticolo(rs.getInt("idArticolo"));
-                immagine.setImage(ImmagineBusiness.getInstance().getImageByBlob(rs.getBlob("immagine")));
+                immagine.setPathImmagine(rs.getString("immagine"));
                 immagini.add(immagine);
             }
             return immagini;
@@ -165,8 +162,6 @@ public class ImmagineDAO implements IImmagineDAO{
             System.out.println("VendorError: " + e.getErrorCode());
         } catch (NullPointerException e) {
             System.out.println("Resultset: " + e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } finally {
             executor.close(dbOperation);
         }
@@ -179,6 +174,20 @@ public class ImmagineDAO implements IImmagineDAO{
         int rowCount;
         try {
             String sql = "DELETE FROM immagine WHERE idImmagine = '" + idImmagine + "';";
+            dbOperation = new WriteOperation(sql);
+            rowCount = executor.executeOperation(dbOperation).getRowsAffected();
+        } finally {
+            executor.close(dbOperation);
+        }
+        return rowCount;
+    }
+
+    @Override
+    public int removeImagesByArticleId (int idArticle) {
+        executor = new DbOperationExecutor();
+        int rowCount;
+        try {
+            String sql = "DELETE FROM immagine WHERE idArticolo = '" + idArticle + "';";
             dbOperation = new WriteOperation(sql);
             rowCount = executor.executeOperation(dbOperation).getRowsAffected();
         } finally {

@@ -11,6 +11,7 @@ import Model.*;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ArticoloBusiness {
     private static ArticoloBusiness instance;
@@ -139,7 +140,8 @@ public class ArticoloBusiness {
             prodotto.setPathImmagine(pathImmagine);
             produttore = produttoreDAO.findByName(produttoreFornitore);
             prodotto.setProduttore(produttore);
-            Immagine immagine = new Immagine(idImmagine + 1, prodotto.getId(), pathImmagine);
+            Random random = new Random(10);
+            Immagine immagine = new Immagine(idImmagine + random.nextInt(), prodotto.getId(), pathImmagine);
             articoloDAO.addProdotto(prodotto);
             immagineDAO.add(immagine);
             if (!"Nothing".equalsIgnoreCase(sopraProdotto)) {

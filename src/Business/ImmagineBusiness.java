@@ -2,14 +2,11 @@ package Business;
 
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.text.Format;
-import java.util.Objects;
 
 public class ImmagineBusiness {
     private static ImmagineBusiness instance;
@@ -23,7 +20,7 @@ public class ImmagineBusiness {
 
     public Image getImageByFilename(String filename){
         try {
-            return ImageIO.read(getClass().getResource("/resources/" + filename));
+            return ImageIO.read(getClass().getResource("/Images/" + filename));
         } catch (IOException e) {
             System.out.println("Image file Error: " + e.getMessage());
         }
@@ -33,7 +30,7 @@ public class ImmagineBusiness {
     public Image getImageByBlob(Blob blob) throws IOException,SQLException {
         byte[] imagedata = blob.getBytes(1L, (int) blob.length());
         final BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
-        ImageIO.write(bufferedImage, "png",new File("/resources/test1"));
+        ImageIO.write(bufferedImage, "png",new File("/Images/test1"));
         return bufferedImage;
     }
     public Blob getBlobByImage(Image image, String format){

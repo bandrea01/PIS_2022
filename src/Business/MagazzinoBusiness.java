@@ -21,6 +21,10 @@ public class MagazzinoBusiness {
     }
 
     public void rifornisciProdotto(String nomeProdotto, int quantita, Manager manager) {
+        if (nomeProdotto == null){
+            JOptionPane.showMessageDialog(null, "Select a product");
+            return;
+        }
         Prodotto prodotto = ProdottoDAO.getInstance().findByName(nomeProdotto);
         PuntoVendita punto = PuntoVenditaDAO.getInstance().findByIdManager(manager.getId());
         Magazzino magazzino = MagazzinoDAO.getInstance().findMagazzinoByPunto(punto);

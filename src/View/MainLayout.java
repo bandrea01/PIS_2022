@@ -28,7 +28,7 @@ public class MainLayout extends JFrame {
     public MainLayout(){
         //Settaggio finestra principale applicazione
         super ("MyShop");
-        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/unisalento_logo.jpeg"))).getImage());
+        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("unisalento_logo.jpeg"))).getImage());
         this.setSize(500, 500);
         this.setFont(new Font("Sans",Font.BOLD,15));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

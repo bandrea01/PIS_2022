@@ -1,21 +1,20 @@
 package DAO.Prodotto;
 
 import DAO.Articolo.ArticoloDAO;
+import DAO.Ordine.OrdineDAO;
+import DAO.ProdottiMagazzino.ProdottiMagazzinoDAO;
 import DAO.Produttore.ProduttoreDAO;
-import DAO.Prodotto.IProdottoDAO;
-import DAO.Servizio.IServizioDAO;
-import DAO.Servizio.ServizioDAO;
 import DbInterface.Command.DbOperationExecutor;
 import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
-import Model.*;
+import Model.Articolo;
+import Model.Prodotto;
+import Model.Produttore;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProdottoDAO implements IProdottoDAO {
     private final static ProdottoDAO instance = new ProdottoDAO();
@@ -175,6 +174,11 @@ public class ProdottoDAO implements IProdottoDAO {
 
     @Override
     public int remove(int id) {
+        OrdineDAO ordineDAO = OrdineDAO.getInstance();
+        ordineDAO.removeProdottiOrdine(id);
+        ProdottiMagazzinoDAO prodottiMagazzinoDAO = ProdottiMagazzinoDAO.getInstance();
+        prodottiMagazzinoDAO.removeProdotto(findById(id));
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         executor = new DbOperationExecutor();
         String sql2 = "DELETE FROM prodotto_has_prodotto WHERE idProdotto = '" + id + "' OR idSottoProdotto = '" + id + "';";
         dbOperation = new WriteOperation(sql2);
@@ -184,6 +188,7 @@ public class ProdottoDAO implements IProdottoDAO {
         dbOperation = new WriteOperation(sql);
         rowCount += executor.executeOperation(dbOperation).getRowsAffected();
         executor.close(dbOperation);
+        articoloDAO.removeById(id);
         return rowCount;
     }
 

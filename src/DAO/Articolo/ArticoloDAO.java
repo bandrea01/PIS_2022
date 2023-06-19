@@ -2,6 +2,7 @@ package DAO.Articolo;
 
 import DAO.ArticoloPuntoVendita.ArticoloPuntoVenditaDAO;
 import DAO.Categoria.CategoriaDAO;
+import DAO.Feedback.FeedbackDAO;
 import DAO.Prodotto.ProdottoDAO;
 import DAO.Servizio.ServizioDAO;
 import DbInterface.Command.DbOperationExecutor;
@@ -9,6 +10,7 @@ import DbInterface.Command.IDbOperation;
 import DbInterface.Command.ReadOperation;
 import DbInterface.Command.WriteOperation;
 import Model.Articolo;
+import Model.Feedback;
 import Model.Prodotto;
 import Model.Servizio;
 
@@ -225,7 +227,14 @@ public class ArticoloDAO implements IArticoloDAO {
 
     @Override
     public int removeById(int id) {
+        ImmagineDAO.getInstance().removeImagesByArticleId(id);
         ArticoloPuntoVenditaDAO.getInstance().removeArticoloFromAll(findById(id));
+        FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ArrayList<Feedback> feedbacks = feedbackDAO.findAllOfArticolo(articoloDAO.findById(id));
+        for (Feedback f : feedbacks){
+            feedbackDAO.remove(f);
+        }
         executor = new DbOperationExecutor();
         sql = "DELETE FROM articolo WHERE idArticolo = '" + id + "';";
         if (this.isProdotto(id)){
@@ -245,6 +254,12 @@ public class ArticoloDAO implements IArticoloDAO {
     @Override
     public int removeByName(String name) {
         ArticoloPuntoVenditaDAO.getInstance().removeArticoloFromAll(findByName(name));
+        FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ArrayList<Feedback> feedbacks = feedbackDAO.findAllOfArticolo(articoloDAO.findByName(name));
+        for (Feedback f : feedbacks){
+            feedbackDAO.remove(f);
+        }
         ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ServizioDAO servizioDAO = ServizioDAO.getInstance();
         executor = new DbOperationExecutor();
