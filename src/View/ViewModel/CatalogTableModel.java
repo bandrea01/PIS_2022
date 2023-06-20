@@ -5,7 +5,8 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class CatalogTableModel extends AbstractTableModel {
@@ -43,16 +44,9 @@ public class CatalogTableModel extends AbstractTableModel {
             case 3: return row.getCategoria();
             case 4: return row.getPrezzo();
             case 5:
-                File file = new File(row.getPathImage());
-                InputStream stream = null;
+                File file = new File(System.getProperty("user.dir") + "\\Images\\" + row.getPathImage());
                 try {
-                    stream = new FileInputStream(file);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return new ImageIcon();
-                }
-                try {
-                    BufferedImage image = ImageIO.read(stream);
+                    BufferedImage image = ImageIO.read(file);
                     int desiredWidth = 100;
                     int desiredHeight = 100;
                     Image scaledImage = image.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);

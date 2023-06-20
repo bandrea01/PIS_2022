@@ -41,7 +41,7 @@ public class CatalogPanel extends JPanel {
                 Servizio s = ServizioDAO.getInstance().findById(a.getId());
                 if (s.getFornitore() != null) {
                     row.setProduttoreFornitore(s.getFornitore().getNome());
-                    row.setPathImage("C:\\Users\\giova\\IdeaProjects\\PIS_2022\\resources\\servizio.png"); //TODO modificare con il tuo path riga 44 catalogpanel
+                    row.setPathImage("servizio.png");
                 }
             }
             rows.add(row);

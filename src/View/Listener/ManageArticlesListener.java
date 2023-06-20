@@ -18,6 +18,7 @@ import View.ViewModel.WideComboBox;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ManageArticlesListener implements ActionListener {
@@ -118,6 +119,7 @@ public class ManageArticlesListener implements ActionListener {
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
             String nomeImmagine = pathImmagine.getText();
             nomeImmagine.replace("\\", "\\\\");
+            String fileName = Paths.get(nomeImmagine.replace('\\', '/')).toFile().getName();
             String overProduct = null;
             if (sopraProdotto.getSelectedItem() != null) {
                 overProduct = sopraProdotto.getSelectedItem().toString();
@@ -128,7 +130,7 @@ public class ManageArticlesListener implements ActionListener {
                 JOptionPane.showMessageDialog(null ,"All field are requested");
                 return;
             }
-            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct, nomeImmagine);
+            int result = articoloBusiness.addArticolo(idInt, name, price, description,category, isProductService, productorSupplier, overProduct, fileName);
 
             switch (result) {
                 case 0:

@@ -2,16 +2,21 @@ package View;
 
 import Business.SessionManager;
 import Business.UtenteBusiness;
-import Model.*;
-import View.MenuDecorator.*;
+import Model.Amministratore;
+import Model.Manager;
+import Model.PuntoVendita;
+import Model.Utente;
 import View.Listener.LoginListener;
+import View.MenuDecorator.*;
 import View.Panel.*;
 import View.ViewModel.ButtonCreator;
 import View.ViewModel.MyFont;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
+import java.io.File;
+import java.io.IOException;
 
 public class MainLayout extends JFrame {
     private JPanel panel = new JPanel();
@@ -25,10 +30,11 @@ public class MainLayout extends JFrame {
     private JMenuBar menuBar;
 
 
-    public MainLayout(){
+    public MainLayout() throws IOException {
         //Settaggio finestra principale applicazione
         super ("MyShop");
-        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("unisalento_logo.jpeg"))).getImage());
+        Image image = ImageIO.read(new File(System.getProperty("user.dir") + "\\Images\\unisalento_logo.jpeg"));
+        this.setIconImage(image);
         this.setSize(500, 500);
         this.setFont(new Font("Sans",Font.BOLD,15));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

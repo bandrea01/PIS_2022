@@ -29,7 +29,6 @@ import java.util.ArrayList;
 public class AddArticlePanel extends JPanel {
 
     public String selectedImagePath = "";
-    private String destinationFolderPath = "C:\\Users\\giova\\" + "IdeaProjects\\PIS_2022\\resources";
     public AddArticlePanel(MainLayout window) {
         JPanel gridPanel = new JPanel();
         JPanel south = new JPanel();
@@ -95,8 +94,8 @@ public class AddArticlePanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 JFileChooser fileChooser = new JFileChooser();
                 String path1 = System.getProperty("user.dir");
-                File specificFolder = new File(path1 + "\\resources");
-                //fileChooser.setCurrentDirectory(specificFolder);
+                File specificFolder = new File(path1 + "\\Images");
+                fileChooser.setCurrentDirectory(specificFolder);
                 int result = fileChooser.showOpenDialog(window);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
@@ -104,7 +103,7 @@ public class AddArticlePanel extends JPanel {
                     System.out.println(selectedImagePath);
                     nomeFile.setText(selectedImagePath);
                     JOptionPane.showMessageDialog(window, "Image inserted correctly");
-                    //copyImageInResources(selectedFile);
+                    copyImageInFolder(selectedFile);
                     }
                 }
             });
@@ -218,16 +217,16 @@ public class AddArticlePanel extends JPanel {
         return nomiProdotti;
     }
 
-    public void copyImageInResources(File file){
+    public void copyImageInFolder (File file){
         String imagePath = file.getAbsolutePath();
-        String destinationPath = System.getProperty("user.dir") + "\\resources";
+        String destinationPath = System.getProperty("user.dir") + "\\Images";
         try {
             File imageFile = new File(imagePath);
             File destinationFolder = new File(destinationPath);
 
             if (imageFile.exists() && imageFile.isFile() && destinationFolder.isDirectory()) {
                 Path destination = Path.of(destinationPath, imageFile.getName());
-                Files.move(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
                 System.out.println("Immagine spostata.");
             } else {
                 System.out.println("Immagine o cartella di destinazione non valide.");
