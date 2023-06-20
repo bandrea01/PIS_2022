@@ -96,14 +96,15 @@ public class AddArticlePanel extends JPanel {
                 JFileChooser fileChooser = new JFileChooser();
                 String path1 = System.getProperty("user.dir");
                 File specificFolder = new File(path1 + "\\resources");
-                fileChooser.setCurrentDirectory(specificFolder);
+                //fileChooser.setCurrentDirectory(specificFolder);
                 int result = fileChooser.showOpenDialog(window);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
-                    selectedImagePath = selectedFile.getName();
+                    selectedImagePath = selectedFile.getAbsolutePath();
+                    System.out.println(selectedImagePath);
                     nomeFile.setText(selectedImagePath);
                     JOptionPane.showMessageDialog(window, "Image inserted correctly");
-                    copyImageInResources(selectedFile);
+                    //copyImageInResources(selectedFile);
                     }
                 }
             });

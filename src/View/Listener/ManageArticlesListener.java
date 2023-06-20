@@ -117,6 +117,7 @@ public class ManageArticlesListener implements ActionListener {
             String isProductService = isProdottoServizio.getSelectedItem().toString();
             String productorSupplier = produttoreFornitore.getSelectedItem().toString();
             String nomeImmagine = pathImmagine.getText();
+            nomeImmagine.replace("\\", "\\\\");
             String overProduct = null;
             if (sopraProdotto.getSelectedItem() != null) {
                 overProduct = sopraProdotto.getSelectedItem().toString();
